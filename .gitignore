@@ -1,0 +1,20 @@
+# Exclude npm stuff
+/build
+/node_modules
+
+# Compiled javascript
+/js
+
+# PHP
+/vendor
+/vendor-bin/*/vendor
+/lib/Vendor
+/.php-cs-fixer.cache
+
+# PHPStorm
+.idea
+*.iml
+
+# VScode settings
+.vscode
+*.code-workspace
