@@ -51,7 +51,7 @@ Vue.prototype.OCA = OCA
 Vue.use(VueRouter)
 
 const instance = new Vue({
-	el: '#content',
+	el: '#app-content-vue',
 	name: 'MyCompany',
 	router,
 	store,

@@ -1,1 +1,1 @@
-<div id="content"></div>
+<div id="app-content-vue"></div>

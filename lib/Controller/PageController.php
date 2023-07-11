@@ -20,7 +20,7 @@ class PageController extends Controller {
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
 	public function index(): TemplateResponse {
-		Util::addScript(Application::APP_ID, 'libresign-main');
+		Util::addScript(Application::APP_ID, 'my_company-main');
 
 		$response = new TemplateResponse(Application::APP_ID, 'main');
 
