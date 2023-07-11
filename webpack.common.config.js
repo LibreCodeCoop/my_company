@@ -32,4 +32,8 @@ module.exports = {
 			...Object.values(nextcloudWebpackRules),
 		],
 	},
+	devServer: {
+		port: 3000, // use any port suitable for your configuration
+		host: '0.0.0.0', // to accept connections from outside container
+	}
 }
