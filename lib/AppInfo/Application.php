@@ -2,6 +2,7 @@
 
 namespace OCA\MyCompany\AppInfo;
 
+use OCA\MyCompany\Middleware\InjectionMiddleware;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
@@ -21,5 +22,6 @@ class Application extends App implements IBootstrap {
 	}
 
 	public function register(IRegistrationContext $context): void {
+		$context->registerMiddleWare(InjectionMiddleware::class, true);
 	}
 }
