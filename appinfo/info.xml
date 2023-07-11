@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
 	<id>my_company</id>
-	<name>LibreSign</name>
+	<name>My Company</name>
 	<summary>Get access to important information about your company</summary>
 	<description><![CDATA[**Get access to important information about your company]]>
 	</description>
