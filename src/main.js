@@ -19,13 +19,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import { generateFilePath } from '@nextcloud/router'
 import { getRequestToken } from '@nextcloud/auth'
 import { translate, translatePlural } from '@nextcloud/l10n'
+import { generateFilePath } from '@nextcloud/router'
 
 import App from './App.vue'
 
