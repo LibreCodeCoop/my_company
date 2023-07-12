@@ -1,6 +1,5 @@
 <template>
 	<NcAppContent>
-		<p>teste</p>
 	</NcAppContent>
 </template>
 

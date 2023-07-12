@@ -60,7 +60,7 @@ if (window.location.pathname.split('/')[1] === 'index.php' && OC.config.modRewri
 }
 
 const instance = new Vue({
-	el: '#app-content-vue',
+	el: '#content',
 	name: 'MyCompany',
 	router,
 	store,
