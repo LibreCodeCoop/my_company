@@ -1,5 +1,6 @@
 <template>
 	<NcContent app-name="my_company">
+		<router-view />
 	</NcContent>
 </template>
 
