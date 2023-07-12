@@ -1,17 +1,46 @@
 <template>
-	<NcAppContent>
-	</NcAppContent>
+	<div id="emptycontent">
+		<img :src="svgIcon" class="svg-icon" />
+		<h2>{{ t('my_company', 'Welcome to your company') }}</h2>
+		<p class="emptycontent-additional">
+			{{ t('my_company', 'Stay up to date about all news from your company!') }}
+		</p>
+		<div id="shareRoomContainer" />
+	</div>
 </template>
 
 <script>
-
-import NcAppContent from '@nextcloud/vue/dist/Components/NcAppContent.js'
+import SvgIcon from '../../img/app.svg'
+import SvgIconDark from '../../img/app-dark.svg'
 
 export default {
 	name: 'Welcome',
 
-	components: {
-		NcAppContent,
+	computed: {
+		svgIcon() {
+			return this.isDarkTheme() ? SvgIcon :SvgIconDark
+		},
 	},
+	data() {
+		return {
+			icon: SvgIcon,
+		}
+	},
+	methods: {
+		isDarkTheme() {
+			// Nextcloud uses --background-invert-if-dark for dark theme filters in CSS
+			// Values:
+			// - 'invert(100%)' for dark theme
+			// - 'no' for light theme
+			return window.getComputedStyle(document.body).getPropertyValue('--background-invert-if-dark') === 'invert(100%)'
+		},
+	}
 }
 </script>
+
+<style lang="scss" scoped>
+.svg-icon {
+	width: 50px;
+}
+
+</style>
