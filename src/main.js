@@ -24,6 +24,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import { generateFilePath } from '@nextcloud/router'
+import { getRequestToken } from '@nextcloud/auth'
 import { translate, translatePlural } from '@nextcloud/l10n'
 
 import App from './App.vue'
@@ -35,6 +36,10 @@ import store from './store/index.js'
 Vue.mixin({ methods: { t, n } })
 Vue.prototype.t = translate
 Vue.prototype.n = translatePlural
+
+// CSP config for webpack dynamic chunk loading
+// eslint-disable-next-line
+__webpack_nonce__ = btoa(getRequestToken())
 
 // Correct the root of the app for chunk loading
 // OC.linkTo matches the apps folders
