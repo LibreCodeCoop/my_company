@@ -55,6 +55,11 @@ Vue.prototype.OCA = OCA
 
 Vue.use(VueRouter)
 
+// Force redirect if rewrite enabled but accessed through index.php
+if (window.location.pathname.split('/')[1] === 'index.php' && OC.config.modRewriteWorking) {
+	router.push({ name: 'root' })
+}
+
 const instance = new Vue({
 	el: '#app-content-vue',
 	name: 'MyCompany',
