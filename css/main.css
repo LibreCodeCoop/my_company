@@ -1,0 +1,6 @@
+#header .app-menu, #contactsmenu/*, #header .unified-search*/ {
+	display: none;
+}
+:root {
+	--image-logo: 'fake-path'
+}
