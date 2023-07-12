@@ -14,7 +14,7 @@ import SvgIcon from '../../img/app.svg'
 import SvgIconDark from '../../img/app-dark.svg'
 
 export default {
-	name: 'Welcome',
+	name: 'Home',
 
 	computed: {
 		svgIcon() {

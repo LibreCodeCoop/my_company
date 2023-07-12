@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 
 import { generateUrl } from '@nextcloud/router'
 
-import Welcome from '../views/Welcome.vue'
+import Home from '../views/Home.vue'
 
 Vue.use(VueRouter)
 
@@ -15,8 +15,8 @@ export default new VueRouter({
 	routes: [
 		{
 			path: '/',
-			component: Welcome,
-			name: 'root',
+			component: Home,
+			name: 'home',
 		},
 	],
 })
