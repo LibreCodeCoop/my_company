@@ -9,7 +9,7 @@ import NcContent from '@nextcloud/vue/dist/Components/NcContent.js'
 export default {
 	name: 'App',
 	components: {
-		NcContent
+		NcContent,
 	},
 }
 </script>
