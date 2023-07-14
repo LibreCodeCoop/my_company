@@ -26,7 +26,9 @@ $requirements = [
 
 return [
 	'routes' => [
-		// Pages - restricted
-		['name' => 'page#index', 'url' => '/', 'verb' => 'GET'],
+		// default route (Vue.js frontend)
+		['name' => 'page#index', 'url' => '/{path}', 'verb' => 'GET',
+			'requirements' => ['path' => '.*'],
+			'defaults' => ['path' => '']],
 	],
 ];

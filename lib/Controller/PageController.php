@@ -12,14 +12,14 @@ use OCP\Util;
 
 class PageController extends Controller {
 	public function __construct(
-		IRequest $request,
+		IRequest $request
 	) {
 		parent::__construct(Application::APP_ID, $request);
 	}
 
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
-	public function index(): TemplateResponse {
+	public function index(string $path): TemplateResponse {
 		Util::addScript(Application::APP_ID, 'my_company-main');
 
 		$response = new TemplateResponse(Application::APP_ID, 'main');
