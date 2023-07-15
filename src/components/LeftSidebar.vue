@@ -1,17 +1,13 @@
 <template>
 	<NcAppNavigation :aria-label="t('my_company', 'Main menu')">
 		<template #list>
-			<NcAppNavigationItem
-				:to="{name: 'home'}"
+			<NcAppNavigationItem :to="{name: 'home'}"
 				:title="t('my_company', 'Home')"
 				icon="icon-home"
-				:exact="true"
-				/>
-			<NcAppNavigationItem
-				:to="{name: 'profile'}"
+				:exact="true" />
+			<NcAppNavigationItem :to="{name: 'profile'}"
 				:title="t('my_company', 'Profile')"
-				icon="icon-user"
-				/>
+				icon="icon-user" />
 		</template>
 	</NcAppNavigation>
 </template>
