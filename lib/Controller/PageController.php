@@ -27,10 +27,10 @@ class PageController extends Controller {
 		Util::addScript(Application::APP_ID, 'my_company-main');
 
 		$this->personalInfo->getForm();
+		$this->authTokens->getForm();
 
 		$response = new TemplateResponse(Application::APP_ID, 'main');
 
 		return $response;
 	}
-
 }
