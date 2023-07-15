@@ -21,3 +21,10 @@ export default {
 	},
 }
 </script>
+
+<style lang="scss" scoped>
+.icon-notifications {
+	background-image: inline-image('apps/announcementcenter/img/announcementcenter.svg');
+	filter: var(--background-invert-if-dark);
+}
+</style>
