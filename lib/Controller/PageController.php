@@ -4,6 +4,7 @@ namespace OCA\MyCompany\Controller;
 
 use OCA\MyCompany\AppInfo\Application;
 use OCA\Settings\Settings\Personal\PersonalInfo;
+use OCA\Settings\Settings\Personal\Security\Authtokens;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
@@ -14,7 +15,8 @@ use OCP\Util;
 class PageController extends Controller {
 	public function __construct(
 		IRequest $request,
-		private PersonalInfo $personalInfo
+		private PersonalInfo $personalInfo,
+		private Authtokens $authTokens,
 	) {
 		parent::__construct(Application::APP_ID, $request);
 	}
