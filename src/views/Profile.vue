@@ -1,7 +1,9 @@
 <template>
 	<div>
 		<div id="personal-settings">
-			<h2 class="hidden-visually">{{ t('my_company', 'Personal info') }}</h2>
+			<h2 class="hidden-visually">
+				{{ t('my_company', 'Personal info') }}
+			</h2>
 			<AvatarSection />
 			<div class="personal-settings-setting-box">
 				<DisplayNameSection />
@@ -20,11 +22,16 @@
 </template>
 
 <script>
+// eslint-disable-next-line n/no-missing-import, import/no-unresolved
 import AvatarSection from 'apps/settings/src/components/PersonalInfo/AvatarSection.vue'
-import DisplayNameSection from 'apps/settings/src/components/PersonalInfo/DisplayNameSection.vue'
-import EmailSection from 'apps/settings/src/components/PersonalInfo/EmailSection/EmailSection.vue'
-import PhoneSection from 'apps/settings/src/components/PersonalInfo/PhoneSection.vue'
+// eslint-disable-next-line n/no-missing-import, import/no-unresolved
 import BiographySection from 'apps/settings/src/components/PersonalInfo/BiographySection.vue'
+// eslint-disable-next-line n/no-missing-import, import/no-unresolved
+import DisplayNameSection from 'apps/settings/src/components/PersonalInfo/DisplayNameSection.vue'
+// eslint-disable-next-line n/no-missing-import, import/no-unresolved
+import EmailSection from 'apps/settings/src/components/PersonalInfo/EmailSection/EmailSection.vue'
+// eslint-disable-next-line n/no-missing-import, import/no-unresolved
+import PhoneSection from 'apps/settings/src/components/PersonalInfo/PhoneSection.vue'
 
 export default {
 	name: 'Profile',
@@ -40,5 +47,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import 'apps/settings/css/settings.scss';
+@import 'apps/settings/css/settings';
 </style>

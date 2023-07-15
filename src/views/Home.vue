@@ -1,6 +1,6 @@
 <template>
 	<div id="emptycontent">
-		<img :src="svgIcon" class="svg-icon" />
+		<img :src="svgIcon" class="svg-icon">
 		<h2>{{ t('my_company', 'Welcome to your company') }}</h2>
 		<p class="emptycontent-additional">
 			{{ t('my_company', 'Stay up to date about all news from your company!') }}
@@ -10,21 +10,21 @@
 </template>
 
 <script>
-import SvgIcon from '../../img/app.svg'
 import SvgIconDark from '../../img/app-dark.svg'
+import SvgIcon from '../../img/app.svg'
 
 export default {
 	name: 'Home',
-
-	computed: {
-		svgIcon() {
-			return this.isDarkTheme() ? SvgIcon :SvgIconDark
-		},
-	},
 	data() {
 		return {
 			icon: SvgIcon,
 		}
+	},
+
+	computed: {
+		svgIcon() {
+			return this.isDarkTheme() ? SvgIcon : SvgIconDark
+		},
 	},
 	methods: {
 		isDarkTheme() {
@@ -34,7 +34,7 @@ export default {
 			// - 'no' for light theme
 			return window.getComputedStyle(document.body).getPropertyValue('--background-invert-if-dark') === 'invert(100%)'
 		},
-	}
+	},
 }
 </script>
 

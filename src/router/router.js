@@ -23,12 +23,12 @@ export default new VueRouter({
 		{
 			path: '/profile',
 			component: Profile,
-			name: 'profile'
+			name: 'profile',
 		},
 		{
 			path: '/security',
 			component: Security,
-			name: 'security'
+			name: 'security',
 		},
 	],
 })
