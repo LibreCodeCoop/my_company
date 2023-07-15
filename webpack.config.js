@@ -9,5 +9,12 @@ module.exports = merge(nextcloudWebpackConfig, {
 	devServer: {
 		port: 3000, // use any port suitable for your configuration
 		host: '0.0.0.0', // to accept connections from outside container
+	},
+	resolve: {
+		alias: {
+			apps: path.resolve(__dirname, '../../apps'),
+			variables: path.resolve(__dirname, '../../core/css/variables.scss'),
+			functions: path.resolve(__dirname, '../../core/css/functions.scss')
+		},
 	}
 })
