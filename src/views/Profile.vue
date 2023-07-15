@@ -1,6 +1,7 @@
 <template>
 	<div>
 		<div id="personal-settings">
+			<h2 class="hidden-visually">{{ t('my_company', 'Personal info') }}</h2>
 			<AvatarSection />
 			<div class="personal-settings-setting-box">
 				<DisplayNameSection />
