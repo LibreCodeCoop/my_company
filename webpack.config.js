@@ -13,8 +13,7 @@ module.exports = merge(nextcloudWebpackConfig, {
 	},
 	resolve: {
 		alias: {
-			settings: path.resolve(__dirname, '../../apps/settings/src'),
-			settingsCss: path.resolve(__dirname, '../../apps/settings/css'),
+			apps: path.resolve(__dirname, '../../apps'),
 			variables: path.resolve(__dirname, '../../core/css/variables.scss'),
 			functions: path.resolve(__dirname, '../../core/css/functions.scss')
 		},
