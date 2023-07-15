@@ -30,5 +30,4 @@ class PageController extends Controller {
 
 		return $response;
 	}
-
 }
