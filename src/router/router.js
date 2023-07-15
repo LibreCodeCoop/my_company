@@ -5,6 +5,7 @@ import { generateUrl } from '@nextcloud/router'
 
 import Home from '../views/Home.vue'
 import Profile from '../views/Profile.vue'
+import Security from '../views/Security.vue'
 
 Vue.use(VueRouter)
 
@@ -23,6 +24,11 @@ export default new VueRouter({
 			path: '/profile',
 			component: Profile,
 			name: 'profile'
+		},
+		{
+			path: '/security',
+			component: Security,
+			name: 'security'
 		},
 	],
 })
