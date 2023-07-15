@@ -7,7 +7,17 @@
 				:exact="true" />
 			<NcAppNavigationItem :to="{name: 'profile'}"
 				:title="t('my_company', 'Profile')"
-				icon="icon-user" />
+				:open="false"
+				:allowCollapse="true"
+				icon="icon-user">
+				<template>
+					<NcAppNavigationItem
+						:to="{name: 'security'}"
+						:title="t('my_company', 'Security')"
+						icon="icon-password"
+						/>
+				</template>
+			</NcAppNavigationItem>
 		</template>
 	</NcAppNavigation>
 </template>
