@@ -28,7 +28,7 @@ export default new VueRouter({
 		{
 			path: '/security',
 			component: Security,
-			name: 'security'
+			name: 'security',
 		},
 	],
 })

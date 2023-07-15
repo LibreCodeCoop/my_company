@@ -8,14 +8,12 @@
 			<NcAppNavigationItem :to="{name: 'profile'}"
 				:title="t('my_company', 'Profile')"
 				:open="false"
-				:allowCollapse="true"
+				:allow-collapse="true"
 				icon="icon-user">
 				<template>
-					<NcAppNavigationItem
-						:to="{name: 'security'}"
+					<NcAppNavigationItem :to="{name: 'security'}"
 						:title="t('my_company', 'Security')"
-						icon="icon-password"
-						/>
+						icon="icon-password" />
 				</template>
 			</NcAppNavigationItem>
 		</template>
