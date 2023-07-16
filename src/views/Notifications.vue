@@ -63,6 +63,37 @@ export default {
 				this.$store.dispatch('addAnnouncement', announcement)
 			})
 		},
+
+		/**
+		 * Load the comments of the announcements
+		 *
+		 * @param {number} id the announcement
+		 */
+		async onClickAnnouncement(id) {
+			if (id === this.activeId) {
+				return
+			}
+
+			this.activeId = id
+
+			if (!this.activateAnnouncementHasComments) {
+				return
+			}
+
+			if (id === 0) {
+				// Destroy the comments view as the sidebar is destroyed
+				this.commentsView = null
+				return
+			}
+
+			if (!this.commentsView) {
+				// Create a new comments view when there is none
+				this.commentsView = new OCA.Comments.View('announcement')
+			}
+
+			await this.commentsView.update(id)
+			this.commentsView.$mount(this.$refs.sidebar)
+		},
 	},
 }
 </script>
