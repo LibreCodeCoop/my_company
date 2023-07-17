@@ -2,7 +2,9 @@
 <files psalm-version="5.13.1@086b94371304750d1c673315321a55d15fc59015">
   <file src="lib/Controller/PageController.php">
     <UndefinedClass>
+      <code><![CDATA[$this->authTokens]]></code>
       <code><![CDATA[$this->personalInfo]]></code>
+      <code>private</code>
       <code>private</code>
     </UndefinedClass>
   </file>
