@@ -5,6 +5,9 @@
 				:title="t('my_company', 'Home')"
 				icon="icon-home"
 				:exact="true" />
+			<NcAppNavigationItem :to="{name: 'profile'}"
+				:title="t('my_company', 'Profile')"
+				icon="icon-user" />
 		</template>
 	</NcAppNavigation>
 </template>
