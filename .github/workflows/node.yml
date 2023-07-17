@@ -35,6 +35,9 @@ jobs:
     runs-on: ubuntu-latest
 
     name: node
+    strategy:
+      matrix:
+        server-versions: ['master']
     steps:
       - name: Set app env
         run: |
