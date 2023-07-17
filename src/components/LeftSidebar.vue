@@ -15,11 +15,12 @@
 </template>
 
 <script>
+// eslint-disable-next-line n/no-missing-import, import/no-unresolved
+import iconNotifications from 'apps/announcementcenter/img/announcementcenter.svg?raw'
+
 import NcAppNavigation from '@nextcloud/vue/dist/Components/NcAppNavigation.js'
 import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
 import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
-
-import iconNotifications from 'apps/announcementcenter/img/announcementcenter.svg?raw'
 
 export default {
 	name: 'LeftSidebar',
@@ -32,6 +33,6 @@ export default {
 		return {
 			iconNotifications,
 		}
-	}
+	},
 }
 </script>
