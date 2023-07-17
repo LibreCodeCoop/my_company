@@ -17,5 +17,8 @@ module.exports = merge(nextcloudWebpackConfig, {
 			variables: path.resolve(__dirname, '../../core/css/variables.scss'),
 			functions: path.resolve(__dirname, '../../core/css/functions.scss')
 		},
+		fallback: {
+			apps: path.resolve(__dirname, '../../apps-extra'),
+		},
 	}
 })
