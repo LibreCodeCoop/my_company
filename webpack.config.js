@@ -11,6 +11,14 @@ module.exports = merge(nextcloudWebpackConfig, {
 		port: 3000, // use any port suitable for your configuration
 		host: '0.0.0.0', // to accept connections from outside container
 	},
+	module: {
+		rules: [
+			{
+				resourceQuery: /raw/,
+				type: 'asset/source',
+			},
+		],
+	},
 	resolve: {
 		alias: {
 			apps: path.resolve(__dirname, '../../apps'),
