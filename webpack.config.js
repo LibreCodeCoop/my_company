@@ -1,4 +1,5 @@
 const { merge } = require('webpack-merge')
+const path = require('path');
 
 const nextcloudWebpackConfig = require('@nextcloud/webpack-vue-config')
 
