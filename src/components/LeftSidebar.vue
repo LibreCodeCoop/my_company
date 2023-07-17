@@ -1,12 +1,10 @@
 <template>
 	<NcAppNavigation :aria-label="t('my_company', 'Main menu')">
 		<template #list>
-			<NcAppNavigationItem
-				:to="{name: 'home'}"
+			<NcAppNavigationItem :to="{name: 'home'}"
 				:title="t('my_company', 'Home')"
 				icon="icon-home"
-				:exact="true"
-				/>
+				:exact="true" />
 		</template>
 	</NcAppNavigation>
 </template>
@@ -20,6 +18,6 @@ export default {
 	components: {
 		NcAppNavigation,
 		NcAppNavigationItem,
-	}
+	},
 }
 </script>
