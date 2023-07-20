@@ -19,6 +19,7 @@ import NcAppNavigation from '@nextcloud/vue/dist/Components/NcAppNavigation.js'
 import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
 import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
 
+// eslint-disable-next-line import/no-unresolved
 import iconPaymentsRaw from '../../img/payments.svg?raw'
 
 export default {

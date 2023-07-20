@@ -16,8 +16,7 @@
 				<PaymentsListHeader />
 			</template>
 			<template #default="{ item, index }">
-				<PaymentListRow
-					:item="item"
+				<PaymentListRow :item="item"
 					:index="index" />
 			</template>
 		</RecycleScroller>
@@ -27,10 +26,14 @@
 <script>
 import { Fragment } from 'vue-frag'
 import { RecycleScroller } from 'vue-virtual-scroller'
+
 import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
-import PaymentsListHeader from './PaymentsListHeader.vue'
+
 import PaymentListRow from './PaymentListRow.vue'
+import PaymentsListHeader from './PaymentsListHeader.vue'
+
+// eslint-disable-next-line import/no-unresolved
 import iconPaymentsRaw from '../../../img/payments.svg?raw'
 
 export default {
@@ -58,7 +61,7 @@ export default {
 					date: '2023-01-30',
 				},
 			],
-		}
+		},
 	},
 	data() {
 		return {
