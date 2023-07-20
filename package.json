@@ -21,7 +21,9 @@
 		"@nextcloud/router": "^2.1.2",
 		"@nextcloud/vue": "^7.12.1",
 		"vue": "^2.7.14",
+		"vue-frag": "^1.4.3",
 		"vue-router": "^3.6.5",
+		"vue-virtual-scroller": "^1.1.2",
 		"vuex": "^3.6.2"
 	},
 	"devDependencies": {
