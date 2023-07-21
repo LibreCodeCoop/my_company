@@ -6,8 +6,11 @@
 				icon="icon-home"
 				:exact="true" />
 			<NcAppNavigationItem :to="{name: 'registration-form'}"
-				:title="t('my_company', 'Registration form')"
-				icon="icon-menu-sidebar" />
+				:title="t('my_company', 'Registration form')">
+				<template #icon>
+					<PlaylistPlus />
+				</template>
+			</NcAppNavigationItem>
 		</template>
 	</NcAppNavigation>
 </template>
@@ -16,11 +19,14 @@
 import NcAppNavigation from '@nextcloud/vue/dist/Components/NcAppNavigation.js'
 import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
 
+import PlaylistPlus from 'vue-material-design-icons/PlaylistPlus.vue'
+
 export default {
 	name: 'LeftSidebar',
 	components: {
 		NcAppNavigation,
 		NcAppNavigationItem,
+		PlaylistPlus,
 	},
 }
 </script>
