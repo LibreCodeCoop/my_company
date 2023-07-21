@@ -5,6 +5,9 @@
 				:title="t('my_company', 'Home')"
 				icon="icon-home"
 				:exact="true" />
+			<NcAppNavigationItem :to="{name: 'registration-form'}"
+				:title="t('my_company', 'Registration form')"
+				icon="icon-menu-sidebar" />
 		</template>
 	</NcAppNavigation>
 </template>
