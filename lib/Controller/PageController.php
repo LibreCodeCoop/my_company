@@ -2,6 +2,9 @@
 
 namespace OCA\MyCompany\Controller;
 
+use OCA\Libresign\Db\File as FileEntity;
+use OCA\Libresign\Exception\LibresignException;
+use OCA\Libresign\Service\SignFileService;
 use OCA\MyCompany\AppInfo\Application;
 use OCA\MyCompany\Service\RegistrationService;
 use OCP\AppFramework\Controller;
@@ -19,6 +22,7 @@ class PageController extends Controller {
 		private IInitialState $initialState,
 		private IURLGenerator $url,
 		private RegistrationService $registrationService,
+		private SignFileService $signFileService,
 	) {
 		parent::__construct(Application::APP_ID, $request);
 	}
@@ -27,13 +31,19 @@ class PageController extends Controller {
 	#[NoCSRFRequired]
 	public function index(string $path): TemplateResponse {
 		try {
-			$this->registrationService->getRegistrationFile();
+			$file = $this->registrationService->getRegistrationFile();
+			try {
+				$libreSignFile = $this->signFileService->getLibresignFile($file->getId());
+				$signed = $libreSignFile->getStatus() === FileEntity::STATUS_SIGNED;
+			} catch (LibresignException $th) {
+				$signed = false;
+			}
+			$this->initialState->provideInitialState('registration-form-signed', $signed);
 			$this->initialState->provideInitialState('registration-form-file-exists', true);
 		} catch (\Throwable $th) {
 			$this->initialState->provideInitialState('registration-form-file-exists', false);
+			$this->initialState->provideInitialState('registration-form-signed', false);
 		}
-
-		$this->initialState->provideInitialState('registration-form-signed', false);
 
 		$this->initialState->provideInitialState('registration-form-file-empty', [
 			'url' => $this->url->linkToRoute('Share#downloadShare', [
