@@ -56,6 +56,12 @@ class RegistrationService {
 		}
 		$content = file_get_contents($file['tmp_name']);
 		unlink($file['tmp_name']);
+		try {
+			// Delete first to remove signed version if exists
+			$exists = $userFolder->get('matricula.pdf');
+			$exists->delete();
+		} catch (\Throwable $th) {
+		}
 		$userFolder->newFile('matricula.pdf', $content);
 	}
 
