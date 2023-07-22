@@ -45,15 +45,17 @@ class RegistrationController extends Controller {
 	public function sign(): DataResponse {
 		$registrationFile = $this->registrationService->getRegistrationFile();
 		$response = $this->requestSignatureService->save([
-			'file' => ['fileId' => $registrationFile->getId()],
+			'file' => ['fileNode' => $registrationFile],
 			'name' => $registrationFile->getName(),
-			'users' => [['identify' => ]],
+			'users' => [['identify' => ['account' => $this->userSession->getUser()->getUID()]]],
 			'userManager' => $this->userSession->getUser(),
 		]);
 		$this->signFileService
-			->setLibreSignFile($libreSignFile)
-			->setFileUser($fileUser)
+			->setLibreSignFileFromNode($registrationFile)
+			->setFileUser(current($response['users']))
 			->setSignWithoutPassword(true)
+			->setUserUniqueIdentifier($this->userSession->getUser()->getEMailAddress())
+			->setFriendlyName($this->userSession->getUser()->getDisplayName())
 			->sign();
 		return new DataResponse();
 	}
