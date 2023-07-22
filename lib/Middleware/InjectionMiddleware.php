@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace OCA\MyCompany\Middleware;
 
+use OCA\MyCompany\Backend\SystemGroupBackend;
 use OCA\Theming\Controller\ThemingController;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
@@ -14,12 +15,17 @@ use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\IRequest;
+use OCP\Server;
 
 class InjectionMiddleware extends Middleware {
 	public function __construct(
 		private IAppData $appData,
 		private IRequest $request
 	) {
+	}
+
+	public function beforeController(Controller $controller, string $methodName) {
+		Server::get(\OCP\IGroupManager::class)->addBackend(new SystemGroupBackend());
 	}
 
 	public function afterController(Controller $controller, string $methodName, Response $response): Response {

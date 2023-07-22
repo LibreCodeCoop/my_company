@@ -10,12 +10,12 @@ Get access to important information about your company
   ```bash
   # registration
   occ app:enable --force registration
-  occ group:add waiting-approval --display-name="Wairing approval"
-  occ config:app:set registration registered_user_group --value "waiting-approval"
-  occ config:app:set registration username_policy_regex --value "/^\d{3}\.\d{3}\.\d{3}-\d{2}$/"
-  occ config:app:set registration show_fullname --value true --type boolean
-  occ config:app:set registration enforce_fullname --value true --type boolean
-  occ config:app:set registration additional_hint --value "Informe o seu CPF como nome de usuário utilizando o padrão 000.000.000-00"
+  occ config:app:set registration username_policy_regex --value "/^\d{11}$/"
+  occ config:app:set registration show_fullname --value no
+  occ config:app:set registration enforce_fullname --value no
+  occ config:app:set registration additional_hint --value "Informe o seu CPF como nome de usuário utilizando apenas números"
+  occ config:app:set core shareapi_allow_links_exclude_groups --value "[\"waiting-approval\"]"
+  occ config:app:set core shareapi_only_share_with_group_members --value no
 
   # System settings
   # Disable "Log in with a device" at login screen

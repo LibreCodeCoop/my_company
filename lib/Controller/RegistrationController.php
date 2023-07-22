@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace OCA\MyCompany\Controller;
 
 use InvalidArgumentException;
@@ -45,8 +47,7 @@ class RegistrationController extends Controller {
 		$response = $this->requestSignatureService->save([
 			'file' => ['fileId' => $registrationFile->getId()],
 			'name' => $registrationFile->getName(),
-			'users' => [['']],
-			'status' => 1,
+			'users' => [['identify' => ]],
 			'userManager' => $this->userSession->getUser(),
 		]);
 		$this->signFileService
