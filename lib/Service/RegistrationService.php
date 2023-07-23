@@ -52,16 +52,19 @@ class RegistrationService {
 			!is_uploaded_file($file['tmp_name']) ||
 			Filesystem::isFileBlacklisted($file['tmp_name'])
 		) {
-			throw new InvalidArgumentException($this->l->t('Invalid file provided'));
+			// TRANSLATORS Error trigged when occurn an error when upload a PDF file to application. This PDF File is the registration form in PDF format.
+			throw new InvalidArgumentException($this->l->t('Invalid file. Impossible to save.'));
 		}
 		$maxSize = 2 * 1024 * 1024;
 		if ($file['size'] > $maxSize) {
+			// TRANSLATORS The uploaded file is very big and the application limited the sizes to a specific size that is exposed on this message. This PDF File is the registration form in PDF format.
 			throw new InvalidArgumentException($this->l->t('File is too big. Max size: %s.', [Util::humanFileSize($maxSize)]));
 		}
 		$content = file_get_contents($file['tmp_name']);
 		unlink($file['tmp_name']);
 		$mimeType = $this->mimeTypeDetector->detectString($content);
 		if ($mimeType !== 'application/pdf') {
+			// TRANSLATORS Only is accepted PDF files as registration form. The user need to upload a PDF file. All PDF files have the mimetime application/pdf and the uploaded file haven't this mimetipe..
 			throw new InvalidArgumentException($this->l->t('The uploaded file need to be a PDF.'));
 		}
 		try {

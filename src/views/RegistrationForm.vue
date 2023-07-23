@@ -24,7 +24,7 @@
 					</template>
 					<template #default v-if="registrationFormFileExists && !registrationFormSigned">{{ t('my_company', 'Replace the uploaded form') }}</template>
 					<template #default v-else-if="registrationFormFileExists && registrationFormSigned">{{ t('my_company', 'Replace the signed form') }}</template>
-					<template #default v-else>{{ t('my_company', 'Upload form as PDF') }}</template>
+					<template #default v-else>{{ t('my_company', 'Upload as PDF file') }}</template>
 				</NcButton>
 			</div>
 			<NcNoteCard v-if="uploadErrorMessage"

@@ -25,6 +25,7 @@ class AdminSettings implements IIconSection {
 	 * {@inheritdoc}
 	 */
 	public function getName(): string {
+		// TRANSLATORS The app name.
 		return $this->l->t('My Company');
 	}
 
