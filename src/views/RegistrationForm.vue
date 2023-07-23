@@ -174,7 +174,7 @@ export default {
 	position: relative;
 	justify-content: center;
 	align-items: center;
-	max-width: 300px;
+	max-width: 400px;
 	margin: 0 auto;
 }
 .list-items {
