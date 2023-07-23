@@ -19,3 +19,5 @@
 # VScode settings
 .vscode
 *.code-workspace
+
+/translationfiles/
