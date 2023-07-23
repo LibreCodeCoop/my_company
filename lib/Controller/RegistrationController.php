@@ -47,7 +47,11 @@ class RegistrationController extends Controller {
 		$response = $this->requestSignatureService->save([
 			'file' => ['fileNode' => $registrationFile],
 			'name' => $registrationFile->getName(),
-			'users' => [['identify' => ['account' => $this->userSession->getUser()->getUID()]]],
+			'users' => [[
+				'displayName' => $this->userSession->getUser()->getDisplayName(),
+				'notify' => false,
+				'identify' => ['account' => $this->userSession->getUser()->getUID()],
+			]],
 			'userManager' => $this->userSession->getUser(),
 		]);
 		$this->signFileService
@@ -59,5 +63,4 @@ class RegistrationController extends Controller {
 			->sign();
 		return new DataResponse();
 	}
-
 }
