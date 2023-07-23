@@ -11,8 +11,8 @@ Get access to important information about your company
   # registration
   occ app:enable --force registration
   occ config:app:set registration username_policy_regex --value "/^\d{11}$/"
-  occ config:app:set registration show_fullname --value no
-  occ config:app:set registration enforce_fullname --value no
+  occ config:app:set registration show_fullname --value yes
+  occ config:app:set registration enforce_fullname --value yes
   occ config:app:set registration additional_hint --value "Informe o seu CPF como nome de usuário utilizando apenas números"
   occ config:app:set core shareapi_allow_links_exclude_groups --value "[\"waiting-approval\"]"
   occ config:app:set core shareapi_only_share_with_group_members --value no
