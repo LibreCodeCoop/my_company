@@ -36,11 +36,7 @@ class InjectionMiddleware extends Middleware {
 	}
 
 	private function getImageFromDomain(Response $response): Response {
-		$headers = $response->getHeaders();
-		if (isset($headers['Content-Disposition']) && str_contains($headers['Content-Disposition'], '"background"')) {
-			return $this->getBackgroundOfDomain($response);
-		}
-		return $response;
+		return $this->getBackgroundOfDomain($response);
 	}
 
 	private function getBackgroundOfDomain(Response $response): Response {
