@@ -34,15 +34,14 @@ class PageController extends Controller {
 			$file = $this->registrationService->getRegistrationFile();
 			try {
 				$libreSignFile = $this->signFileService->getLibresignFile($file->getId());
-				$signed = $libreSignFile->getStatus() === FileEntity::STATUS_SIGNED;
+				$signed = $libreSignFile->getUuid();
+				$this->initialState->provideInitialState('registration-form-signed', $signed);
 			} catch (LibresignException $th) {
-				$signed = false;
 			}
-			$this->initialState->provideInitialState('registration-form-signed', $signed);
 			$this->initialState->provideInitialState('registration-form-file-exists', true);
 		} catch (\Throwable $th) {
 			$this->initialState->provideInitialState('registration-form-file-exists', false);
-			$this->initialState->provideInitialState('registration-form-signed', false);
+			$this->initialState->provideInitialState('registration-form-signed', '');
 		}
 
 		$this->initialState->provideInitialState('registration-form-file-empty', [
