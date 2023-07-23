@@ -33,6 +33,10 @@ Get access to important information about your company
   occ groupfolders:create mycompany
   occ groupfolders:group `occ groupfolders:list --output=json|jq '.[]|select(.mount_point=="mycompany")|.id'` mycompany
   ```
+## Theming
+* Create a folder inside appdata folder as `my_company/theming`.
+* Inside the folder theming you will need go create a folder with the domain of company
+* Inside the folder of company, create the file background.jpg
 
 ## Contributing
 
