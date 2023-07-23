@@ -35,6 +35,7 @@ use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\IL10N;
 use OCP\IUserSession;
+use OCP\Util;
 
 class RegistrationService {
 	public function __construct(
@@ -53,8 +54,9 @@ class RegistrationService {
 		) {
 			throw new InvalidArgumentException($this->l->t('Invalid file provided'));
 		}
-		if ($file['size'] > 2 * 1024 * 1024) {
-			throw new InvalidArgumentException($this->l->t('File is too big'));
+		$maxSize = 2 * 1024 * 1024;
+		if ($file['size'] > $maxSize) {
+			throw new InvalidArgumentException($this->l->t('File is too big. Max size: %s.', [Util::humanFileSize($maxSize)]));
 		}
 		$content = file_get_contents($file['tmp_name']);
 		unlink($file['tmp_name']);
