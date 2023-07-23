@@ -20,6 +20,7 @@ Get access to important information about your company
   # System settings
   # Disable "Log in with a device" at login screen
   occ config:system:set auth.webauthn.enabled --value false --type boolean
+  occ config:system:set defaultapp --value my_company
 
   # Theme
   occ config:app:set theming name --value "LibreCode"
