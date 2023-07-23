@@ -12,8 +12,10 @@ use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
+use OCP\IGroupManager;
 use OCP\IRequest;
 use OCP\IURLGenerator;
+use OCP\IUserSession;
 use OCP\Util;
 
 class PageController extends Controller {
@@ -22,6 +24,8 @@ class PageController extends Controller {
 		private IInitialState $initialState,
 		private IURLGenerator $url,
 		private RegistrationService $registrationService,
+		private IGroupManager $groupManager,
+		private IUserSession $userSession,
 		private SignFileService $signFileService,
 	) {
 		parent::__construct(Application::APP_ID, $request);
@@ -44,6 +48,9 @@ class PageController extends Controller {
 			$this->initialState->provideInitialState('registration-form-signed', '');
 		}
 
+		$userGroups = $this->groupManager->getUserGroupIds($this->userSession->getUser());
+		$this->initialState->provideInitialState('approved', !in_array('waiting-approval', $userGroups));
+
 		$this->initialState->provideInitialState('registration-form-file-empty', [
 			'url' => $this->url->linkToRoute('Share#downloadShare', [
 				'token' => 'y5TbiaA8M5ps9iw',
@@ -58,5 +65,4 @@ class PageController extends Controller {
 
 		return $response;
 	}
-
 }
