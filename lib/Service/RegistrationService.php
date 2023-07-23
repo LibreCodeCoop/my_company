@@ -30,6 +30,7 @@ use InvalidArgumentException;
 use OC\Files\Filesystem;
 use OCP\Files\File;
 use OCP\Files\Folder;
+use OCP\Files\IMimeTypeDetector;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\IL10N;
@@ -40,6 +41,7 @@ class RegistrationService {
 		private IL10N $l,
 		private IRootFolder $rootFolder,
 		private IUserSession $userSession,
+		private IMimeTypeDetector $mimeTypeDetector,
 	) {
 	}
 	public function uploadPdf(?array $file): void {
@@ -56,6 +58,10 @@ class RegistrationService {
 		}
 		$content = file_get_contents($file['tmp_name']);
 		unlink($file['tmp_name']);
+		$mimeType = $this->mimeTypeDetector->detectString($content);
+		if ($mimeType !== 'application/pdf') {
+			throw new InvalidArgumentException($this->l->t('The uploaded file need to be a PDF.'));
+		}
 		try {
 			// Delete first to remove signed version if exists
 			$exists = $userFolder->get('matricula.pdf');
