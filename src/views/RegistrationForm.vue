@@ -186,6 +186,7 @@ export default {
 	max-width: 400px;
 	margin: 0 auto;
 }
+
 .list-items {
 	width: 100%;
 	flex: none;
