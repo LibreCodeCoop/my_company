@@ -55,7 +55,7 @@ class PageController extends Controller {
 		$registrationFormSettings = $this->config->getAppValue(Application::APP_ID, 'registration_form');
 		$registrationFormSettings = json_decode($registrationFormSettings, true);
 		$this->initialState->provideInitialState('registration-form-file-empty', [
-			'url' => $this->url->linkToRoute('Share#downloadShare', [
+			'url' => $this->url->linkToRoute('files_sharing.Share.downloadShare', [
 				'token' => $registrationFormSettings['token'],
 				'filename' => $registrationFormSettings['filename'],
 			]),
