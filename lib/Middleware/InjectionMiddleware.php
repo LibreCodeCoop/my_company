@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace OCA\MyCompany\Middleware;
 
+use OC\NavigationManager;
+use OCA\MyCompany\AppInfo\Application;
 use OCA\MyCompany\Backend\SystemGroupBackend;
 use OCA\Theming\Controller\ThemingController;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\FileDisplayResponse;
@@ -14,13 +17,21 @@ use OCP\AppFramework\Middleware;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFolder;
+use OCP\IConfig;
+use OCP\IGroupManager;
 use OCP\IRequest;
+use OCP\IUserSession;
 use OCP\Server;
 
 class InjectionMiddleware extends Middleware {
 	public function __construct(
 		private IAppData $appData,
-		private IRequest $request
+		private IRequest $request,
+		private NavigationManager $navigationManager,
+		private IUserSession $userSession,
+		private IGroupManager $groupManager,
+		private IAppManager $appManager,
+		private IConfig $config,
 	) {
 	}
 
@@ -29,10 +40,41 @@ class InjectionMiddleware extends Middleware {
 	}
 
 	public function afterController(Controller $controller, string $methodName, Response $response): Response {
-		if ($controller instanceof ThemingController && $methodName === 'getImage') {
-			return $this->getImageFromDomain($response);
+		if ($controller instanceof ThemingController) {
+			if ($methodName === 'getImage') {
+				return $this->getImageFromDomain($response);
+			}
+		} else {
+			$this->hideNotAllowedMenuItems($response);
 		}
 		return $response;
+	}
+
+	private function hideNotAllowedMenuItems(Response $response): void {
+		if ($this->isAdmin()) {
+			return;
+		}
+		$renderAs = $response->getRenderAs();
+		if ($renderAs !== 'user') {
+			return;
+		}
+		$allowedApps = $this->config->getAppValue(Application::APP_ID, 'allowed_apps_to_all', '["' . Application::APP_ID . '"]');
+		$allowedApps = json_decode($allowedApps, true);
+		$navigation = $this->navigationManager->getAll();
+		foreach ($navigation as $item) {
+			if (!in_array($item['id'], $allowedApps)) {
+				$item['type'] = 'hide';
+			}
+			$this->navigationManager->add($item);
+		}
+	}
+
+	private function isAdmin() {
+		$user = $this->userSession->getUser();
+		if ($user !== null) {
+			return $this->groupManager->isAdmin($user->getUID());
+		}
+		return false;
 	}
 
 	private function getImageFromDomain(Response $response): Response {
