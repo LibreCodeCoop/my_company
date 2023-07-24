@@ -49,7 +49,12 @@ Get access to important information about your company
   ```
 ## Theming
 * Inside the folder `my_company/theming` you will need go create a folder with the domain of company
-* Inside the folder of company, create the file background.jpg
+* Inside the folder of company, create the file `background` and `logo` without extension.
+  > Logo need to be PNG and background need to be PNG  to follow the defined at `theming` app at `logoMime` and `backgroundMime` setting
+* Refresh the cache of app data folder to update the metadata of new images:
+  ```bash
+  occ files:scan-app-data
+  ```
 
 ## Contributing
 
