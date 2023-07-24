@@ -53,7 +53,7 @@
 					<template #icon>
 						<Certificate />
 					</template>
-					{{ t('my_company', 'View signed form') }}
+					{{ t('my_company', 'View your signed form') }}
 				</NcButton>
 			</div>
 			<NcNoteCard v-if="registrationFormSigned && !approved"
