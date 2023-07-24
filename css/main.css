@@ -1,7 +1,13 @@
-#header .app-menu, #contactsmenu/*, #header .unified-search*/ {
+#contactsmenu {
 	display: none;
 }
 
-:root {
-	--image-logo: 'fake-path'
+.development-notice {
+	display: none;
+}
+
+#app-navigation li[data-section-id="workflow"],
+#app-navigation li[data-section-id="availability"],
+#app-navigation li[data-section-id="sharing"] {
+	display: none!important;
 }

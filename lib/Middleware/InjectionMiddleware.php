@@ -23,6 +23,7 @@ use OCP\IGroupManager;
 use OCP\IRequest;
 use OCP\IUserSession;
 use OCP\Server;
+use OCP\Util;
 
 class InjectionMiddleware extends Middleware {
 	public function __construct(
@@ -46,6 +47,7 @@ class InjectionMiddleware extends Middleware {
 				return $this->getImageFromDomain($response);
 			}
 		} else {
+			$this->hideSettingsItems($response);
 			$this->hideNotAllowedMenuItems($response);
 		}
 		return $response;
@@ -54,6 +56,20 @@ class InjectionMiddleware extends Middleware {
 	public function beforeOutput(Controller $controller, string $methodName, string $output): string {
 		$output = $this->removeUnifiedSearch($output);
 		return $output;
+	}
+
+	private function hideSettingsItems(Response $response): void {
+		if ($this->isAdmin()) {
+			return;
+		}
+		if (!$response instanceof TemplateResponse) {
+			return;
+		}
+		$renderAs = $response->getRenderAs();
+		if ($renderAs !== 'user') {
+			return;
+		}
+		Util::addStyle(Application::APP_ID, 'main');
 	}
 
 	private function hideNotAllowedMenuItems(Response $response): void {
