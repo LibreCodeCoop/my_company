@@ -13,6 +13,7 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\Response;
+use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Middleware;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
@@ -52,6 +53,9 @@ class InjectionMiddleware extends Middleware {
 
 	private function hideNotAllowedMenuItems(Response $response): void {
 		if ($this->isAdmin()) {
+			return;
+		}
+		if (!$response instanceof TemplateResponse) {
 			return;
 		}
 		$renderAs = $response->getRenderAs();
