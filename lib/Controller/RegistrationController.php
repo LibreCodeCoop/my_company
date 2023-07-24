@@ -61,6 +61,6 @@ class RegistrationController extends Controller {
 			->setUserUniqueIdentifier($this->userSession->getUser()->getEMailAddress())
 			->setFriendlyName($this->userSession->getUser()->getDisplayName())
 			->sign();
-		return new DataResponse();
+		return new DataResponse(['uuid' => $response['uuid']]);
 	}
 }

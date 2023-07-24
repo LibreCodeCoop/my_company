@@ -114,8 +114,10 @@ export default {
 		signForm() {
 			const url = generateOcsUrl('/apps/my_company/api/v1/registration/sign')
 			this.signing = true
-			axios.post(url).then(() => {
-				this.registrationFormSigned = true
+
+			axios.post(url)
+			.then((response) => {
+				this.registrationFormSigned = response.data.uuid
 				this.signing = false
 			})
 		},
@@ -138,7 +140,7 @@ export default {
 					'Content-Type': 'multipart/form-data',
 				},
 			}).then(() => {
-				this.registrationFormSigned = false
+				this.registrationFormSigned = ''
 				this.registrationFormFileExists = true
 			}).catch(error => {
 				this.uploadErrorMessage = error.response.data.message
