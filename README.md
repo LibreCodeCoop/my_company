@@ -6,7 +6,9 @@ Get access to important information about your company
 
 ## Setup
 
-* Install and configure the registration app
+* Install this app
+* Configuration
+* go to root folder of your nextcloud instance and run the follow commands:
   ```bash
   # registration
   occ app:enable --force registration
@@ -17,15 +19,26 @@ Get access to important information about your company
   occ config:app:set core shareapi_allow_links_exclude_groups --value "[\"waiting-approval\"]"
   occ config:app:set core shareapi_only_share_with_group_members --value no
 
+  occ config:app:set files default_quota --value "50 MB"
+
+  occ config:app:set core shareapi_allow_share_dialog_user_enumeration --value no
+
   # System settings
   # Disable "Log in with a device" at login screen
   occ config:system:set auth.webauthn.enabled --value false --type boolean
   occ config:system:set defaultapp --value my_company
 
+  # Skeleton directory
+  mkdir -p data/appdata_`occ config:system:get instanceid`/my_company/skeleton
+  occ config:system:set skeletondirectory --value /data/appdata_`occ config:system:get instanceid`/my_company/skeleton
+
   # Theme
   occ config:app:set theming name --value "LibreCode"
   occ config:app:set theming slogan --value "Feito com ❤️"
   occ config:app:set theming url --value "https://librecode.coop"
+  occ config:app:set theming logoMime --value "image/png"
+  occ config:app:set theming backgroundMime --value "image/jpg"
+  mkdir -p data/appdata_`occ config:system:get instanceid`/my_company/theming
 
   # Group folders
   occ app:enable --force groupfolders
@@ -34,8 +47,7 @@ Get access to important information about your company
   occ groupfolders:group `occ groupfolders:list --output=json|jq '.[]|select(.mount_point=="mycompany")|.id'` mycompany
   ```
 ## Theming
-* Create a folder inside appdata folder as `my_company/theming`.
-* Inside the folder theming you will need go create a folder with the domain of company
+* Inside the folder `my_company/theming` you will need go create a folder with the domain of company
 * Inside the folder of company, create the file background.jpg
 
 ## Contributing
