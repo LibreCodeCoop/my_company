@@ -10,9 +10,10 @@ import RegistrationForm from '../views/RegistrationForm.vue'
 Vue.use(VueRouter)
 
 const approved = loadState('my_company', 'approved', false)
+let routes = {}
 
 if (approved) {
-	var routes = [
+	routes = [
 		{
 			path: '/',
 			component: Home,
@@ -25,7 +26,7 @@ if (approved) {
 		},
 	]
 } else {
-	var routes = [
+	routes = [
 		{
 			path: '/',
 			component: RegistrationForm,
@@ -37,7 +38,5 @@ if (approved) {
 export default new VueRouter({
 	mode: 'history',
 	base: generateUrl('/apps/my_company'),
-	linkActiveClass: 'active',
-
-	routes: routes,
+	routes,
 })
