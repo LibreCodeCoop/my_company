@@ -2,7 +2,6 @@
 
 namespace OCA\MyCompany\Controller;
 
-use OCA\Libresign\Db\File as FileEntity;
 use OCA\Libresign\Exception\LibresignException;
 use OCA\Libresign\Service\SignFileService;
 use OCA\MyCompany\AppInfo\Application;
