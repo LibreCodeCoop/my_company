@@ -20,7 +20,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-return array_merge_recursive(
-	include(__DIR__ . '/routes/routesPageController.php'),
-	include(__DIR__ . '/routes/routesRegistration.php'),
-);
+$requirements = [
+	'apiVersion' => 'v1',
+];
+
+return [
+	'ocs' => [
+		['name' => 'Registration#uploadPdf', 'url' => '/api/{apiVersion}/registration/upload-pdf', 'verb' => 'POST', 'requirements' => $requirements],
+		['name' => 'Registration#sign', 'url' => '/api/{apiVersion}/registration/sign', 'verb' => 'POST', 'requirements' => $requirements],
+	],
+];

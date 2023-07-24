@@ -1,9 +1,9 @@
 <template>
 	<div id="emptycontent">
 		<img :src="svgIcon" class="svg-icon">
-		<h2>{{ t('my_company', 'Welcome to your company') }}</h2>
+		<h2>{{ t('my_company', 'Welcome to your company!') }}</h2>
 		<p class="emptycontent-additional">
-			{{ t('my_company', 'Stay up to date about all news from your company!') }}
+			{{ t('my_company', 'Stay up to date about all news from your company.') }}
 		</p>
 		<div id="shareRoomContainer" />
 	</div>

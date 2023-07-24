@@ -22,6 +22,10 @@
 	<dependencies>
 		<nextcloud min-version="28" max-version="28"/>
 	</dependencies>
+
+	<commands>
+		<command>OCA\MyCompany\Command\Developer\L10n</command>
+	</commands>
 	<settings>
 		<admin>OCA\MyCompany\Settings\Admin</admin>
 		<admin-section>OCA\MyCompany\Settings\AdminSettings</admin-section>
