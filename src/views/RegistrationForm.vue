@@ -6,7 +6,7 @@
 			</template>
 		</NcEmptyContent>
 		<div class="flex">
-			<div class="list-items">
+			<div class="list-items" v-if="!approved">
 				<NcButton :wide="true"
 					@click="downloadFile(registrationFormFileEmpty)">
 					<template #icon>
@@ -15,7 +15,7 @@
 					{{ t('my_company', 'Download the blank form') }}
 				</NcButton>
 			</div>
-			<div class="list-items">
+			<div class="list-items" v-if="!approved">
 				<NcButton :wide="true"
 					@click="uploadPdfFile()">
 					<template #icon>
@@ -50,7 +50,7 @@
 					{{ t('my_company', 'View signed form') }}
 				</NcButton>
 			</div>
-			<NcNoteCard v-if="registrationFormSigned"
+			<NcNoteCard v-if="registrationFormSigned && !approved"
 				type="warning">
 				{{ t('my_company', 'Document already signed. Wait to be approved. If you want to replace the signed document, send a new PDF file.') }}
 			</NcNoteCard>
@@ -93,6 +93,7 @@ export default {
 			registrationFormSigned: loadState('my_company', 'registration-form-signed'),
 			registrationFormFileEmpty: loadState('my_company', 'registration-form-file-empty'),
 			registrationFormFileExists: loadState('my_company', 'registration-form-file-exists'),
+			approved: loadState('my_company', 'approved'),
 			signing: false,
 			uploading: false,
 			uploadErrorMessage: '',
