@@ -7,6 +7,7 @@ namespace OCA\MyCompany\Middleware;
 use OC\NavigationManager;
 use OCA\MyCompany\AppInfo\Application;
 use OCA\MyCompany\Backend\SystemGroupBackend;
+use OCA\MyCompany\Service\CompanyService;
 use OCA\Theming\Controller\ThemingController;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
@@ -14,9 +15,7 @@ use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Middleware;
-use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
-use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IRequest;
@@ -26,13 +25,13 @@ use OCP\Util;
 
 class InjectionMiddleware extends Middleware {
 	public function __construct(
-		private IAppData $appData,
 		private IRequest $request,
 		private NavigationManager $navigationManager,
 		private IUserSession $userSession,
 		private IGroupManager $groupManager,
 		private IAppManager $appManager,
 		private IConfig $config,
+		private CompanyService $companyService,
 	) {
 	}
 
@@ -118,13 +117,16 @@ class InjectionMiddleware extends Middleware {
 			return $response;
 		}
 		try {
-			$folder = $this->getRootFolder('themes')->getFolder($this->request->getServerHost());
+			$themeFolder = $this->companyService
+				->getThemeFolder()
+				->getFolder($this->request->getServerHost());
+
 			$headers = $response->getHeaders();
 			if (isset($headers['Content-Disposition'])) {
 				if (str_contains($headers['Content-Disposition'], '"logo')) {
-					$file = $folder->getFile('logo');
+					$file = $themeFolder->getFile('logo');
 				} elseif (str_contains($headers['Content-Disposition'], '"background')) {
-					$file = $folder->getFile('background');
+					$file = $themeFolder->getFile('background');
 				} else {
 					throw new NotFoundException();
 				}
@@ -141,13 +143,5 @@ class InjectionMiddleware extends Middleware {
 		} catch(\ReflectionException $e) {
 		}
 		return $response;
-	}
-
-	private function getRootFolder(string $folder): ISimpleFolder {
-		try {
-			return $this->appData->getFolder($folder);
-		} catch (NotFoundException $e) {
-			return $this->appData->newFolder($folder);
-		}
 	}
 }

@@ -29,24 +29,26 @@ namespace OCA\MyCompany\Service;
 use InvalidArgumentException;
 use OC\Files\Filesystem;
 use OCP\Files\File;
-use OCP\Files\Folder;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\IRootFolder;
-use OCP\Files\NotFoundException;
 use OCP\IL10N;
 use OCP\IUserSession;
 use OCP\Util;
 
 class RegistrationService {
+	private string $registrationFormFileName;
 	public function __construct(
 		private IL10N $l,
 		private IRootFolder $rootFolder,
 		private IUserSession $userSession,
 		private IMimeTypeDetector $mimeTypeDetector,
+		private CompanyService $companyService,
 	) {
+		// TRANSLATORS Name of file that will store the registration form as PDF format.
+		$this->registrationFormFileName = $l->t('registration-form.pdf');
 	}
 	public function uploadPdf(?array $file): void {
-		$userFolder = $this->getUserFolder();
+		$userFolder = $this->companyService->getUserAdminFolder();
 		if (
 			$file['error'] !== 0 ||
 			!is_uploaded_file($file['tmp_name']) ||
@@ -69,29 +71,15 @@ class RegistrationService {
 		}
 		try {
 			// Delete first to remove signed version if exists
-			$exists = $userFolder->get('matricula.pdf');
+			$exists = $userFolder->get($this->registrationFormFileName);
 			$exists->delete();
 		} catch (\Throwable $th) {
 		}
-		$userFolder->newFile('matricula.pdf', $content);
-	}
-
-	private function getUserFolder(): Folder {
-		try {
-			$folder = $this->rootFolder->get('/__groupfolders/2');
-		} catch (NotFoundException $e) {
-			$folder = $this->rootFolder->newFolder('/__groupfolders/2');
-		}
-		$username = $this->userSession->getUser()->getUID();
-		try {
-			return $folder->get($username);
-		} catch (NotFoundException $e) {
-			return $folder->newFolder($username);
-		}
+		$userFolder->newFile($this->registrationFormFileName, $content);
 	}
 
 	public function getRegistrationFile(): File {
-		$folder = $this->getUserFolder();
-		return $folder->get('matricula.pdf');
+		$regiterFolder = $this->companyService->getUserAdminRegistrationFolder();
+		return $regiterFolder->get($this->registrationFormFileName);
 	}
 }

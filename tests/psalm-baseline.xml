@@ -20,10 +20,15 @@
       <code>ThemingController</code>
     </UndefinedClass>
   </file>
-  <file src="lib/Service/RegistrationService.php">
+  <file src="lib/Service/CompanyService.php">
     <MissingDependency>
       <code><![CDATA[$this->rootFolder]]></code>
       <code><![CDATA[$this->rootFolder]]></code>
+      <code>private</code>
+    </MissingDependency>
+  </file>
+  <file src="lib/Service/RegistrationService.php">
+    <MissingDependency>
       <code>private</code>
     </MissingDependency>
   </file>
