@@ -87,6 +87,7 @@ class InjectionMiddleware extends Middleware {
 				$output = str_replace('src="/dist/core-unified-search.js"', '', $output);
 			}
 		}
+		return $output;
 	}
 
 	private function isAdmin() {
