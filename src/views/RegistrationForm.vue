@@ -6,7 +6,7 @@
 			</template>
 		</NcEmptyContent>
 		<div class="flex">
-			<div class="list-items" v-if="!approved || !registrationFormSigned">
+			<div v-if="!approved || !registrationFormSigned" class="list-items">
 				<NcButton :wide="true"
 					@click="downloadFile(registrationFormFileEmpty)">
 					<template #icon>
@@ -15,16 +15,22 @@
 					{{ t('my_company', 'Download the blank form') }}
 				</NcButton>
 			</div>
-			<div class="list-items" v-if="!approved || !registrationFormSigned">
+			<div v-if="!approved || !registrationFormSigned" class="list-items">
 				<NcButton :wide="true"
 					@click="uploadPdfFile()">
 					<template #icon>
-						<NcLoadingIcon v-if="uploading"/>
-						<FileSign v-else/>
+						<NcLoadingIcon v-if="uploading" />
+						<FileSign v-else />
 					</template>
-					<template #default v-if="registrationFormFileExists && !registrationFormSigned">{{ t('my_company', 'Replace the uploaded form') }}</template>
-					<template #default v-else-if="registrationFormFileExists && registrationFormSigned">{{ t('my_company', 'Replace the signed form') }}</template>
-					<template #default v-else>{{ t('my_company', 'Upload as PDF file') }}</template>
+					<template v-if="registrationFormFileExists && !registrationFormSigned" #default>
+						{{ t('my_company', 'Replace the uploaded form') }}
+					</template>
+					<template v-else-if="registrationFormFileExists && registrationFormSigned" #default>
+						{{ t('my_company', 'Replace the signed form') }}
+					</template>
+					<template v-else #default>
+						{{ t('my_company', 'Upload as PDF file') }}
+					</template>
 				</NcButton>
 			</div>
 			<NcNoteCard v-if="uploadErrorMessage"
@@ -35,8 +41,8 @@
 				<NcButton :wide="true"
 					@click="signForm()">
 					<template #icon>
-						<NcLoadingIcon v-if="signing"/>
-						<FileSign v-else/>
+						<NcLoadingIcon v-if="signing" />
+						<FileSign v-else />
 					</template>
 					{{ t('my_company', 'Sign your form') }}
 				</NcButton>
@@ -117,16 +123,16 @@ export default {
 			this.signing = true
 
 			axios.post(url)
-			.then((response) => {
-				this.registrationFormSigned = response.data.uuid
-				this.signing = false
-			})
+				.then((response) => {
+					this.registrationFormSigned = response.data.uuid
+					this.signing = false
+				})
 		},
 		viewSigned() {
 			window.location.href = generateUrl(
-				'/apps/libresign/p/validation/' +
-				this.registrationFormSigned +
-				'?path=' + btoa('/apps/my_company')
+				'/apps/libresign/p/validation/'
+				+ this.registrationFormSigned
+				+ '?path=' + btoa('/apps/my_company'),
 			)
 		},
 		async upload(file) {

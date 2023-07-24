@@ -9,7 +9,7 @@ import RegistrationForm from '../views/RegistrationForm.vue'
 
 Vue.use(VueRouter)
 
-var approved = loadState('my_company', 'approved', false)
+const approved = loadState('my_company', 'approved', false)
 
 if (approved) {
 	var routes = [
@@ -23,7 +23,7 @@ if (approved) {
 			component: RegistrationForm,
 			name: 'registration-form',
 		},
-	];
+	]
 } else {
 	var routes = [
 		{
@@ -31,7 +31,7 @@ if (approved) {
 			component: RegistrationForm,
 			name: 'registration-form',
 		},
-	];
+	]
 }
 
 export default new VueRouter({
