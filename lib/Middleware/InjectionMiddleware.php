@@ -51,6 +51,11 @@ class InjectionMiddleware extends Middleware {
 		return $response;
 	}
 
+	public function beforeOutput(Controller $controller, string $methodName, string $output): string {
+		$output = $this->removeUnifiedSearch($output);
+		return $output;
+	}
+
 	private function hideNotAllowedMenuItems(Response $response): void {
 		if ($this->isAdmin()) {
 			return;
@@ -70,6 +75,17 @@ class InjectionMiddleware extends Middleware {
 				$item['type'] = 'hide';
 			}
 			$this->navigationManager->add($item);
+		}
+	}
+
+	private function removeUnifiedSearch(string $output): string {
+		if ($this->isAdmin()) {
+			return $output;
+		}
+		if (str_starts_with($output, '<!DOCTYPE html>')) {
+			if (str_contains($output, 'src="/dist/core-unified-search.js"')) {
+				$output = str_replace('src="/dist/core-unified-search.js"', '', $output);
+			}
 		}
 	}
 
