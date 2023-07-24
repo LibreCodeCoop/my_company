@@ -36,6 +36,7 @@ Get access to important information about your company
   occ config:app:set theming name --value "LibreCode"
   occ config:app:set theming slogan --value "Feito com ❤️"
   occ config:app:set theming url --value "https://librecode.coop"
+  occ config:app:set theming color "#6ea68f"
   occ config:app:set theming logoMime --value "image/png"
   occ config:app:set theming backgroundMime --value "image/jpg"
   mkdir -p data/appdata_`occ config:system:get instanceid`/my_company/theming
