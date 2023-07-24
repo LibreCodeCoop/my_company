@@ -46,6 +46,9 @@ Get access to important information about your company
   occ group:add mycompany --display-name="My Company"
   occ groupfolders:create mycompany
   occ groupfolders:group `occ groupfolders:list --output=json|jq '.[]|select(.mount_point=="mycompany")|.id'` mycompany
+
+  # Terms of service
+  occ app:enable terms_of_service
   ```
 ## Theming
 * Inside the folder `my_company/theming` you will need go create a folder with the domain of company
@@ -55,6 +58,9 @@ Get access to important information about your company
   ```bash
   occ files:scan-app-data
   ```
+
+# Terms of service
+* Fill the terms of service at `/settings/admin/terms_of_service`
 
 ## Contributing
 
