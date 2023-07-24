@@ -11,6 +11,7 @@ use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
+use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IRequest;
 use OCP\IURLGenerator;
@@ -26,6 +27,7 @@ class PageController extends Controller {
 		private IGroupManager $groupManager,
 		private IUserSession $userSession,
 		private SignFileService $signFileService,
+		private IConfig $config,
 	) {
 		parent::__construct(Application::APP_ID, $request);
 	}
@@ -50,12 +52,14 @@ class PageController extends Controller {
 		$userGroups = $this->groupManager->getUserGroupIds($this->userSession->getUser());
 		$this->initialState->provideInitialState('approved', !in_array('waiting-approval', $userGroups));
 
+		$registrationFormSettings = $this->config->getAppValue(Application::APP_ID, 'registration_form');
+		$registrationFormSettings = json_decode($registrationFormSettings, true);
 		$this->initialState->provideInitialState('registration-form-file-empty', [
 			'url' => $this->url->linkToRoute('Share#downloadShare', [
-				'token' => 'y5TbiaA8M5ps9iw',
-				'filename' => 'formulario_adesao.docx',
+				'token' => $registrationFormSettings['token'],
+				'filename' => $registrationFormSettings['filename'],
 			]),
-			'name' => 'formulario_adesao.docx',
+			'name' => $registrationFormSettings['filename'],
 		]);
 
 		Util::addScript(Application::APP_ID, 'my_company-main');
