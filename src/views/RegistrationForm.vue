@@ -125,7 +125,7 @@ export default {
 			window.location.href = generateUrl(
 				'/apps/libresign/p/validation/' +
 				this.registrationFormSigned +
-				'?path=' + btoa('/apps/my_company/registration-form')
+				'?path=' + btoa('/apps/my_company')
 			)
 		},
 		async upload(file) {
