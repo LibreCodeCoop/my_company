@@ -48,7 +48,6 @@ class RegistrationService {
 		$this->registrationFormFileName = $l->t('registration-form.pdf');
 	}
 	public function uploadPdf(?array $file): void {
-		$userFolder = $this->companyService->getUserAdminFolder();
 		if (
 			$file['error'] !== 0 ||
 			!is_uploaded_file($file['tmp_name']) ||
@@ -71,6 +70,7 @@ class RegistrationService {
 		}
 		try {
 			// Delete first to remove signed version if exists
+			$userFolder = $this->companyService->getUserAdminRegistrationFolder();
 			$exists = $userFolder->get($this->registrationFormFileName);
 			$exists->delete();
 		} catch (\Throwable $th) {
