@@ -20,7 +20,7 @@
 					@click="uploadPdfFile()">
 					<template #icon>
 						<NcLoadingIcon v-if="uploading" />
-						<FileSign v-else />
+						<Upload v-else />
 					</template>
 					<template v-if="registrationFormFileExists && !registrationFormSigned" #default>
 						{{ t('my_company', 'Replace the uploaded form') }}
