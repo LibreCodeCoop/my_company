@@ -96,7 +96,7 @@ class CompanyService {
 	private function getGroupFolderIdFromCompanyCode(string $companyCode, string $type = ''): int {
 		$query = $this->db->getQueryBuilder();
 		$mountPointName = $companyCode . ($type ? '-' . $type : '');
-		$query->select('id')
+		$query->select('folder_id')
 			->from('group_folders')
 			->where($query->expr()->eq('mount_point', $query->createNamedParameter($mountPointName)));
 		$result = $query->executeQuery();
