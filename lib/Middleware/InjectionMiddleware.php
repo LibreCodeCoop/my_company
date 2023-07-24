@@ -125,7 +125,7 @@ class InjectionMiddleware extends Middleware {
 			if (isset($headers['Content-Disposition'])) {
 				if (str_contains($headers['Content-Disposition'], '"logo')) {
 					$file = $folder->getFile('logo');
-				} else if (str_contains($headers['Content-Disposition'], '"background')) {
+				} elseif (str_contains($headers['Content-Disposition'], '"background')) {
 					$file = $folder->getFile('background');
 				} else {
 					throw new NotFoundException();
