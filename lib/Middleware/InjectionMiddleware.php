@@ -10,7 +10,6 @@ use OCA\MyCompany\Backend\SystemGroupBackend;
 use OCA\Theming\Controller\ThemingController;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
-use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\TemplateResponse;
