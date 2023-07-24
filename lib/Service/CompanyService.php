@@ -26,12 +26,14 @@ declare(strict_types=1);
 
 namespace OCA\MyCompany\Service;
 
+use OCA\GroupFolders\Folder\FolderManager;
 use OCP\Files\Folder;
 use OCP\Files\IAppData;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\IDBConnection;
+use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IUserSession;
@@ -44,6 +46,8 @@ class CompanyService {
 		private IRootFolder $rootFolder,
 		private IUserSession $userSession,
 		private IAppData $appData,
+		private FolderManager $groupFolderManager,
+		private IGroupManager $groupManager,
 		private IL10N $l,
 	) {
 	}
@@ -94,16 +98,29 @@ class CompanyService {
 	}
 
 	private function getGroupFolderIdFromCompanyCode(string $companyCode, string $type = ''): int {
-		$query = $this->db->getQueryBuilder();
+		if (!$this->groupManager->groupExists($companyCode)) {
+			throw new \Exception('Company not allowed to use this system');
+		}
+
 		$mountPointName = $companyCode . ($type ? '-' . $type : '');
+
+		if ($mountPointName !== $companyCode) {
+			if (!$this->groupManager->groupExists($mountPointName)) {
+				$this->groupManager->createGroup($mountPointName);
+			}
+		}
+
+		$query = $this->db->getQueryBuilder();
 		$query->select('folder_id')
 			->from('group_folders')
 			->where($query->expr()->eq('mount_point', $query->createNamedParameter($mountPointName)));
 		$result = $query->executeQuery();
-		$id = $result->fetchOne();
-		if (!$id) {
-			throw new \Exception('Company not found');
+		$folderId = $result->fetchOne();
+
+		if (!$folderId) {
+			$folderId = $this->groupFolderManager->createFolder($mountPointName);
+			$this->groupFolderManager->addApplicableGroup($folderId, $mountPointName);
 		}
-		return (int) $id;
+		return (int) $folderId;
 	}
 }
