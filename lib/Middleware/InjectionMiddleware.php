@@ -88,7 +88,16 @@ class InjectionMiddleware extends Middleware {
 	private function getBackgroundOfDomain(Response $response): Response {
 		try {
 			$folder = $this->getRootFolder('themes')->getFolder($this->request->getServerHost());
-			$file = $folder->getFile('background.jpg');
+			$headers = $response->getHeaders();
+			if (isset($headers['Content-Disposition'])) {
+				if (str_contains($headers['Content-Disposition'], '"logo')) {
+					$file = $folder->getFile('logo');
+				} else if (str_contains($headers['Content-Disposition'], '"background')) {
+					$file = $folder->getFile('background');
+				} else {
+					throw new NotFoundException();
+				}
+			}
 		} catch (NotFoundException $e) {
 			return $response;
 		}
@@ -98,8 +107,6 @@ class InjectionMiddleware extends Middleware {
 		$csp->allowInlineStyle();
 		$response->setContentSecurityPolicy($csp);
 		$response->cacheFor(3600);
-		$response->addHeader('Content-Disposition', 'attachment; filename="background.jpg"');
-		$response->addHeader('Content-Type', 'image/jpeg');
 		return $response;
 	}
 
