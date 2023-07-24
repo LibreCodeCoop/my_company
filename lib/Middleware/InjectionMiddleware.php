@@ -115,10 +115,9 @@ class InjectionMiddleware extends Middleware {
 	}
 
 	private function getImageFromDomain(Response $response): Response {
-		return $this->getBackgroundOfDomain($response);
-	}
-
-	private function getBackgroundOfDomain(Response $response): Response {
+		if (!$response instanceof FileDisplayResponse) {
+			return $response;
+		}
 		try {
 			$folder = $this->getRootFolder('themes')->getFolder($this->request->getServerHost());
 			$headers = $response->getHeaders();
@@ -135,11 +134,13 @@ class InjectionMiddleware extends Middleware {
 			return $response;
 		}
 
-		$response = new FileDisplayResponse($file);
-		$csp = new ContentSecurityPolicy();
-		$csp->allowInlineStyle();
-		$response->setContentSecurityPolicy($csp);
-		$response->cacheFor(3600);
+		try {
+			$class = new \ReflectionClass($response);
+			$property = $class->getProperty('file');
+			$property->setAccessible(true);
+			$property->setValue($response, $file);
+		} catch(\ReflectionException $e) {
+		}
 		return $response;
 	}
 
