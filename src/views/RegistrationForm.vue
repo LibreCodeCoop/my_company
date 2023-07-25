@@ -47,6 +47,10 @@
 					{{ t('my_company', 'Sign your form') }}
 				</NcButton>
 			</div>
+			<NcNoteCard v-if="signErrorMessage"
+				type="error">
+				{{ signErrorMessage }}
+			</NcNoteCard>
 			<div v-if="registrationFormSigned" class="list-items">
 				<NcButton :wide="true"
 					@click="viewSigned()">
@@ -103,6 +107,7 @@ export default {
 			signing: false,
 			uploading: false,
 			uploadErrorMessage: '',
+			signErrorMessage: '',
 		}
 	},
 	methods: {
@@ -121,10 +126,15 @@ export default {
 		signForm() {
 			const url = generateOcsUrl('/apps/my_company/api/v1/registration/sign')
 			this.signing = true
+			this.signErrorMessage = ''
 
 			axios.post(url)
 				.then((response) => {
 					this.registrationFormSigned = response.data.uuid
+					this.signing = false
+				}).catch(error => {
+					this.signErrorMessage = error.response.data.message
+				}).finally(() => {
 					this.signing = false
 				})
 		},
