@@ -54,13 +54,17 @@ class RegistrationController extends Controller {
 			]],
 			'userManager' => $this->userSession->getUser(),
 		]);
-		$this->signFileService
-			->setLibreSignFileFromNode($registrationFile)
-			->setFileUser(current($response['users']))
-			->setSignWithoutPassword(true)
-			->setUserUniqueIdentifier($this->userSession->getUser()->getEMailAddress())
-			->setFriendlyName($this->userSession->getUser()->getDisplayName())
-			->sign();
+		try {
+			$this->signFileService
+				->setLibreSignFileFromNode($registrationFile)
+				->setFileUser(current($response['users']))
+				->setSignWithoutPassword(true)
+				->setUserUniqueIdentifier($this->userSession->getUser()->getEMailAddress())
+				->setFriendlyName($this->userSession->getUser()->getDisplayName())
+				->sign();
+		} catch (\Throwable $e) {
+			return new DataResponse(['message' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
+		}
 		return new DataResponse(['uuid' => $response['uuid']]);
 	}
 }
