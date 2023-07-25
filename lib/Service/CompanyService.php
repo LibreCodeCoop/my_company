@@ -27,6 +27,7 @@ declare(strict_types=1);
 namespace OCA\MyCompany\Service;
 
 use OCA\GroupFolders\Folder\FolderManager;
+use OCA\GroupFolders\Mount\MountProvider;
 use OCP\Files\Folder;
 use OCP\Files\IAppData;
 use OCP\Files\IRootFolder;
@@ -48,6 +49,7 @@ class CompanyService {
 		private IAppData $appData,
 		private FolderManager $groupFolderManager,
 		private IGroupManager $groupManager,
+		private MountProvider $groupFolderMountProvider,
 		private IL10N $l,
 	) {
 	}
@@ -60,11 +62,7 @@ class CompanyService {
 
 	public function getCompanyFolder(string $type = ''): Folder {
 		$folderId = $this->getGroupFolderIdFromCompanyCode($this->getCompanyCode(), $type);
-		try {
-			$folder = $this->rootFolder->get('/__groupfolders/' . $folderId);
-		} catch (NotFoundException $e) {
-			$folder = $this->rootFolder->newFolder('/__groupfolders/' . $folderId);
-		}
+		$folder = $this->groupFolderMountProvider->getFolder($folderId);
 		return $folder;
 	}
 
