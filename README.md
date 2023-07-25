@@ -16,7 +16,9 @@ Get access to important information about your company
   occ config:app:set registration show_fullname --value yes
   occ config:app:set registration enforce_fullname --value yes
   occ config:app:set registration additional_hint --value "Informe o seu CPF como nome de usuário utilizando apenas números"
+  occ config:app:set registration registered_user_group --value "waiting-approval"
   occ config:app:set core shareapi_allow_links_exclude_groups --value "[\"waiting-approval\"]"
+  occ config:app:set my_company registration_form --value "{\"token\":\"<theTokenOfASharedLink>\",\"filename\":\"<theNameOfSharedFile>\"}"
   occ config:app:set core shareapi_only_share_with_group_members --value no
 
   occ config:app:set files default_quota --value "50 MB"
@@ -33,10 +35,10 @@ Get access to important information about your company
   occ config:system:set skeletondirectory --value /data/appdata_`occ config:system:get instanceid`/my_company/skeleton
 
   # Theme
-  occ config:app:set theming name --value "LibreCode"
-  occ config:app:set theming slogan --value "Feito com ❤️"
-  occ config:app:set theming url --value "https://librecode.coop"
-  occ config:app:set theming color "#6ea68f"
+  occ config:app:set theming name --value "My Company"
+  occ config:app:set theming slogan --value "Made with ❤️"
+  occ config:app:set theming url --value "https://mycompany.coop"
+  occ config:app:set theming color --value "#0082c9"
   occ config:app:set theming logoMime --value "image/png"
   occ config:app:set theming backgroundMime --value "image/jpg"
   mkdir -p data/appdata_`occ config:system:get instanceid`/my_company/theming
@@ -44,14 +46,12 @@ Get access to important information about your company
   # Group folders
   occ app:enable --force groupfolders
   occ group:add mycompany --display-name="My Company"
-  occ groupfolders:create mycompany
-  occ groupfolders:group `occ groupfolders:list --output=json|jq '.[]|select(.mount_point=="mycompany")|.id'` mycompany
 
   # Terms of service
-  occ app:enable terms_of_service
+  occ app:enable --force terms_of_service
   ```
 ## Theming
-* Inside the folder `my_company/theming` you will need go create a folder with the domain of company
+* Inside the folder `appdata_<instanceId>/my_company/theming` you will need go create a folder with the domain of company
 * Inside the folder of company, create the file `background` and `logo` without extension.
   > Logo need to be PNG and background need to be PNG  to follow the defined at `theming` app at `logoMime` and `backgroundMime` setting
 * Refresh the cache of app data folder to update the metadata of new images:
