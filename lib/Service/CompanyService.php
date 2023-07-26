@@ -26,6 +26,7 @@ declare(strict_types=1);
 
 namespace OCA\MyCompany\Service;
 
+use InvalidArgumentException;
 use OCA\GroupFolders\Folder\FolderManager;
 use OCA\GroupFolders\Mount\MountProvider;
 use OCP\Files\Folder;
@@ -33,7 +34,9 @@ use OCP\Files\IAppData;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFolder;
+use OCP\IConfig;
 use OCP\IDBConnection;
+use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IRequest;
@@ -50,8 +53,56 @@ class CompanyService {
 		private FolderManager $groupFolderManager,
 		private IGroupManager $groupManager,
 		private MountProvider $groupFolderMountProvider,
+		private IConfig $config,
 		private IL10N $l,
 	) {
+	}
+
+	public function add(string $code, string $name = '', bool $force = true): void {
+		$code = $this->slugify($code);
+		$group = $this->groupManager->get($code);
+		if ($group instanceof IGroup) {
+			if (!$force) {
+				throw new InvalidArgumentException('Already exists a company with this code');
+			}
+		} else {
+			$group = $this->groupManager->createGroup($code);
+			if ($group === null) {
+				throw new InvalidArgumentException('Not supported by backend');
+			}
+		}
+		if (!empty($name)) {
+			$group->setDisplayName($name);
+		}
+
+		$trustedDomains = $this->config->getSystemValue('trusted_domains');
+
+		$companyHost = $code . '.' . $this->request->getServerHost();
+
+		$exists = array_filter($trustedDomains, fn ($host) => str_contains($host, $companyHost));
+		if (!$exists) {
+			$trustedDomains[] = $code . '.' . $this->request->getServerHost();
+			$this->config->setSystemValue('trusted_domains', $trustedDomains);
+		}
+	}
+
+	public function disable(string $code): void {
+		$code = $this->slugify($code);
+		if (!$this->groupManager->groupExists($code)) {
+			throw new InvalidArgumentException('Company not found with this code');
+		}
+		$trustedDomains = $this->config->getSystemValue('trusted_domains');
+		$toRemove = array_filter($trustedDomains, fn ($host) => str_contains($host, $code));
+		$trustedDomains = array_filter($trustedDomains, fn ($host) => $host !== $toRemove);
+		$group = $this->config->setSystemValue('trusted_domains', $trustedDomains);
+	}
+
+	private function slugify(string $text): string {
+		// replace everything except alphanumeric with a single '-'
+		$text = preg_replace('/[^A-Za-z0-9]+/', '-', $text);
+		$text = strtolower($text);
+		// trim '-'
+		return trim($text, '-');
 	}
 
 	public function getCompanyCode(): string {
