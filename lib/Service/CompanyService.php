@@ -101,7 +101,6 @@ class CompanyService {
 		// replace everything except alphanumeric with a single '-'
 		$text = preg_replace('/[^A-Za-z0-9]+/', '-', $text);
 		$text = strtolower($text);
-		// trim '-'
 		return trim($text, '-');
 	}
 
