@@ -24,6 +24,7 @@
 	</dependencies>
 
 	<commands>
+		<command>OCA\MyCompany\Command\Company\Add</command>
 		<command>OCA\MyCompany\Command\Developer\L10n</command>
 	</commands>
 	<settings>
