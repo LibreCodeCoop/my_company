@@ -58,8 +58,16 @@ class CompanyService {
 	) {
 	}
 
-	public function add(string $code, string $name = '', bool $force = true): void {
+	public function add(string $code, string $name = '', string $domain = '', bool $force = true): void {
 		$code = $this->slugify($code);
+		if (!empty($domain)) {
+			list($codeFromDomain) = explode('.', $domain);
+			if ($codeFromDomain !== $code) {
+				throw new InvalidArgumentException('The subdomain need to be equal to the code.');
+			}
+		} else {
+			$domain = $code . '.' . $this->request->getServerHost();
+		}
 		$group = $this->groupManager->get($code);
 		if ($group instanceof IGroup) {
 			if (!$force) {
@@ -71,17 +79,19 @@ class CompanyService {
 				throw new InvalidArgumentException('Not supported by backend');
 			}
 		}
-		if (!empty($name)) {
+		if (!empty($name) && $group->getDisplayName() !== $name) {
 			$group->setDisplayName($name);
 		}
 
 		$trustedDomains = $this->config->getSystemValue('trusted_domains');
 
-		$companyHost = $code . '.' . $this->request->getServerHost();
-
-		$exists = array_filter($trustedDomains, fn ($host) => str_contains($host, $companyHost));
+		$exists = array_filter($trustedDomains, fn ($host) => str_contains($host, $domain));
 		if (!$exists) {
-			$trustedDomains[] = $code . '.' . $this->request->getServerHost();
+			if (empty($domain)) {
+				$trustedDomains[] = $code . '.' . $this->request->getServerHost();
+			} else {
+				$trustedDomains[] = $domain;
+			}
 			$this->config->setSystemValue('trusted_domains', $trustedDomains);
 		}
 	}
