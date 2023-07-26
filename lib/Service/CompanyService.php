@@ -104,7 +104,7 @@ class CompanyService {
 		$trustedDomains = $this->config->getSystemValue('trusted_domains');
 		$toRemove = array_filter($trustedDomains, fn ($host) => str_contains($host, $code));
 		$trustedDomains = array_filter($trustedDomains, fn ($host) => $host !== $toRemove);
-		$group = $this->config->setSystemValue('trusted_domains', $trustedDomains);
+		$this->config->setSystemValue('trusted_domains', $trustedDomains);
 	}
 
 	private function slugify(string $text): string {
