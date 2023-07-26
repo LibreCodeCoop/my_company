@@ -7,7 +7,6 @@ namespace OCA\MyCompany\Command\Company;
 use InvalidArgumentException;
 use OC\Core\Command\Base;
 use OCA\MyCompany\Service\CompanyService;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -23,9 +22,10 @@ class Add extends Base {
 		$this
 			->setName('my-company:company:add')
 			->setDescription('Add new company')
-			->addArgument(
+			->addOption(
 				'code',
-				InputArgument::REQUIRED,
+				null,
+				InputOption::VALUE_REQUIRED,
 				'Code of company to add. Need to follow the slug format if you want to use spaces. The best is to have not spaces.'
 			)
 			->addOption(
@@ -33,6 +33,12 @@ class Add extends Base {
 				null,
 				InputOption::VALUE_REQUIRED,
 				'Full name of company. Here you can use spaces.'
+			)
+			->addOption(
+				'domain',
+				null,
+				InputOption::VALUE_REQUIRED,
+				'Custom domain. The default behavior is to use the code as subdomain.'
 			)
 			->addOption(
 				'force',
@@ -46,8 +52,9 @@ class Add extends Base {
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		try {
 			$this->companyService->add(
-				$input->getArgument('code'),
+				$input->getOption('code'),
 				$input->getOption('name'),
+				$input->getOption('domain') ?? '',
 				$input->getOption('force') ?? false
 			);
 			$output->writeln('<info>Company created</info>');
