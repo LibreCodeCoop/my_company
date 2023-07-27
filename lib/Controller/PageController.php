@@ -22,7 +22,7 @@ class PageController extends Controller {
 	public function __construct(
 		IRequest $request,
 		private IInitialState $initialState,
-		private IURLGenerator $url,
+		private IURLGenerator $urlGenerator,
 		private RegistrationService $registrationService,
 		private IGroupManager $groupManager,
 		private IUserSession $userSession,
@@ -54,8 +54,9 @@ class PageController extends Controller {
 
 		$registrationFormSettings = $this->config->getAppValue(Application::APP_ID, 'registration_form');
 		$registrationFormSettings = json_decode($registrationFormSettings, true);
+		$url = $this->urlGenerator->linkToRouteAbsolute('my_company.Registration.downloadForm');
 		$this->initialState->provideInitialState('registration-form-file-empty', [
-			'url' => $this->url->linkToRoute('my_company.Registration.downloadForm'),
+			'url' => $this->urlGenerator->linkToRoute('my_company.Registration.downloadForm'),
 			'name' => $registrationFormSettings['filename'],
 		]);
 
