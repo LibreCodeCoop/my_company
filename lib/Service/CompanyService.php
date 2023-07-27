@@ -130,11 +130,20 @@ class CompanyService {
 
 	public function getUserAdminFolder(): Folder {
 		$companyFolder = $this->getCompanyFolder('admin');
+		// TRANSLATORS Folder name that contains all documents of employee.
+		$registerFilesFolderName = $this->l->t('employees');
+		try {
+			/** @var Folder */
+			$employeesFolder = $companyFolder->get($registerFilesFolderName);
+		} catch (NotFoundException $e) {
+			/** @var Folder */
+			$employeesFolder = $companyFolder->newFolder($registerFilesFolderName);
+		}
 		$username = $this->userSession->getUser()->getUID();
 		try {
-			return $companyFolder->get($username);
+			return $employeesFolder->get($username);
 		} catch (NotFoundException $e) {
-			return $companyFolder->newFolder($username);
+			return $employeesFolder->newFolder($username);
 		}
 	}
 
