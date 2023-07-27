@@ -53,6 +53,7 @@ Get access to important information about your company
   occ app:enable --force terms_of_service
 
   # LibreSign
+  git clone --depth 1 --branch feature/add-sign-method https://github.com/LibreSign/libresign/ apps/libresign
   occ app:enable --force libresign
   ```
 ## Theming
