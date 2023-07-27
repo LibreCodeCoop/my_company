@@ -8,7 +8,7 @@
 		<div class="flex">
 			<div v-if="!approved || !registrationFormSigned" class="list-items">
 				<NcButton :wide="true"
-					@click="downloadFile(registrationFormFileEmpty)">
+					@click="downloadFile()">
 					<template #icon>
 						<Download />
 					</template>
@@ -111,11 +111,11 @@ export default {
 		}
 	},
 	methods: {
-		downloadFile(registrationFormFileEmpty) {
+		downloadFile() {
 			try {
 				const link = document.createElement('a')
-				link.setAttribute('download', registrationFormFileEmpty.name)
-				link.setAttribute('href', registrationFormFileEmpty.url)
+				link.setAttribute('download', this.registrationFormFileEmpty.name)
+				link.setAttribute('href', this.registrationFormFileEmpty.url)
 				document.body.appendChild(link)
 				link.click()
 				document.body.removeChild(link)
