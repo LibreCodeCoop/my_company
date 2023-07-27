@@ -18,7 +18,6 @@
 	<discussion>https://t.me/librecodecoop</discussion>
 	<bugs>https://github.com/librecodecoop/my_company/issues</bugs>
 	<repository type="git">https://github.com/librecodecoop/my_company</repository>
-	<screenshot>https://raw.githubusercontent.com/librecodecoop/my_company/main/img/LibreSign.png</screenshot>
 	<dependencies>
 		<nextcloud min-version="28" max-version="28"/>
 	</dependencies>
