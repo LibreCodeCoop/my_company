@@ -24,12 +24,12 @@
 	</dependencies>
 
 	<repair-steps>
-		<install>
-			<step>OCA\MyCompany\Migration\InstallDefaultTheme</step>
-		</install>
 		<post-migration>
 			<step>OCA\MyCompany\Migration\InstallDefaultTheme</step>
 		</post-migration>
+		<install>
+			<step>OCA\MyCompany\Migration\InstallDefaultTheme</step>
+		</install>
 	</repair-steps>
 	<commands>
 		<command>OCA\MyCompany\Command\Company\Add</command>
