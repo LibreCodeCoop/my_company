@@ -11,11 +11,12 @@ use OCA\MyCompany\Service\CompanyService;
 use OCA\Theming\Controller\ThemingController;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\FileDisplayResponse;
+use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Middleware;
-use OCP\Files\NotFoundException;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IRequest;
@@ -113,35 +114,43 @@ class InjectionMiddleware extends Middleware {
 	}
 
 	private function getImageFromDomain(Response $response): Response {
-		if (!$response instanceof FileDisplayResponse) {
+		if (!$response instanceof NotFoundResponse && !$response instanceof FileDisplayResponse) {
 			return $response;
 		}
-		try {
-			$themeFolder = $this->companyService
-				->getThemeFolder()
-				->getFolder($this->request->getServerHost());
 
-			$headers = $response->getHeaders();
-			if (isset($headers['Content-Disposition'])) {
-				if (str_contains($headers['Content-Disposition'], '"logo')) {
-					$file = $themeFolder->getFile('logo');
-				} elseif (str_contains($headers['Content-Disposition'], '"background')) {
-					$file = $themeFolder->getFile('background');
-				} else {
-					throw new NotFoundException();
-				}
+		$type = $this->request->getParam('key');
+		if (!in_array($type, ['logo', 'background'])) {
+			return $response;
+		}
+
+		if ($type === 'logo') {
+			$file = $this->companyService->getThemeFile('core/img/logo.png');
+			$mime = 'image/png';
+		} elseif ($type === 'background') {
+			$file = $this->companyService->getThemeFile('core/img/background.jpg');
+			$mime = 'image/jpg';
+		} else {
+			throw new NotFoundResponse();
+		}
+
+		if ($response instanceof NotFoundResponse) {
+			$response = new FileDisplayResponse($file);
+			$csp = new ContentSecurityPolicy();
+			$csp->allowInlineStyle();
+			$response->cacheFor(3600);
+			$response->addHeader('Content-Type', $mime);
+			$response->addHeader('Content-Disposition', 'attachment; filename="' . $type . '"');
+			$response->setContentSecurityPolicy($csp);
+		} else {
+			try {
+				$class = new \ReflectionClass($response);
+				$property = $class->getProperty('file');
+				$property->setAccessible(true);
+				$property->setValue($response, $file);
+			} catch(\ReflectionException $e) {
 			}
-		} catch (NotFoundException $e) {
-			return $response;
 		}
 
-		try {
-			$class = new \ReflectionClass($response);
-			$property = $class->getProperty('file');
-			$property->setAccessible(true);
-			$property->setValue($response, $file);
-		} catch(\ReflectionException $e) {
-		}
 		return $response;
 	}
 }
