@@ -22,10 +22,15 @@
   </file>
   <file src="lib/Service/CompanyService.php">
     <MissingDependency>
-      <code><![CDATA[$this->rootFolder]]></code>
-      <code><![CDATA[$this->rootFolder]]></code>
       <code>private</code>
     </MissingDependency>
+    <UndefinedClass>
+      <code><![CDATA[$this->groupFolderManager]]></code>
+      <code><![CDATA[$this->groupFolderManager]]></code>
+      <code><![CDATA[$this->groupFolderMountProvider]]></code>
+      <code>private</code>
+      <code>private</code>
+    </UndefinedClass>
   </file>
   <file src="lib/Service/RegistrationService.php">
     <MissingDependency>

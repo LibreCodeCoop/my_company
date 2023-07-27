@@ -10,6 +10,9 @@ Get access to important information about your company
 * Configuration
 * go to root folder of your nextcloud instance and run the follow commands:
   ```bash
+  occ app:enable my_company
+  occ my_company:company:add --code local --name "My company" --domain local.localhost
+
   # registration
   occ app:enable --force registration
   occ config:app:set registration username_policy_regex --value "/^\d{11}$/"
@@ -39,8 +42,7 @@ Get access to important information about your company
   occ config:app:set theming slogan --value "Made with ❤️"
   occ config:app:set theming url --value "https://mycompany.coop"
   occ config:app:set theming color --value "#0082c9"
-  occ config:app:set theming logoMime --value "image/png"
-  occ config:app:set theming backgroundMime --value "image/jpg"
+  occ config:system:set theme --value ../data/appdata_`occ config:system:get instanceid`/my_company/themes/default
   mkdir -p data/appdata_`occ config:system:get instanceid`/my_company/theming
 
   # Group folders
@@ -49,6 +51,10 @@ Get access to important information about your company
 
   # Terms of service
   occ app:enable --force terms_of_service
+
+  # LibreSign
+  git clone --depth 1 --branch feature/add-sign-method https://github.com/LibreSign/libresign/ apps/libresign
+  occ app:enable --force libresign
   ```
 ## Theming
 * Inside the folder `appdata_<instanceId>/my_company/theming` you will need go create a folder with the domain of company
