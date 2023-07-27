@@ -36,6 +36,7 @@ Get access to important information about your company
   occ config:system:set defaultapp --value my_company
   occ config:system:set auth.bruteforce.protection.enabled --value false --type boolean
   occ config:app:set password_policy minLength --value 5
+  occ config:system:set force_language --value en
 
   # Skeleton directory
   mkdir -p data/appdata_`occ config:system:get instanceid`/my_company/skeleton
