@@ -29,6 +29,7 @@ namespace OCA\MyCompany\Service;
 use InvalidArgumentException;
 use OCA\GroupFolders\Folder\FolderManager;
 use OCA\GroupFolders\Mount\MountProvider;
+use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IAppData;
 use OCP\Files\IRootFolder;
@@ -137,10 +138,23 @@ class CompanyService {
 		}
 	}
 
+	public function getTemplateFile(): File {
+		$companyFolder = $this->getCompanyFolder('admin');
+		// TRANSLATORS Folder name that contains all documents of employee.
+		$registerFilesFolderName = $this->l->t('employees');
+		/** @var Folder */
+		$employeesFolder = $companyFolder->get($registerFilesFolderName);
+		// TRANSLATORS Folder with template files of a new employee
+		$templateFolder = $this->l->t('model employee');
+		$filename = $this->l->t('registration-form.docx');
+		$file = $employeesFolder->get($templateFolder)->get($filename);
+		return $file;
+	}
+
 	public function getUserAdminRegistrationFolder(): Folder {
 		$userFolder = $this->getUserAdminFolder();
-		// TRANSLATORS Folder name that contains all documents of employee. Inside this folder, by example, will be saved the registratin form signed.
-		$registerFilesFolderName = $this->l->t('register-files');
+		// TRANSLATORS Folder name that contains the registration files of an employee
+		$registerFilesFolderName = $this->l->t('register-file');
 		try {
 			return $userFolder->get($registerFilesFolderName);
 		} catch (NotFoundException $e) {

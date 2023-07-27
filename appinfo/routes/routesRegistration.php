@@ -26,6 +26,7 @@ $requirements = [
 
 return [
 	'ocs' => [
+		['name' => 'Registration#downloadForm', 'url' => '/api/{apiVersion}/registration/download-form', 'verb' => 'GET', 'requirements' => $requirements],
 		['name' => 'Registration#uploadPdf', 'url' => '/api/{apiVersion}/registration/upload-pdf', 'verb' => 'POST', 'requirements' => $requirements],
 		['name' => 'Registration#sign', 'url' => '/api/{apiVersion}/registration/sign', 'verb' => 'POST', 'requirements' => $requirements],
 	],

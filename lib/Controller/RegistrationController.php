@@ -7,12 +7,14 @@ namespace OCA\MyCompany\Controller;
 use InvalidArgumentException;
 use OCA\Libresign\Service\RequestSignatureService;
 use OCA\Libresign\Service\SignFileService;
+use OCA\MyCompany\Service\CompanyService;
 use OCA\MyCompany\Service\RegistrationService;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\Http\DownloadResponse;
 use OCP\IRequest;
 use OCP\IUserSession;
 
@@ -21,6 +23,7 @@ class RegistrationController extends Controller {
 		string $appName,
 		IRequest $request,
 		private RegistrationService $registrationService,
+		private CompanyService $companyService,
 		private SignFileService $signFileService,
 		private RequestSignatureService $requestSignatureService,
 		private IUserSession $userSession,
@@ -38,6 +41,15 @@ class RegistrationController extends Controller {
 			return new DataResponse(['message' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
 		return new DataResponse();
+	}
+
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
+	public function downloadForm(): DownloadResponse {
+		return new DownloadResponse(
+			$this->companyService->getTemplateFile()->getContent(),
+			'form.docx'
+		);
 	}
 
 	#[NoAdminRequired]
