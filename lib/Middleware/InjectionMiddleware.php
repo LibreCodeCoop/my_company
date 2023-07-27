@@ -124,8 +124,8 @@ class InjectionMiddleware extends Middleware {
 		}
 
 		if ($type === 'logo') {
-			$file = $this->companyService->getThemeFile('core/img/logo.png');
-			$mime = 'image/png';
+			$file = $this->companyService->getThemeFile('core/img/logo.svg');
+			$mime = 'image/svg+xml';
 		} elseif ($type === 'background') {
 			$file = $this->companyService->getThemeFile('core/img/background.jpg');
 			$mime = 'image/jpg';
