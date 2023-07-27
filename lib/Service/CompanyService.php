@@ -33,6 +33,7 @@ use OCP\Files\Folder;
 use OCP\Files\IAppData;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
+use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -147,12 +148,29 @@ class CompanyService {
 		}
 	}
 
-	public function getThemeFolder(): ISimpleFolder {
+	public function getThemeFile($name): ISimpleFile {
+		$folder = $this->getThemeFolder($this->getCompanyCode());
 		try {
-			return $this->appData->getFolder('themes');
+			$file = $folder->getFile($name);
 		} catch (NotFoundException $e) {
-			return $this->appData->newFolder('themes');
+			$folder = $this->getThemeFolder('default');
+			$file = $folder->getFile($name);
 		}
+		return $file;
+	}
+
+	private function getThemeFolder(string $folderName): ISimpleFolder {
+		try {
+			$rootThemeFolder = $this->appData->getFolder('themes');
+		} catch (NotFoundException $e) {
+			$rootThemeFolder = $this->appData->newFolder('themes');
+		}
+		try {
+			$folder = $rootThemeFolder->getFolder($folderName);
+		} catch (NotFoundException $e) {
+			$folder = $rootThemeFolder->newFolder($folderName);
+		}
+		return $folder;
 	}
 
 	private function getGroupFolderIdFromCompanyCode(string $companyCode, string $type = ''): int {
