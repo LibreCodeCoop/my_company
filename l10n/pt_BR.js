@@ -1,6 +1,7 @@
 OC.L10N.register(
     "my_company",
     {
+    "employees" : "funcionários",
     "register-files" : "fichas-matricula",
     "registration-form.pdf" : "ficha-matricula.pdf",
     "Invalid file. Impossible to save." : "Arquivo inválido. Impossível salvar.",
@@ -19,6 +20,7 @@ OC.L10N.register(
     "Upload as PDF file" : "Envie como PDF",
     "Sign your form" : "Assine seu formulário",
     "View your signed form" : "Veja seu formulário assinado",
-    "Document already signed. Wait to be approved. If you want to replace the signed document, send a new PDF file." : "Documento já foi assinado. Aguarde para ser aprovado. Se você deseja substituir o documento assinado, envie um novo arquivo PDF."
+    "Access wrong page" : "Acesso a página inválida",
+    "Humm... I think that you tried to access a wrong page. Check if the URL is OK and try again." : "Humm... Eu acho que você tentou acessar uma página errada. Verifique se a URLestá correta e tente novamente."
 },
 "");

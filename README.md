@@ -42,6 +42,8 @@ Get access to important information about your company
   occ config:app:set theming slogan --value "Made with ❤️"
   occ config:app:set theming url --value "https://mycompany.coop"
   occ config:app:set theming color --value "#0082c9"
+  occ config:app:set theming logoMime --value "image/png"
+  occ config:app:set theming backgroundMime --value "image/jpg"
   occ config:system:set theme --value ../data/appdata_`occ config:system:get instanceid`/my_company/themes/default
   mkdir -p data/appdata_`occ config:system:get instanceid`/my_company/theming
 
