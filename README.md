@@ -17,6 +17,8 @@ Get access to important information about your company
   occ app:enable --force registration
   occ config:app:set registration username_policy_regex --value "/^\d{11}$/"
   occ config:app:set registration show_fullname --value yes
+  occ config:app:set registration email_is_optional --value yes
+  occ config:app:set registration disable_email_verification --value yes
   occ config:app:set registration enforce_fullname --value yes
   occ config:app:set registration additional_hint --value "Informe o seu CPF como nome de usuário utilizando apenas números"
   occ config:app:set registration registered_user_group --value "waiting-approval"
@@ -32,6 +34,8 @@ Get access to important information about your company
   # Disable "Log in with a device" at login screen
   occ config:system:set auth.webauthn.enabled --value false --type boolean
   occ config:system:set defaultapp --value my_company
+  occ config:system:set auth.bruteforce.protection.enabled --value false --type boolean
+  occ config:app:set password_policy minLength --value 5
 
   # Skeleton directory
   mkdir -p data/appdata_`occ config:system:get instanceid`/my_company/skeleton
