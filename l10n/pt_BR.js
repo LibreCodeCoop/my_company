@@ -1,8 +1,10 @@
 OC.L10N.register(
     "my_company",
     {
-    "employees" : "funcionários",
-    "register-files" : "fichas-matricula",
+    "people" : "pessoas",
+    "template" : "template",
+    "registration-form.docx" : "ficha-de-cadastro.docx",
+    "register-file" : "ficha-de-cadastro",
     "registration-form.pdf" : "ficha-matricula.pdf",
     "Invalid file. Impossible to save." : "Arquivo inválido. Impossível salvar.",
     "File is too big. Max size: %s." : "Arquivo muito grande. Tamanho máximo: %s.",

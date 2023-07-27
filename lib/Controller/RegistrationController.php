@@ -14,7 +14,7 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\DataResponse;
-use OCP\AppFramework\Http\DownloadResponse;
+use OCP\AppFramework\Http\DataDownloadResponse;
 use OCP\IRequest;
 use OCP\IUserSession;
 
@@ -45,10 +45,11 @@ class RegistrationController extends Controller {
 
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
-	public function downloadForm(): DownloadResponse {
-		return new DownloadResponse(
+	public function downloadForm(): DataDownloadResponse {
+		return new DataDownloadResponse(
 			$this->companyService->getTemplateFile()->getContent(),
-			'form.docx'
+			'formulario.docx',
+			'application/msword'
 		);
 	}
 

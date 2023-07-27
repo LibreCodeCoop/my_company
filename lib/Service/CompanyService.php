@@ -131,7 +131,7 @@ class CompanyService {
 	public function getUserAdminFolder(): Folder {
 		$companyFolder = $this->getCompanyFolder('admin');
 		// TRANSLATORS Folder name that contains all documents of employee.
-		$registerFilesFolderName = $this->l->t('employees');
+		$registerFilesFolderName = $this->l->t('people');
 		try {
 			/** @var Folder */
 			$employeesFolder = $companyFolder->get($registerFilesFolderName);
@@ -150,11 +150,11 @@ class CompanyService {
 	public function getTemplateFile(): File {
 		$companyFolder = $this->getCompanyFolder('admin');
 		// TRANSLATORS Folder name that contains all documents of employee.
-		$registerFilesFolderName = $this->l->t('employees');
+		$registerFilesFolderName = $this->l->t('people');
 		/** @var Folder */
 		$employeesFolder = $companyFolder->get($registerFilesFolderName);
 		// TRANSLATORS Folder with template files of a new employee
-		$templateFolder = $this->l->t('model employee');
+		$templateFolder = $this->l->t('template');
 		$filename = $this->l->t('registration-form.docx');
 		$file = $employeesFolder->get($templateFolder)->get($filename);
 		return $file;

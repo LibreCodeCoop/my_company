@@ -56,7 +56,7 @@ class PageController extends Controller {
 		$registrationFormSettings = json_decode($registrationFormSettings, true);
 		$url = $this->urlGenerator->linkToRouteAbsolute('my_company.Registration.downloadForm');
 		$this->initialState->provideInitialState('registration-form-file-empty', [
-			'url' => $this->urlGenerator->linkToRoute('my_company.Registration.downloadForm'),
+			'url' => $url,
 			'name' => $registrationFormSettings['filename'],
 		]);
 
