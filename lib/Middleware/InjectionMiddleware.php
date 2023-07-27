@@ -130,7 +130,7 @@ class InjectionMiddleware extends Middleware {
 			$file = $this->companyService->getThemeFile('core/img/background.jpg');
 			$mime = 'image/jpg';
 		} else {
-			throw new NotFoundResponse();
+			return new NotFoundResponse();
 		}
 
 		if ($response instanceof NotFoundResponse) {
