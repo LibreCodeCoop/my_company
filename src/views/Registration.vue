@@ -6,7 +6,7 @@
 			</template>
 		</NcEmptyContent>
 		<div class="flex">
-			<div v-if="!approved || !registrationFormSigned" class="list-items">
+			<div v-if="!approved || !registrationSigned" class="list-items">
 				<NcButton :wide="true"
 					@click="downloadFile()">
 					<template #icon>
@@ -15,17 +15,17 @@
 					{{ t('my_company', 'Download the blank form') }}
 				</NcButton>
 			</div>
-			<div v-if="!approved || !registrationFormSigned" class="list-items">
+			<div v-if="!approved || !registrationSigned" class="list-items">
 				<NcButton :wide="true"
 					@click="uploadPdfFile()">
 					<template #icon>
 						<NcLoadingIcon v-if="uploading" />
 						<Upload v-else />
 					</template>
-					<template v-if="registrationFormFileExists && !registrationFormSigned" #default>
+					<template v-if="registrationFileExists && !registrationSigned" #default>
 						{{ t('my_company', 'Replace the uploaded form') }}
 					</template>
-					<template v-else-if="registrationFormFileExists && registrationFormSigned" #default>
+					<template v-else-if="registrationFileExists && registrationSigned" #default>
 						{{ t('my_company', 'Replace the signed form') }}
 					</template>
 					<template v-else #default>
@@ -37,7 +37,7 @@
 				type="error">
 				{{ uploadErrorMessage }}
 			</NcNoteCard>
-			<div v-if="registrationFormFileExists && !registrationFormSigned" class="list-items">
+			<div v-if="registrationFileExists && !registrationSigned" class="list-items">
 				<NcButton :wide="true"
 					@click="signForm()">
 					<template #icon>
@@ -51,7 +51,7 @@
 				type="error">
 				{{ signErrorMessage }}
 			</NcNoteCard>
-			<div v-if="registrationFormSigned" class="list-items">
+			<div v-if="registrationSigned" class="list-items">
 				<NcButton :wide="true"
 					@click="viewSigned()">
 					<template #icon>
@@ -60,7 +60,7 @@
 					{{ t('my_company', 'View your signed form') }}
 				</NcButton>
 			</div>
-			<NcNoteCard v-if="registrationFormSigned && !approved"
+			<NcNoteCard v-if="registrationSigned && !approved"
 				type="warning">
 				{{ t('my_company', 'Document already signed. Wait to be approved. If you want to replace the signed document, send a new PDF file.') }}
 			</NcNoteCard>
@@ -86,7 +86,7 @@ import PlaylistPlus from 'vue-material-design-icons/PlaylistPlus.vue'
 import Upload from 'vue-material-design-icons/Upload.vue'
 
 export default {
-	name: 'RegistrationForm',
+	name: 'Registration',
 	components: {
 		NcButton,
 		NcEmptyContent,
@@ -100,9 +100,9 @@ export default {
 	},
 	data() {
 		return {
-			registrationFormSigned: loadState('my_company', 'registration-form-signed', ''),
-			registrationFormFileEmpty: loadState('my_company', 'registration-form-file-empty', false),
-			registrationFormFileExists: loadState('my_company', 'registration-form-file-exists', false),
+			registrationSigned: loadState('my_company', 'registration-form-signed', ''),
+			registrationFileEmpty: loadState('my_company', 'registration-form-file-empty', false),
+			registrationFileExists: loadState('my_company', 'registration-form-file-exists', false),
 			approved: loadState('my_company', 'approved', false),
 			signing: false,
 			uploading: false,
@@ -114,8 +114,8 @@ export default {
 		downloadFile() {
 			try {
 				const link = document.createElement('a')
-				link.setAttribute('download', this.registrationFormFileEmpty.name)
-				link.setAttribute('href', this.registrationFormFileEmpty.url)
+				link.setAttribute('download', this.registrationFileEmpty.name)
+				link.setAttribute('href', this.registrationFileEmpty.url)
 				document.body.appendChild(link)
 				link.click()
 				document.body.removeChild(link)
@@ -130,7 +130,7 @@ export default {
 
 			axios.post(url)
 				.then((response) => {
-					this.registrationFormSigned = response.data.uuid
+					this.registrationSigned = response.data.uuid
 					this.signing = false
 				}).catch(error => {
 					this.signErrorMessage = error.response.data.message
@@ -141,13 +141,13 @@ export default {
 		viewSigned() {
 			window.location.href = generateUrl(
 				'/apps/libresign/p/validation/'
-				+ this.registrationFormSigned
+				+ this.registrationSigned
 				+ '?path=' + btoa('/apps/my_company'),
 			)
 		},
 		async upload(file) {
 			this.uploading = true
-			this.registrationFormFileExists = false
+			this.registrationFileExists = false
 			this.uploadErrorMessage = ''
 			const formData = new FormData()
 			formData.append('file', file)
@@ -157,8 +157,8 @@ export default {
 					'Content-Type': 'multipart/form-data',
 				},
 			}).then(() => {
-				this.registrationFormSigned = ''
-				this.registrationFormFileExists = true
+				this.registrationSigned = ''
+				this.registrationFileExists = true
 			}).catch(error => {
 				this.uploadErrorMessage = error.response.data.message
 			}).finally(() => {
