@@ -50,6 +50,7 @@ Get access to important information about your company
   occ config:app:set theming logoMime --value "image/png"
   occ config:app:set theming backgroundMime --value "image/jpg"
   occ config:system:set theme --value ../data/appdata_`occ config:system:get instanceid`/my_company/themes/default
+  occ config:system:set theme --value ../apps-extra/my_company/themes/default
   mkdir -p data/appdata_`occ config:system:get instanceid`/my_company/theming
 
   # Group folders
