@@ -20,7 +20,7 @@ Get access to important information about your company
   occ config:app:set registration email_is_optional --value yes
   occ config:app:set registration disable_email_verification --value yes
   occ config:app:set registration enforce_fullname --value yes
-  occ config:app:set registration additional_hint --value "Informe o seu CPF como nome de usuário utilizando apenas números"
+  occ config:app:set registration additional_hint --value "Informe o seu CPF utilizando apenas números"
   occ config:app:set registration registered_user_group --value "waiting-approval"
   occ config:app:set core shareapi_allow_links_exclude_groups --value "[\"waiting-approval\"]"
   occ config:app:set my_company registration_form --value "{\"token\":\"<theTokenOfASharedLink>\",\"filename\":\"<theNameOfSharedFile>\"}"
