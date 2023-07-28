@@ -53,6 +53,12 @@ Get access to important information about your company
   occ config:system:set theme --value ../apps-extra/my_company/themes/default
   mkdir -p data/appdata_`occ config:system:get instanceid`/my_company/theming
 
+  # Forms
+  git clone --depth 1 --branch feat/embedded https://github.com/vitormattos/forms/ apps/forms
+  docker run -it -v ${PWD}apps/forms:/app -w /app node npm ci
+  docker run -it -v ${PWD}apps/forms:/app -w /app node npm run build
+  occ app:enable --force forms
+
   # Group folders
   occ app:enable --force groupfolders
   occ group:add mycompany --display-name="My Company"
