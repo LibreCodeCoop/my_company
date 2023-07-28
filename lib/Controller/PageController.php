@@ -9,6 +9,7 @@ use OCA\MyCompany\Service\RegistrationService;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\IConfig;
@@ -63,6 +64,11 @@ class PageController extends Controller {
 		Util::addScript(Application::APP_ID, 'my_company-main');
 
 		$response = new TemplateResponse(Application::APP_ID, 'main');
+
+		$policy = new ContentSecurityPolicy();
+		$policy->addAllowedWorkerSrcDomain('*');
+		$policy->addAllowedFrameDomain('*');
+		$response->setContentSecurityPolicy($policy);
 
 		return $response;
 	}

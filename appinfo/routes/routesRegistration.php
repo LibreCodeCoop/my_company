@@ -27,6 +27,7 @@ $requirements = [
 return [
 	'routes' => [
 		['name' => 'Registration#downloadForm', 'url' => '/registration/download-form', 'verb' => 'GET'],
+		['name' => 'Registration#embeddedFormView', 'url' => '/registration/embedded-form-view', 'verb' => 'GET'],
 	],
 	'ocs' => [
 		['name' => 'Registration#uploadPdf', 'url' => '/api/{apiVersion}/registration/upload-pdf', 'verb' => 'POST', 'requirements' => $requirements],
