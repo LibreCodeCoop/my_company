@@ -2,6 +2,8 @@
 
 namespace OCA\MyCompany\Controller;
 
+use OCA\Forms\Db\SubmissionMapper;
+use OCA\Forms\Service\FormsService;
 use OCA\Libresign\Exception\LibresignException;
 use OCA\Libresign\Service\SignFileService;
 use OCA\MyCompany\AppInfo\Application;
@@ -12,6 +14,7 @@ use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
+use OCP\Files\NotFoundException;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IRequest;
@@ -28,6 +31,8 @@ class PageController extends Controller {
 		private IGroupManager $groupManager,
 		private IUserSession $userSession,
 		private SignFileService $signFileService,
+		private FormsService $formsService,
+		private SubmissionMapper $submissionMapper,
 		private IConfig $config,
 	) {
 		parent::__construct(Application::APP_ID, $request);
@@ -37,29 +42,27 @@ class PageController extends Controller {
 	#[NoCSRFRequired]
 	public function index(string $path): TemplateResponse {
 		try {
-			$file = $this->registrationService->getRegistrationFile();
-			try {
-				$libreSignFile = $this->signFileService->getLibresignFile($file->getId());
-				$signed = $libreSignFile->getUuid();
-				$this->initialState->provideInitialState('registration-form-signed', $signed);
-			} catch (LibresignException $th) {
-			}
-			$this->initialState->provideInitialState('registration-form-file-exists', true);
+			$form = $this->formsService->getForm(1);
+			$participants = $this->submissionMapper->findParticipantsByForm($form['id']);
+			$filled = in_array($this->userSession->getUser()->getUID(), $participants);
+			$this->initialState->provideInitialState('registration-form-filled', $filled);
 		} catch (\Throwable $th) {
-			$this->initialState->provideInitialState('registration-form-file-exists', false);
-			$this->initialState->provideInitialState('registration-form-signed', '');
+			$filled = false;
+			$this->initialState->provideInitialState('registration-form-filled', $filled);
+		}
+
+		if ($filled) {
+			try {
+				$file = $this->registrationService->getRegistrationFile();
+				$libreSignFile = $this->signFileService->getLibresignFile($file->getId());
+				$signUuid = $libreSignFile->getUuid();
+				$this->initialState->provideInitialState('registration-form-sign-uuid', $signUuid);
+			} catch (LibresignException | NotFoundException $th) {
+			}
 		}
 
 		$userGroups = $this->groupManager->getUserGroupIds($this->userSession->getUser());
-		$this->initialState->provideInitialState('approved', !in_array('waiting-approval', $userGroups));
-
-		$registrationFormSettings = $this->config->getAppValue(Application::APP_ID, 'registration_form');
-		$registrationFormSettings = json_decode($registrationFormSettings, true);
-		$url = $this->urlGenerator->linkToRouteAbsolute('my_company.Registration.downloadForm');
-		$this->initialState->provideInitialState('registration-form-file-empty', [
-			'url' => $url,
-			'name' => $registrationFormSettings['filename'],
-		]);
+		$this->initialState->provideInitialState('registration-approved', !in_array('waiting-approval', $userGroups));
 
 		Util::addScript(Application::APP_ID, 'my_company-main');
 
