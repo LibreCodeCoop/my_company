@@ -28,6 +28,8 @@ namespace OCA\MyCompany\Service;
 
 use InvalidArgumentException;
 use OC\Files\Filesystem;
+use OCA\MyCompany\Db\FormSubmissionMapper;
+use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\Files\File;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\IRootFolder;
@@ -43,6 +45,7 @@ class RegistrationService {
 		private IUserSession $userSession,
 		private IMimeTypeDetector $mimeTypeDetector,
 		private CompanyService $companyService,
+		private FormSubmissionMapper $formSubmissionMapper,
 	) {
 		// TRANSLATORS Name of file that will store the registration form as PDF format.
 		$this->registrationFormFileName = $l->t('registration-form.pdf');
@@ -82,4 +85,15 @@ class RegistrationService {
 		$regiterFolder = $this->companyService->getUserAdminRegistrationFolder();
 		return $regiterFolder->get($this->registrationFormFileName);
 	}
+
+	public function signForm(): void {
+		try {
+			$submission = $this->formSubmissionMapper->getAnswersOfNewerstSubmission(1, $this->userSession->getUser()->getUID());
+		} catch (DoesNotExistException $th) {
+			return;
+		}
+		// $class = new FPDM('bla');
+	}
+
+	// private function get
 }

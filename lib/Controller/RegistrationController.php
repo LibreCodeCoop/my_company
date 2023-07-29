@@ -19,6 +19,7 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\DataDownloadResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\IGroupManager;
 use OCP\IInitialStateService;
 use OCP\IRequest;
 use OCP\IUserSession;
@@ -34,6 +35,7 @@ class RegistrationController extends Controller {
 		private RequestSignatureService $requestSignatureService,
 		private IUserSession $userSession,
 		private FormsService $formsService,
+		private IGroupManager $groupManager,
 		private IInitialStateService $initialStateService,
 	) {
 		parent::__construct($appName, $request);
@@ -111,6 +113,10 @@ class RegistrationController extends Controller {
 	 * @return Response
 	 */
 	public function embeddedFormView(): Response {
+		$userGroups = $this->groupManager->getUserGroupIds($this->userSession->getUser());
+		if (!in_array('waiting-approval', $userGroups)) {
+			throw new \Exception('STOP!');
+		}
 		$form = $this->formsService->getPublicForm(1);
 		if (!$form['canSubmit']) {
 			$form['description'] = '';
