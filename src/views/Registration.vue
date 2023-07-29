@@ -6,63 +6,32 @@
 			</template>
 		</NcEmptyContent>
 		<div class="flex">
-			<div v-if="!approved || !registrationSigned" class="list-items">
-				<NcButton :wide="true"
-					@click="downloadFile()">
+			<div class="list-items">
+				<NcButton v-if="!approved"
+					:wide="true"
+					@click="fillForm()">
 					<template #icon>
-						<Download />
+						<FileDocument />
 					</template>
-					{{ t('my_company', 'Download the blank form') }}
-				</NcButton>
-			</div>
-			<div v-if="!approved || !registrationSigned" class="list-items">
-				<NcButton :wide="true"
-					@click="uploadPdfFile()">
-					<template #icon>
-						<NcLoadingIcon v-if="uploading" />
-						<Upload v-else />
-					</template>
-					<template v-if="registrationFileExists && !registrationSigned" #default>
-						{{ t('my_company', 'Replace the uploaded form') }}
-					</template>
-					<template v-else-if="registrationFileExists && registrationSigned" #default>
-						{{ t('my_company', 'Replace the signed form') }}
+					<template v-if="!formFilled" #default>
+						{{ t('my_company', 'Fill your registration form') }}
 					</template>
 					<template v-else #default>
-						{{ t('my_company', 'Upload as PDF file') }}
+						{{ t('my_company', 'Fill registration form with new data') }}
 					</template>
 				</NcButton>
-			</div>
-			<NcNoteCard v-if="uploadErrorMessage"
-				type="error">
-				{{ uploadErrorMessage }}
-			</NcNoteCard>
-			<div v-if="registrationFileExists && !registrationSigned" class="list-items">
-				<NcButton :wide="true"
-					@click="signForm()">
-					<template #icon>
-						<NcLoadingIcon v-if="signing" />
-						<FileSign v-else />
-					</template>
-					{{ t('my_company', 'Sign your form') }}
-				</NcButton>
-			</div>
-			<NcNoteCard v-if="signErrorMessage"
-				type="error">
-				{{ signErrorMessage }}
-			</NcNoteCard>
-			<div v-if="registrationSigned" class="list-items">
-				<NcButton :wide="true"
+				<NcButton v-else-if="approved"
+					:wide="true"
 					@click="viewSigned()">
 					<template #icon>
-						<Certificate />
+						<FileDocumentCheck />
 					</template>
-					{{ t('my_company', 'View your signed form') }}
+					{{ t('my_company', 'View your registration data') }}
 				</NcButton>
 			</div>
-			<NcNoteCard v-if="registrationSigned && !approved"
+			<NcNoteCard v-if="formFilled && !approved"
 				type="warning">
-				{{ t('my_company', 'Document already signed. Wait to be approved. If you want to replace the signed document, send a new PDF file.') }}
+				{{ t('my_company', 'Data saved. Wait to be approved. If you want to replace your data, fill again the registration form.') }}
 			</NcNoteCard>
 		</div>
 	</div>
@@ -70,20 +39,18 @@
 
 <script>
 
-import axios from '@nextcloud/axios'
 import { loadState } from '@nextcloud/initial-state'
-import { generateUrl, generateOcsUrl } from '@nextcloud/router'
+import { generateUrl } from '@nextcloud/router'
 
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
 
-import Certificate from 'vue-material-design-icons/Certificate.vue'
-import Download from 'vue-material-design-icons/Download.vue'
-import FileSign from 'vue-material-design-icons/FileSign.vue'
+import FileDocument from 'vue-material-design-icons/FileDocument.vue'
+import FileDocumentEdit from 'vue-material-design-icons/FileDocumentEdit.vue'
+import FileDocumentCheck from 'vue-material-design-icons/FileDocumentCheck.vue'
 import PlaylistPlus from 'vue-material-design-icons/PlaylistPlus.vue'
-import Upload from 'vue-material-design-icons/Upload.vue'
 
 export default {
 	name: 'Registration',
@@ -92,18 +59,16 @@ export default {
 		NcEmptyContent,
 		NcLoadingIcon,
 		NcNoteCard,
-		Certificate,
-		Download,
-		FileSign,
-		Upload,
+		FileDocument,
+		FileDocumentEdit,
+		FileDocumentCheck,
 		PlaylistPlus,
 	},
 	data() {
 		return {
-			registrationSigned: loadState('my_company', 'registration-form-signed', ''),
-			registrationFileEmpty: loadState('my_company', 'registration-form-file-empty', false),
-			registrationFileExists: loadState('my_company', 'registration-form-file-exists', false),
-			approved: loadState('my_company', 'approved', false),
+			formFilled: loadState('my_company', 'registration-form-filled', false),
+			signUuid: loadState('my_company', 'registration-form-sign-uuid', ''),
+			approved: loadState('my_company', 'registration-approved', false),
 			signing: false,
 			uploading: false,
 			uploadErrorMessage: '',
@@ -111,76 +76,17 @@ export default {
 		}
 	},
 	methods: {
-		downloadFile() {
-			try {
-				const link = document.createElement('a')
-				link.setAttribute('download', this.registrationFileEmpty.name)
-				link.setAttribute('href', this.registrationFileEmpty.url)
-				document.body.appendChild(link)
-				link.click()
-				document.body.removeChild(link)
-			} catch (e) {
-				console.error(e)
-			}
-		},
-		signForm() {
-			const url = generateOcsUrl('/apps/my_company/api/v1/registration/sign')
-			this.signing = true
-			this.signErrorMessage = ''
-
-			axios.post(url)
-				.then((response) => {
-					this.registrationSigned = response.data.uuid
-					this.signing = false
-				}).catch(error => {
-					this.signErrorMessage = error.response.data.message
-				}).finally(() => {
-					this.signing = false
-				})
+		async fillForm() {
+			await this.$router.push({
+				name: 'registration-form',
+			})
 		},
 		viewSigned() {
 			window.location.href = generateUrl(
 				'/apps/libresign/p/validation/'
-				+ this.registrationSigned
+				+ this.signUuid
 				+ '?path=' + btoa('/apps/my_company'),
 			)
-		},
-		async upload(file) {
-			this.uploading = true
-			this.registrationFileExists = false
-			this.uploadErrorMessage = ''
-			const formData = new FormData()
-			formData.append('file', file)
-			const url = generateOcsUrl('/apps/my_company/api/v1/registration/upload-pdf')
-			axios.post(url, formData, {
-				headers: {
-					'Content-Type': 'multipart/form-data',
-				},
-			}).then(() => {
-				this.registrationSigned = ''
-				this.registrationFileExists = true
-			}).catch(error => {
-				this.uploadErrorMessage = error.response.data.message
-			}).finally(() => {
-				this.uploading = false
-			})
-		},
-		uploadPdfFile() {
-			const input = document.createElement('input')
-			input.accept = 'application/pdf'
-			input.type = 'file'
-
-			input.onchange = async (ev) => {
-				const file = ev.target.files[0]
-
-				if (file) {
-					this.upload(file)
-				}
-
-				input.remove()
-			}
-
-			input.click()
 		},
 	},
 }
