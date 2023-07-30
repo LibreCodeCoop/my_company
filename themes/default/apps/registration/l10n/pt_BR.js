@@ -76,7 +76,7 @@ OC.L10N.register(
     "Request verification code" : "Solicitar código de verificação",
     "Request verification link" : "Solicitar link de verificação",
     "Welcome, you can create your account below." : "Bem-vindo. Abaixo você pode criar sua conta.",
-    "Login name" : "CPF",
+    "Login name" : "CPF/CNPJ",
     "Full name" : "Nome completo",
     "Phone number" : "Número de telefone",
     "Password" : "Senha",
