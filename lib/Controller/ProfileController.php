@@ -32,7 +32,7 @@ class ProfileController extends Controller {
 			$signUuid = null;
 		}
 		return new DataResponse([
-			'form-sign-uuid' => $signUuid,
+			'signUuid' => $signUuid,
 		]);
 	}
 }
