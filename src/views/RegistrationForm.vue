@@ -1,6 +1,5 @@
 <template>
-	<iframe
-		class="form"
+	<iframe class="form"
 		:src="src" />
 </template>
 
@@ -9,7 +8,7 @@
 import { generateUrl } from '@nextcloud/router'
 
 export default {
-	name: 'Form',
+	name: 'RegistrationForm',
 	data() {
 		return {
 			src: null,
@@ -18,22 +17,22 @@ export default {
 	mounted() {
 		this.src = generateUrl('/apps/my_company/registration/embedded-form-view')
 
-		window.addEventListener("message", this.formSaved)
+		window.addEventListener('message', this.formSaved)
 	},
 	unmounted() {
-		window.removeEventListener("message", this.formSaved)
+		window.removeEventListener('message', this.formSaved)
 	},
 	methods: {
 		formSaved(event) {
 			if (event.origin !== window.location.protocol + '//' + window.location.host) {
-				return;
+				return
 			}
 
 			if (event.data.type !== 'form-saved') {
-				return;
+
 			}
-		}
-	}
+		},
+	},
 }
 </script>
 

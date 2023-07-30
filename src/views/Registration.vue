@@ -44,11 +44,9 @@ import { generateUrl } from '@nextcloud/router'
 
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
-import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
 
 import FileDocument from 'vue-material-design-icons/FileDocument.vue'
-import FileDocumentEdit from 'vue-material-design-icons/FileDocumentEdit.vue'
 import FileDocumentCheck from 'vue-material-design-icons/FileDocumentCheck.vue'
 import PlaylistPlus from 'vue-material-design-icons/PlaylistPlus.vue'
 
@@ -57,10 +55,8 @@ export default {
 	components: {
 		NcButton,
 		NcEmptyContent,
-		NcLoadingIcon,
 		NcNoteCard,
 		FileDocument,
-		FileDocumentEdit,
 		FileDocumentCheck,
 		PlaylistPlus,
 	},

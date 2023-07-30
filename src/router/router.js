@@ -6,7 +6,7 @@ import { generateUrl } from '@nextcloud/router'
 
 import Home from '../views/Home.vue'
 import Registration from '../views/Registration.vue'
-import Form from '../views/Form.vue'
+import RegistrationForm from '../views/RegistrationForm.vue'
 
 Vue.use(VueRouter)
 
@@ -35,9 +35,9 @@ if (approved) {
 		},
 		{
 			path: '/registration/form',
-			component: Form,
+			component: RegistrationForm,
 			name: 'registration-form',
-		}
+		},
 	]
 }
 
