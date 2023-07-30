@@ -40,6 +40,7 @@ use OCP\IConfig;
 use OCP\IL10N;
 use OCP\ITempManager;
 use OCP\IUserSession;
+use Psr\Log\LoggerInterface;
 
 class RegistrationService {
 	private string $registrationFormFileName;
@@ -55,6 +56,7 @@ class RegistrationService {
 		private IConfig $config,
 		private ITempManager $tempManager,
 		private IAppData $appData,
+		private LoggerInterface $logger,
 	) {
 		// TRANSLATORS Name of file that will store the registration form as PDF format.
 		$this->registrationFormFileName = $l->t('registration-form.pdf');
@@ -91,6 +93,7 @@ class RegistrationService {
 	}
 
 	private function fillPdf(): File {
+		$this->logger->info('Started to fill form');
 		$templatePdf = $this->companyService->getTemplateFile();
 		$content = $templatePdf->getContent();
 
