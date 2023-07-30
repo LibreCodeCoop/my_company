@@ -14,7 +14,7 @@
 						<FileDocument />
 					</template>
 					<template v-if="!formFilled" #default>
-						{{ t('my_company', 'Fill your registration form') }}
+						{{ t('my_company', 'Fill registration form') }}
 					</template>
 					<template v-else #default>
 						{{ t('my_company', 'Fill with new data') }}
@@ -26,12 +26,12 @@
 					<template #icon>
 						<FileDocumentCheck />
 					</template>
-					{{ t('my_company', 'View your registration data') }}
+					{{ t('my_company', 'View registration form') }}
 				</NcButton>
 			</div>
 			<NcNoteCard v-if="formFilled && !approved"
 				type="warning">
-				{{ t('my_company', 'Data saved. Wait to be approved. If you want to replace your data, fill again the registration form.') }}
+				{{ t('my_company', 'Data saved. Please wait for the review. If needed, you can fill out the form again.') }}
 			</NcNoteCard>
 		</div>
 	</div>
