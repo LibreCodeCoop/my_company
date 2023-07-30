@@ -59,7 +59,7 @@ Get access to important information about your company
   docker run -it -v ${PWD}apps/forms:/app -w /app node npm run build
   occ app:enable --force forms
   # Create first the form and get the ID to use here
-  occ config:app:set my_company registration-form-id --value 1
+  occ config:app:set my_company registration_form_id --value 1
 
   # Group folders
   occ app:enable --force groupfolders
