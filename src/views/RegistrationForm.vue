@@ -5,7 +5,8 @@
 
 <script>
 
-import { generateUrl } from '@nextcloud/router'
+import axios from '@nextcloud/axios'
+import { generateUrl, generateOcsUrl } from '@nextcloud/router'
 
 export default {
 	name: 'RegistrationForm',
@@ -29,8 +30,15 @@ export default {
 			}
 
 			if (event.data.type !== 'form-saved') {
-
+				return
 			}
+			axios.get(generateOcsUrl('apps/my_company/api/v1/profile'))
+			.then(({ data }) => {
+				this.$router.push({
+					name: 'registration',
+					params: { signUuid: data.signUuid },
+				})
+			})
 		},
 	},
 }

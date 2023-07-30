@@ -20,7 +20,7 @@
 						{{ t('my_company', 'Fill with new data') }}
 					</template>
 				</NcButton>
-				<NcButton v-if="approved || signUuid"
+				<NcButton v-if="approved || formSignUuid"
 					:wide="true"
 					@click="viewSigned()">
 					<template #icon>
@@ -60,11 +60,17 @@ export default {
 		FileDocumentCheck,
 		PlaylistPlus,
 	},
+	props: {
+		signUuid: {
+			type: String,
+			default: '',
+		},
+	},
 	data() {
 		return {
 			formFilled: loadState('my_company', 'registration-form-filled', false),
-			signUuid: loadState('my_company', 'registration-form-sign-uuid', ''),
 			approved: loadState('my_company', 'registration-approved', false),
+			formSignUuid: this.signUuid || loadState('my_company', 'registration-form-sign-uuid', ''),
 			signing: false,
 			uploading: false,
 			uploadErrorMessage: '',
@@ -80,7 +86,7 @@ export default {
 		viewSigned() {
 			window.location.href = generateUrl(
 				'/apps/libresign/p/validation/'
-				+ this.signUuid
+				+ this.formSignUuid
 				+ '?path=' + btoa('/apps/my_company'),
 			)
 		},

@@ -32,6 +32,7 @@ if (approved) {
 			path: '/',
 			component: Registration,
 			name: 'registration',
+			props: true,
 		},
 		{
 			path: '/registration/form',
