@@ -26,9 +26,7 @@ declare(strict_types=1);
 
 namespace OCA\MyCompany\Service;
 
-use InvalidArgumentException;
 use mikehaertl\pdftk\Command;
-use OC\Files\Filesystem;
 use OCA\MyCompany\Db\FormSubmissionMapper;
 use OCA\MyCompany\Handler\PdfTk\Pdf;
 use OCP\Files\File;
@@ -40,7 +38,6 @@ use OCP\IConfig;
 use OCP\IL10N;
 use OCP\ITempManager;
 use OCP\IUserSession;
-use OCP\Util;
 
 class RegistrationService {
 	private string $registrationFormFileName;

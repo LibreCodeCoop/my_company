@@ -40,7 +40,7 @@ class FormSubmissionMapper extends QBMapper {
 			->addSelect($qb->createFunction('(' . $order->getSQL() . ') AS ' . $qb->quoteAlias('order')))
 			->from('forms_v2_questions', 'q')
 			->join('q', 'forms_v2_answers', 'a', $qb->expr()->eq('a.question_id', 'q.id'))
-			->join ('a', 'forms_v2_submissions', 's', $qb->expr()->eq('s.id', 'a.submission_id'))
+			->join('a', 'forms_v2_submissions', 's', $qb->expr()->eq('s.id', 'a.submission_id'))
 			->leftJoin('q', 'forms_v2_options', 'o', $qb->expr()->andX(
 				$qb->expr()->eq('o.question_id', 'q.id'),
 				$qb->expr()->eq('o.text', 'a.text')

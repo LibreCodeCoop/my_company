@@ -12,8 +12,7 @@ class Pdf extends BasePdf {
 	/**
 	 * @inheritDoc
 	 */
-	public function setCommand(Command $command)
-	{
+	public function setCommand(Command $command) {
 		$this->_command = $command;
 	}
 }
