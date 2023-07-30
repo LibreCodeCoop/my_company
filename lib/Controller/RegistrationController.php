@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace OCA\MyCompany\Controller;
 
-use InvalidArgumentException;
 use OCA\Forms\Service\FormsService;
 use OCA\Libresign\Service\RequestSignatureService;
 use OCA\Libresign\Service\SignFileService;
@@ -16,7 +15,6 @@ use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\DataResponse;
-use OCP\AppFramework\Http\DataDownloadResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IGroupManager;
@@ -43,30 +41,8 @@ class RegistrationController extends Controller {
 
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
-	public function uploadPdf(): DataResponse {
-		$file = $this->request->getUploadedFile('file');
-		try {
-			$this->registrationService->uploadPdf($file);
-		} catch (InvalidArgumentException $e) {
-			return new DataResponse(['message' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
-		}
-		return new DataResponse();
-	}
-
-	#[NoAdminRequired]
-	#[NoCSRFRequired]
-	public function downloadForm(): DataDownloadResponse {
-		return new DataDownloadResponse(
-			$this->companyService->getTemplateFile()->getContent(),
-			'formulario.docx',
-			'application/msword'
-		);
-	}
-
-	#[NoAdminRequired]
-	#[NoCSRFRequired]
 	public function sign(): DataResponse {
-		$registrationFile = $this->registrationService->getRegistrationFile();
+		$registrationFile = $this->registrationService->fillPdf();
 		$response = $this->requestSignatureService->save([
 			'file' => ['fileNode' => $registrationFile],
 			'name' => $registrationFile->getName(),

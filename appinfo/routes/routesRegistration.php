@@ -30,7 +30,6 @@ return [
 		['name' => 'Registration#embeddedFormView', 'url' => '/registration/embedded-form-view', 'verb' => 'GET'],
 	],
 	'ocs' => [
-		['name' => 'Registration#uploadPdf', 'url' => '/api/{apiVersion}/registration/upload-pdf', 'verb' => 'POST', 'requirements' => $requirements],
 		['name' => 'Registration#sign', 'url' => '/api/{apiVersion}/registration/sign', 'verb' => 'POST', 'requirements' => $requirements],
 	],
 ];
