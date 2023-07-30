@@ -68,7 +68,7 @@ export default {
 	},
 	data() {
 		return {
-			formFilled: loadState('my_company', 'registration-form-filled', false),
+			formFilled: loadState('my_company', 'registration-form-filled', false) ? true : !!this.signUuid,
 			approved: loadState('my_company', 'registration-approved', false),
 			formSignUuid: this.signUuid || loadState('my_company', 'registration-form-sign-uuid', ''),
 			signing: false,
@@ -115,6 +115,7 @@ export default {
 		margin-top: 20px;
 	}
 }
+
 .button-vue--wide {
 	margin-top: 1rem;
 }
