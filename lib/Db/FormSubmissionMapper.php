@@ -2,7 +2,6 @@
 
 namespace OCA\MyCompany\Db;
 
-use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\QBMapper;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
@@ -12,9 +11,6 @@ class FormSubmissionMapper extends QBMapper {
 		parent::__construct($db, 'forms_v2_submissions');
 	}
 
-	/**
-	 * @return array
-	 */
 	public function getAnswersOfNewerstSubmission(int $formId, string $uid): array {
 		$qb = $this->db->getQueryBuilder();
 		$order = $this->db->getQueryBuilder();
