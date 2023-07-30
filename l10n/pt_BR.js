@@ -12,10 +12,10 @@ OC.L10N.register(
     "Welcome to your company!" : "Bem vindo a sua empresa!",
     "Stay up to date about all news from your company." : "Esteja atualizado sobre todas as novidades de sua empresa.",
     "Registration" : "Cadastro",
-    "Fill your registration form" : "Preencha sua ficha de matrícula",
+    "Fill registration form" : "Preencha a ficha de matrícula",
     "Fill with new data" : "Preencha com novos dados",
-    "View your registration data" : "Veja seus dados de cadastro",
-    "Data saved. Wait to be approved. If you want to replace your data, fill again the registration form." : "Dados salvos. Aguarde aprovação. Se você desejar substituir seus dados, preencha novamente a ficha de matrícula.",
+    "View registration form" : "Ver dados de cadastro",
+    "Data saved. Please wait for the review. If needed, you can fill out the form again." : "Dados salvos. Aguarde a revisão. Se necessário, você pode preencher novamente o formulário.",
     "Access wrong page" : "Acesso a página inválida"
 },
 "");
