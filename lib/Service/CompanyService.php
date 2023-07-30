@@ -156,7 +156,10 @@ class CompanyService {
 		// TRANSLATORS Folder with template files of a new employee
 		$templateFolder = $this->l->t('template');
 		$filename = $this->l->t('registration-form.pdf');
-		$file = $employeesFolder->get($templateFolder)->get($filename);
+		/** @var Folder */
+		$folder = $employeesFolder->get($templateFolder);
+		/** @var File */
+		$file = $folder->get($filename);
 		return $file;
 	}
 
