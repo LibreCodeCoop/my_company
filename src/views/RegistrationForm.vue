@@ -33,12 +33,12 @@ export default {
 				return
 			}
 			axios.get(generateOcsUrl('apps/my_company/api/v1/profile'))
-			.then(({ data }) => {
-				this.$router.push({
-					name: 'registration',
-					params: { signUuid: data.signUuid },
+				.then(({ data }) => {
+					this.$router.push({
+						name: 'registration',
+						params: { signUuid: data.signUuid },
+					})
 				})
-			})
 		},
 	},
 }

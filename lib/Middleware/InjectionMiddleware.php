@@ -8,7 +8,6 @@ use OC\NavigationManager;
 use OCA\Forms\Controller\ApiController;
 use OCA\MyCompany\AppInfo\Application;
 use OCA\MyCompany\Backend\SystemGroupBackend;
-use OCA\MyCompany\Controller\RegistrationController;
 use OCA\MyCompany\Service\CompanyService;
 use OCA\MyCompany\Service\RegistrationService;
 use OCA\Theming\Controller\ThemingController;

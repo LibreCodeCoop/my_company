@@ -149,7 +149,7 @@ class CompanyService {
 	}
 
 	public function getRegistrationFormId(): int {
-		$id = (int) $this->config->getAppValue(Application::class, 'registration-form-id');
+		$id = (int) $this->config->getAppValue(Application::APP_ID, 'registration_form_id');
 		return $id;
 	}
 
