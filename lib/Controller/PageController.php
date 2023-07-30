@@ -3,7 +3,6 @@
 namespace OCA\MyCompany\Controller;
 
 use OCA\Forms\Db\SubmissionMapper;
-use OCA\Forms\Service\FormsService;
 use OCA\Libresign\Exception\LibresignException;
 use OCA\Libresign\Service\SignFileService;
 use OCA\MyCompany\AppInfo\Application;
@@ -31,7 +30,6 @@ class PageController extends Controller {
 		private IGroupManager $groupManager,
 		private IUserSession $userSession,
 		private SignFileService $signFileService,
-		private FormsService $formsService,
 		private SubmissionMapper $submissionMapper,
 		private IConfig $config,
 	) {
@@ -42,8 +40,7 @@ class PageController extends Controller {
 	#[NoCSRFRequired]
 	public function index(string $path): TemplateResponse {
 		try {
-			$form = $this->formsService->getForm(1);
-			$participants = $this->submissionMapper->findParticipantsByForm($form['id']);
+			$participants = $this->submissionMapper->findParticipantsByForm(1);
 			$filled = in_array($this->userSession->getUser()->getUID(), $participants);
 			$this->initialState->provideInitialState('registration-form-filled', $filled);
 		} catch (\Throwable $th) {
