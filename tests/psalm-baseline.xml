@@ -3,20 +3,35 @@
   <file src="lib/Controller/PageController.php">
     <UndefinedClass>
       <code><![CDATA[$this->signFileService]]></code>
+      <code><![CDATA[$this->submissionMapper]]></code>
       <code>LibresignException</code>
+      <code>private</code>
       <code>private</code>
     </UndefinedClass>
   </file>
   <file src="lib/Controller/RegistrationController.php">
     <UndefinedClass>
+      <code><![CDATA[$this->formsService]]></code>
       <code><![CDATA[$this->requestSignatureService]]></code>
       <code><![CDATA[$this->signFileService]]></code>
       <code>private</code>
       <code>private</code>
+      <code>private</code>
+    </UndefinedClass>
+  </file>
+  <file src="lib/Db/FormSubmissionMapper.php">
+    <UndefinedInterfaceMethod>
+      <code>quoteAlias</code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="lib/Handler/PdfTk/Pdf.php">
+    <UndefinedClass>
+      <code>BasePdf</code>
     </UndefinedClass>
   </file>
   <file src="lib/Middleware/InjectionMiddleware.php">
     <UndefinedClass>
+      <code>ApiController</code>
       <code>ThemingController</code>
     </UndefinedClass>
   </file>
@@ -34,7 +49,11 @@
   </file>
   <file src="lib/Service/RegistrationService.php">
     <MissingDependency>
+      <code>Pdf</code>
       <code>private</code>
     </MissingDependency>
+    <UndefinedClass>
+      <code>Command</code>
+    </UndefinedClass>
   </file>
 </files>
