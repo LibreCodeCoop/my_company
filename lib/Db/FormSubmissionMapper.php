@@ -14,7 +14,6 @@ class FormSubmissionMapper extends QBMapper {
 
 	/**
 	 * @return array
-	 * @throws DoesNotExistException if not found
 	 */
 	public function getAnswersOfNewerstSubmission(int $formId, string $uid): array {
 		$qb = $this->db->getQueryBuilder();
