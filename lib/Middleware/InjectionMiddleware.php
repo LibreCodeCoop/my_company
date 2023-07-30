@@ -168,6 +168,13 @@ class InjectionMiddleware extends Middleware {
 		if ($response->getStatus() !== 200) {
 			return;
 		}
+		if ($this->isAdmin()) {
+			return;
+		}
+		$id = $this->request->getParam('formId');
+		if ($id !== 1) {
+			return;
+		}
 		$this->registrationService->signForm();
 	}
 }
