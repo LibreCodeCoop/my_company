@@ -108,8 +108,6 @@ class RegistrationController extends Controller {
 		$this->insertHeaderOnIos();
 		$this->initialStateService->provideInitialState('forms', 'form', $form);
 		$this->initialStateService->provideInitialState('forms', 'isLoggedIn', false);
-		/** @todo  check if is necessary */
-		$this->initialStateService->provideInitialState('forms', 'shareHash', '');
 		$this->initialStateService->provideInitialState('forms', 'maxStringLengths', [
 			'formTitle' => 256,
 			'formDescription' => 8192,
