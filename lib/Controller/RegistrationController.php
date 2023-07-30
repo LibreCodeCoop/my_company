@@ -13,6 +13,7 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\Response;
@@ -80,14 +81,9 @@ class RegistrationController extends Controller {
 		}
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 *
-	 * @param string $hash
-	 * @return Response
-	 */
+	#[NoAdminRequired]
+	#[PublicPage]
+	#[NoCSRFRequired]
 	public function embeddedFormView(): Response {
 		$userGroups = $this->groupManager->getUserGroupIds($this->userSession->getUser());
 		if (!in_array('waiting-approval', $userGroups)) {
