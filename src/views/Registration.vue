@@ -17,7 +17,7 @@
 						{{ t('my_company', 'Fill your registration form') }}
 					</template>
 					<template v-else #default>
-						{{ t('my_company', 'Fill registration form with new data') }}
+						{{ t('my_company', 'Fill with new data') }}
 					</template>
 				</NcButton>
 				<NcButton v-if="approved || signUuid"

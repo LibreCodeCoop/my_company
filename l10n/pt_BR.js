@@ -3,12 +3,8 @@ OC.L10N.register(
     {
     "people" : "pessoas",
     "template" : "template",
-    "registration-form.docx" : "ficha-de-cadastro.docx",
-    "register-file" : "ficha-de-cadastro",
-    "registration-form.pdf" : "ficha-matricula.pdf",
-    "Invalid file. Impossible to save." : "Arquivo inválido. Impossível salvar.",
-    "File is too big. Max size: %s." : "Arquivo muito grande. Tamanho máximo: %s.",
-    "The uploaded file need to be a PDF." : "O arquivo enviado precisa ser um PDF.",
+    "registration-form.pdf" : "ficha-de-matricula.pdf",
+    "register-file" : "ficha-de-matricula",
     "My Company" : "Minha Empresa",
     "Main menu" : "Menu principal",
     "Home" : "Início",
@@ -16,13 +12,10 @@ OC.L10N.register(
     "Welcome to your company!" : "Bem vindo a sua empresa!",
     "Stay up to date about all news from your company." : "Esteja atualizado sobre todas as novidades de sua empresa.",
     "Registration" : "Cadastro",
-    "Download the blank form" : "Baixe o formulário em branco",
-    "Replace the uploaded form" : "Substitua o formulário enviado",
-    "Replace the signed form" : "Substitua o formulário assinado",
-    "Upload as PDF file" : "Envie como PDF",
-    "Sign your form" : "Assine seu formulário",
-    "View your signed form" : "Veja seu formulário assinado",
-    "Access wrong page" : "Acesso a página inválida",
-    "Humm... I think that you tried to access a wrong page. Check if the URL is OK and try again." : "Humm... Eu acho que você tentou acessar uma página errada. Verifique se a URLestá correta e tente novamente."
+    "Fill your registration form" : "Preencha sua ficha de matrícula",
+    "Fill with new data" : "Preencha com novos dados",
+    "View your registration data" : "Veja seus dados de cadastro",
+    "Data saved. Wait to be approved. If you want to replace your data, fill again the registration form." : "Dados salvos. Aguarde aprovação. Se você desejar substituir seus dados, preencha novamente a ficha de matrícula.",
+    "Access wrong page" : "Acesso a página inválida"
 },
 "");
