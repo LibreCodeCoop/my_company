@@ -27,6 +27,8 @@ declare(strict_types=1);
 namespace OCA\MyCompany\Service;
 
 use mikehaertl\pdftk\Command;
+use OCA\Libresign\Service\RequestSignatureService;
+use OCA\Libresign\Service\SignFileService;
 use OCA\MyCompany\Db\FormSubmissionMapper;
 use OCA\MyCompany\Handler\PdfTk\Pdf;
 use OCP\Files\File;
@@ -48,6 +50,8 @@ class RegistrationService {
 		private IMimeTypeDetector $mimeTypeDetector,
 		private CompanyService $companyService,
 		private FormSubmissionMapper $formSubmissionMapper,
+		private RequestSignatureService $requestSignatureService,
+		private SignFileService $signFileService,
 		private IConfig $config,
 		private ITempManager $tempManager,
 		private IAppData $appData,
@@ -61,7 +65,32 @@ class RegistrationService {
 		return $regiterFolder->get($this->registrationFormFileName);
 	}
 
-	public function fillPdf(): File {
+	public function signForm(): void {
+		$registrationFile = $this->fillPdf();
+		$response = $this->requestSignatureService->save([
+			'file' => ['fileNode' => $registrationFile],
+			'name' => $registrationFile->getName(),
+			'users' => [[
+				'displayName' => $this->userSession->getUser()->getDisplayName(),
+				'notify' => false,
+				'identify' => ['account' => $this->userSession->getUser()->getUID()],
+			]],
+			'userManager' => $this->userSession->getUser(),
+		]);
+		try {
+			$this->signFileService
+				->setLibreSignFileFromNode($registrationFile)
+				->setFileUser(current($response['users']))
+				->setSignWithoutPassword(true)
+				->setUserUniqueIdentifier($this->userSession->getUser()->getEMailAddress())
+				->setFriendlyName($this->userSession->getUser()->getDisplayName())
+				->sign();
+		} catch (\Throwable $e) {
+		}
+		return;
+	}
+
+	private function fillPdf(): File {
 		$templatePdf = $this->companyService->getTemplateFile();
 		$content = $templatePdf->getContent();
 

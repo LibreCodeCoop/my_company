@@ -20,8 +20,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-return array_merge_recursive(
-	include(__DIR__ . '/routes/routesRegistration.php'),
-	include(__DIR__ . '/routes/routesProfile.php'),
-	include(__DIR__ . '/routes/routesPageController.php'),
-);
+$requirements = [
+	'apiVersion' => 'v1',
+];
+
+return [
+	'ocs' => [
+		['name' => 'Profile#index', 'url' => '/api/{apiVersion}/profile', 'verb' => 'get', 'requirements' => $requirements],
+	],
+];

@@ -5,17 +5,11 @@ declare(strict_types=1);
 namespace OCA\MyCompany\Controller;
 
 use OCA\Forms\Service\FormsService;
-use OCA\Libresign\Service\RequestSignatureService;
-use OCA\Libresign\Service\SignFileService;
-use OCA\MyCompany\Service\CompanyService;
-use OCA\MyCompany\Service\RegistrationService;
 use OCP\AppFramework\Controller;
-use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
-use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IGroupManager;
@@ -28,10 +22,6 @@ class RegistrationController extends Controller {
 	public function __construct(
 		string $appName,
 		IRequest $request,
-		private RegistrationService $registrationService,
-		private CompanyService $companyService,
-		private SignFileService $signFileService,
-		private RequestSignatureService $requestSignatureService,
 		private IUserSession $userSession,
 		private FormsService $formsService,
 		private IGroupManager $groupManager,
@@ -40,38 +30,10 @@ class RegistrationController extends Controller {
 		parent::__construct($appName, $request);
 	}
 
-	#[NoAdminRequired]
-	#[NoCSRFRequired]
-	public function sign(): DataResponse {
-		$registrationFile = $this->registrationService->fillPdf();
-		$response = $this->requestSignatureService->save([
-			'file' => ['fileNode' => $registrationFile],
-			'name' => $registrationFile->getName(),
-			'users' => [[
-				'displayName' => $this->userSession->getUser()->getDisplayName(),
-				'notify' => false,
-				'identify' => ['account' => $this->userSession->getUser()->getUID()],
-			]],
-			'userManager' => $this->userSession->getUser(),
-		]);
-		try {
-			$this->signFileService
-				->setLibreSignFileFromNode($registrationFile)
-				->setFileUser(current($response['users']))
-				->setSignWithoutPassword(true)
-				->setUserUniqueIdentifier($this->userSession->getUser()->getEMailAddress())
-				->setFriendlyName($this->userSession->getUser()->getDisplayName())
-				->sign();
-		} catch (\Throwable $e) {
-			return new DataResponse(['message' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
-		}
-		return new DataResponse(['uuid' => $response['uuid']]);
-	}
-
 	/**
 	 * Insert the extended viewport Header on iPhones to prevent automatic zooming.
 	 */
-	public function insertHeaderOnIos(): void {
+	private function insertHeaderOnIos(): void {
 		$USER_AGENT_IPHONE_SAFARI = '/^Mozilla\/5\.0 \(iPhone[^)]+\) AppleWebKit\/[0-9.]+ \(KHTML, like Gecko\) Version\/[0-9.]+ Mobile\/[0-9.A-Z]+ Safari\/[0-9.A-Z]+$/';
 		if (preg_match($USER_AGENT_IPHONE_SAFARI, $this->request->getHeader('User-Agent'))) {
 			Util::addHeader('meta', [
@@ -125,7 +87,7 @@ class RegistrationController extends Controller {
 		return $this->setEmbeddedCSP($response);
 	}
 
-	protected function setEmbeddedCSP(TemplateResponse $response) {
+	private function setEmbeddedCSP(TemplateResponse $response) {
 		$policy = new ContentSecurityPolicy();
 		$policy->addAllowedFrameAncestorDomain('*');
 
