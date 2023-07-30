@@ -29,6 +29,7 @@ namespace OCA\MyCompany\Service;
 use InvalidArgumentException;
 use OCA\GroupFolders\Folder\FolderManager;
 use OCA\GroupFolders\Mount\MountProvider;
+use OCA\MyCompany\AppInfo\Application;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IAppData;
@@ -145,6 +146,11 @@ class CompanyService {
 		} catch (NotFoundException $e) {
 			return $employeesFolder->newFolder($username);
 		}
+	}
+
+	public function getRegistrationFormId(): int {
+		$id = (int) $this->config->getAppValue(Application::class, 'registration-form-id');
+		return $id;
 	}
 
 	public function getTemplateFile(): File {

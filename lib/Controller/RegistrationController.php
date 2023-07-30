@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace OCA\MyCompany\Controller;
 
 use OCA\Forms\Service\FormsService;
+use OCA\MyCompany\Service\CompanyService;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
@@ -25,6 +26,7 @@ class RegistrationController extends Controller {
 		private IUserSession $userSession,
 		private FormsService $formsService,
 		private IGroupManager $groupManager,
+		private CompanyService $companyService,
 		private IInitialStateService $initialStateService,
 	) {
 		parent::__construct($appName, $request);
@@ -51,7 +53,8 @@ class RegistrationController extends Controller {
 		if (!in_array('waiting-approval', $userGroups)) {
 			throw new \Exception('STOP!');
 		}
-		$form = $this->formsService->getPublicForm(1);
+		$registrationFormId = $this->companyService->getRegistrationFormId();
+		$form = $this->formsService->getPublicForm($registrationFormId);
 		if (!$form['canSubmit']) {
 			$form['description'] = '';
 		}

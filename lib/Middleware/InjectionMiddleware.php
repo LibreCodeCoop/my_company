@@ -173,7 +173,8 @@ class InjectionMiddleware extends Middleware {
 			return;
 		}
 		$id = $this->request->getParam('formId');
-		if ($id !== 1) {
+		$registrationFormId = $this->companyService->getRegistrationFormId();
+		if ($id !== $registrationFormId) {
 			return;
 		}
 		$this->registrationService->signForm();
