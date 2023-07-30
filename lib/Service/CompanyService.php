@@ -29,6 +29,7 @@ namespace OCA\MyCompany\Service;
 use InvalidArgumentException;
 use OCA\GroupFolders\Folder\FolderManager;
 use OCA\GroupFolders\Mount\MountProvider;
+use OCA\MyCompany\AppInfo\Application;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IAppData;
@@ -147,6 +148,11 @@ class CompanyService {
 		}
 	}
 
+	public function getRegistrationFormId(): int {
+		$id = (int) $this->config->getAppValue(Application::APP_ID, 'registration_form_id');
+		return $id;
+	}
+
 	public function getTemplateFile(): File {
 		$companyFolder = $this->getCompanyFolder('admin');
 		// TRANSLATORS Folder name that contains all documents of employee.
@@ -155,8 +161,11 @@ class CompanyService {
 		$employeesFolder = $companyFolder->get($registerFilesFolderName);
 		// TRANSLATORS Folder with template files of a new employee
 		$templateFolder = $this->l->t('template');
-		$filename = $this->l->t('registration-form.docx');
-		$file = $employeesFolder->get($templateFolder)->get($filename);
+		$filename = $this->l->t('registration-form.pdf');
+		/** @var Folder */
+		$folder = $employeesFolder->get($templateFolder);
+		/** @var File */
+		$file = $folder->get($filename);
 		return $file;
 	}
 

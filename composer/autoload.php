@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2023 Vitor Mattos <vitor@php.rio>
  *
@@ -20,16 +22,4 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-$requirements = [
-	'apiVersion' => 'v1',
-];
-
-return [
-	'routes' => [
-		['name' => 'Registration#downloadForm', 'url' => '/registration/download-form', 'verb' => 'GET'],
-		['name' => 'Registration#embeddedFormView', 'url' => '/registration/embedded-form-view', 'verb' => 'GET'],
-	],
-	'ocs' => [
-		['name' => 'Registration#sign', 'url' => '/api/{apiVersion}/registration/sign', 'verb' => 'POST', 'requirements' => $requirements],
-	],
-];
+require_once __DIR__ . '/../vendor/autoload.php';

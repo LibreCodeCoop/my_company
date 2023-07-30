@@ -9,9 +9,12 @@
 			"email": "vitor@php.rio"
 		}
 	],
+	"require": {
+		"mikehaertl/php-pdftk": "^0.13.0"
+	},
 	"require-dev": {
 		"bamarni/composer-bin-plugin": "^1.8",
-		"nextcloud/ocp": "^27.0",
+		"nextcloud/ocp": "dev-master",
 		"roave/security-advisories": "dev-master"
 	},
 	"config": {

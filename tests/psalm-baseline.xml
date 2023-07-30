@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <files psalm-version="5.13.1@086b94371304750d1c673315321a55d15fc59015">
   <file src="lib/Controller/PageController.php">
+    <InvalidTemplateParam>
+      <code><![CDATA[$response->setContentSecurityPolicy($policy)]]></code>
+    </InvalidTemplateParam>
+    <UndefinedClass>
+      <code><![CDATA[$this->signFileService]]></code>
+      <code><![CDATA[$this->submissionMapper]]></code>
+      <code>LibresignException</code>
+      <code>private</code>
+      <code>private</code>
+    </UndefinedClass>
+  </file>
+  <file src="lib/Controller/ProfileController.php">
     <UndefinedClass>
       <code><![CDATA[$this->signFileService]]></code>
       <code>LibresignException</code>
@@ -9,14 +21,24 @@
   </file>
   <file src="lib/Controller/RegistrationController.php">
     <UndefinedClass>
-      <code><![CDATA[$this->requestSignatureService]]></code>
-      <code><![CDATA[$this->signFileService]]></code>
-      <code>private</code>
+      <code><![CDATA[$this->formsService]]></code>
       <code>private</code>
     </UndefinedClass>
   </file>
+  <file src="lib/Db/FormSubmissionMapper.php">
+    <UndefinedInterfaceMethod>
+      <code>quoteAlias</code>
+    </UndefinedInterfaceMethod>
+  </file>
   <file src="lib/Middleware/InjectionMiddleware.php">
+    <InvalidTemplateParam>
+      <code><![CDATA[$response->addHeader('Content-Disposition', 'attachment; filename="' . $type . '"')]]></code>
+      <code><![CDATA[$response->addHeader('Content-Type', $mime)]]></code>
+      <code><![CDATA[$response->cacheFor(3600)]]></code>
+      <code><![CDATA[$response->setContentSecurityPolicy($csp)]]></code>
+    </InvalidTemplateParam>
     <UndefinedClass>
+      <code>ApiController</code>
       <code>ThemingController</code>
     </UndefinedClass>
   </file>
@@ -36,5 +58,11 @@
     <MissingDependency>
       <code>private</code>
     </MissingDependency>
+    <UndefinedClass>
+      <code><![CDATA[$this->requestSignatureService]]></code>
+      <code><![CDATA[$this->signFileService]]></code>
+      <code>private</code>
+      <code>private</code>
+    </UndefinedClass>
   </file>
 </files>

@@ -25,11 +25,7 @@ $requirements = [
 ];
 
 return [
-	'routes' => [
-		['name' => 'Registration#downloadForm', 'url' => '/registration/download-form', 'verb' => 'GET'],
-		['name' => 'Registration#embeddedFormView', 'url' => '/registration/embedded-form-view', 'verb' => 'GET'],
-	],
 	'ocs' => [
-		['name' => 'Registration#sign', 'url' => '/api/{apiVersion}/registration/sign', 'verb' => 'POST', 'requirements' => $requirements],
+		['name' => 'Profile#index', 'url' => '/api/{apiVersion}/profile', 'verb' => 'get', 'requirements' => $requirements],
 	],
 ];

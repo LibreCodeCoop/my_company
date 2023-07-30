@@ -5,6 +5,7 @@ import { loadState } from '@nextcloud/initial-state'
 import { generateUrl } from '@nextcloud/router'
 
 import Home from '../views/Home.vue'
+import Registration from '../views/Registration.vue'
 import RegistrationForm from '../views/RegistrationForm.vue'
 
 Vue.use(VueRouter)
@@ -20,15 +21,21 @@ if (approved) {
 			name: 'home',
 		},
 		{
-			path: '/registration-form',
-			component: RegistrationForm,
-			name: 'registration-form',
+			path: '/registration',
+			component: Registration,
+			name: 'registration',
 		},
 	]
 } else {
 	routes = [
 		{
 			path: '/',
+			component: Registration,
+			name: 'registration',
+			props: true,
+		},
+		{
+			path: '/registration/form',
 			component: RegistrationForm,
 			name: 'registration-form',
 		},

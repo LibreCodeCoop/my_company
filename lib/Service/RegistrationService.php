@@ -26,14 +26,20 @@ declare(strict_types=1);
 
 namespace OCA\MyCompany\Service;
 
-use InvalidArgumentException;
-use OC\Files\Filesystem;
+use mikehaertl\pdftk\Command;
+use OCA\Libresign\Service\RequestSignatureService;
+use OCA\Libresign\Service\SignFileService;
+use OCA\MyCompany\Db\FormSubmissionMapper;
+use OCA\MyCompany\Handler\PdfTk\Pdf;
 use OCP\Files\File;
+use OCP\Files\IAppData;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\IRootFolder;
+use OCP\Files\NotFoundException;
+use OCP\IConfig;
 use OCP\IL10N;
+use OCP\ITempManager;
 use OCP\IUserSession;
-use OCP\Util;
 
 class RegistrationService {
 	private string $registrationFormFileName;
@@ -43,43 +49,108 @@ class RegistrationService {
 		private IUserSession $userSession,
 		private IMimeTypeDetector $mimeTypeDetector,
 		private CompanyService $companyService,
+		private FormSubmissionMapper $formSubmissionMapper,
+		private RequestSignatureService $requestSignatureService,
+		private SignFileService $signFileService,
+		private IConfig $config,
+		private ITempManager $tempManager,
+		private IAppData $appData,
 	) {
 		// TRANSLATORS Name of file that will store the registration form as PDF format.
 		$this->registrationFormFileName = $l->t('registration-form.pdf');
-	}
-	public function uploadPdf(?array $file): void {
-		if (
-			$file['error'] !== 0 ||
-			!is_uploaded_file($file['tmp_name']) ||
-			Filesystem::isFileBlacklisted($file['tmp_name'])
-		) {
-			// TRANSLATORS Error trigged when occurn an error when upload a PDF file to application. This PDF File is the registration form in PDF format.
-			throw new InvalidArgumentException($this->l->t('Invalid file. Impossible to save.'));
-		}
-		$maxSize = 2 * 1024 * 1024;
-		if ($file['size'] > $maxSize) {
-			// TRANSLATORS The uploaded file is very big and the application limited the sizes to a specific size that is exposed on this message. This PDF File is the registration form in PDF format.
-			throw new InvalidArgumentException($this->l->t('File is too big. Max size: %s.', [Util::humanFileSize($maxSize)]));
-		}
-		$content = file_get_contents($file['tmp_name']);
-		unlink($file['tmp_name']);
-		$mimeType = $this->mimeTypeDetector->detectString($content);
-		if ($mimeType !== 'application/pdf') {
-			// TRANSLATORS Only is accepted PDF files as registration form. The user need to upload a PDF file. All PDF files have the mimetime application/pdf and the uploaded file haven't this mimetipe..
-			throw new InvalidArgumentException($this->l->t('The uploaded file need to be a PDF.'));
-		}
-		try {
-			// Delete first to remove signed version if exists
-			$userFolder = $this->companyService->getUserAdminRegistrationFolder();
-			$exists = $userFolder->get($this->registrationFormFileName);
-			$exists->delete();
-		} catch (\Throwable $th) {
-		}
-		$userFolder->newFile($this->registrationFormFileName, $content);
 	}
 
 	public function getRegistrationFile(): File {
 		$regiterFolder = $this->companyService->getUserAdminRegistrationFolder();
 		return $regiterFolder->get($this->registrationFormFileName);
+	}
+
+	public function signForm(): void {
+		$registrationFile = $this->fillPdf();
+		$response = $this->requestSignatureService->save([
+			'file' => ['fileNode' => $registrationFile],
+			'name' => $registrationFile->getName(),
+			'users' => [[
+				'displayName' => $this->userSession->getUser()->getDisplayName(),
+				'notify' => false,
+				'identify' => ['account' => $this->userSession->getUser()->getUID()],
+			]],
+			'userManager' => $this->userSession->getUser(),
+		]);
+		try {
+			$this->signFileService
+				->setLibreSignFileFromNode($registrationFile)
+				->setFileUser(current($response['users']))
+				->setSignWithoutPassword(true)
+				->setUserUniqueIdentifier($this->userSession->getUser()->getEMailAddress())
+				->setFriendlyName($this->userSession->getUser()->getDisplayName())
+				->sign();
+		} catch (\Throwable $e) {
+		}
+		return;
+	}
+
+	private function fillPdf(): File {
+		$templatePdf = $this->companyService->getTemplateFile();
+		$content = $templatePdf->getContent();
+
+		$fileName = $this->tempManager->getTemporaryFile('.pdf');
+		file_put_contents($fileName, $content);
+
+		$pdftkPath = $this->config->getAppValue('libresign', 'pdftk_path');
+
+		$pdf = new Pdf();
+		$command = new Command();
+		$command->setCommand($pdftkPath);
+		$pdf->setCommand($command);
+		$pdf->addFile($fileName);
+
+		$data = $this->getDataFields();
+
+		$filled = $pdf
+			->fillForm($data)
+			->needAppearances()
+			->toString();
+
+		// Delete first to remove previous version if exists
+		$userFolder = $this->companyService->getUserAdminRegistrationFolder();
+		try {
+			$exists = $userFolder->get($this->registrationFormFileName);
+			$exists->delete();
+		} catch (NotFoundException $e) {
+		}
+		$filledFile = $userFolder->newFile($this->registrationFormFileName, $filled);
+		return $filledFile;
+	}
+
+	private function getDataFields(): array {
+		$defaultFields = [
+			'lgpd' => 'Yes',
+		];
+
+		$data = array_merge(
+			$this->getDataFieldsFromForm(),
+			$defaultFields
+		);
+		return $data;
+	}
+
+	private function getDataFieldsFromForm(): array {
+		$submission = $this->formSubmissionMapper->getAnswersOfNewerstSubmission(1, $this->userSession->getUser()->getUID());
+		$dataFields = [];
+		foreach ($submission as $answer) {
+			switch ($answer['type']) {
+				case 'multiple_unique':
+					$dataFields[$answer['name']] = $answer['order'];
+					break;
+				case 'date':
+					$date = \DateTime::createFromFormat('Y-m-d', $answer['text']);
+					$dataFields[$answer['name']] = $date->format('d/m/Y');
+					break;
+				default:
+					$dataFields[$answer['name']] = $answer['text'];
+			}
+		}
+		return $dataFields;
 	}
 }

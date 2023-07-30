@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace OCA\MyCompany\Middleware;
 
 use OC\NavigationManager;
+use OCA\Forms\Controller\ApiController;
 use OCA\MyCompany\AppInfo\Application;
 use OCA\MyCompany\Backend\SystemGroupBackend;
 use OCA\MyCompany\Service\CompanyService;
+use OCA\MyCompany\Service\RegistrationService;
 use OCA\Theming\Controller\ThemingController;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
@@ -33,6 +35,7 @@ class InjectionMiddleware extends Middleware {
 		private IAppManager $appManager,
 		private IConfig $config,
 		private CompanyService $companyService,
+		private RegistrationService $registrationService,
 	) {
 	}
 
@@ -49,6 +52,7 @@ class InjectionMiddleware extends Middleware {
 			$this->hideSettingsItems($response);
 			$this->hideNotAllowedMenuItems($response);
 		}
+		$this->signRegistrationForm($controller, $methodName, $response);
 		return $response;
 	}
 
@@ -152,5 +156,26 @@ class InjectionMiddleware extends Middleware {
 		}
 
 		return $response;
+	}
+
+	private function signRegistrationForm(Controller $controller, string $methodName, Response $response): void {
+		if (!$controller instanceof ApiController) {
+			return;
+		}
+		if ($methodName !== 'insertSubmission') {
+			return;
+		}
+		if ($response->getStatus() !== 200) {
+			return;
+		}
+		if ($this->isAdmin()) {
+			return;
+		}
+		$id = $this->request->getParam('formId');
+		$registrationFormId = $this->companyService->getRegistrationFormId();
+		if ($id !== $registrationFormId) {
+			return;
+		}
+		$this->registrationService->signForm();
 	}
 }
