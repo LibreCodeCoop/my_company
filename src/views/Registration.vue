@@ -20,7 +20,7 @@
 						{{ t('my_company', 'Fill registration form with new data') }}
 					</template>
 				</NcButton>
-				<NcButton v-else-if="approved"
+				<NcButton v-if="approved || signUuid"
 					:wide="true"
 					@click="viewSigned()">
 					<template #icon>
@@ -106,11 +106,14 @@ export default {
 .list-items {
 	width: 100%;
 	flex: none;
-	display: flex;
+	display: gid;
 	justify-content: center;
 	align-items: center;
 	&+ .list-items {
-		margin-top: 10px;
+		margin-top: 20px;
 	}
+}
+.button-vue--wide {
+	margin-top: 1rem;
 }
 </style>
