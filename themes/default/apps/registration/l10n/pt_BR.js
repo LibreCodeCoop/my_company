@@ -27,7 +27,7 @@ OC.L10N.register(
     "You can <a href=\"%s\">log in now</a>." : "Você pode <a href=\"%s\">logar-se agora</a>.",
     "Registration with this email domain is not allowed." : "O registro com este domínio de e-mail não é permitido.",
     "Please provide a valid display name." : "Forneça um nome de exibição válido.",
-    "Please provide a valid login name." : "Insira um nome de login válido.",
+    "Please provide a valid login name." : "Insira um CPF/CNPJ de login válido.",
     "The login name you have chosen already exists." : "O CPF/CNPJ já está cadastrado.",
     "The phone number needs to contain the country code." : "O número de telefone precisa conter o código do país.",
     "The phone number is invalid." : "O número do telefone é inválido.",
