@@ -28,7 +28,7 @@ OC.L10N.register(
     "Registration with this email domain is not allowed." : "O registro com este domínio de e-mail não é permitido.",
     "Please provide a valid display name." : "Forneça um nome de exibição válido.",
     "Please provide a valid login name." : "Insira um nome de login válido.",
-    "The login name you have chosen already exists." : "O nome de login que você escolheu já existe.",
+    "The login name you have chosen already exists." : "O CPF/CNPJ já está cadastrado.",
     "The phone number needs to contain the country code." : "O número de telefone precisa conter o código do país.",
     "The phone number is invalid." : "O número do telefone é inválido.",
     "Please provide a password." : "Insira uma senha.",
