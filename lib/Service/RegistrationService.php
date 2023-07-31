@@ -139,7 +139,10 @@ class RegistrationService {
 	}
 
 	private function getDataFieldsFromForm(): array {
-		$submission = $this->formSubmissionMapper->getAnswersOfNewerstSubmission(1, $this->userSession->getUser()->getUID());
+		$submission = $this->formSubmissionMapper->getAnswersOfNewerstSubmission(
+			$this->companyService->getRegistrationFormId(),
+			$this->userSession->getUser()->getUID()
+		);
 		$dataFields = [];
 		foreach ($submission as $answer) {
 			switch ($answer['type']) {
