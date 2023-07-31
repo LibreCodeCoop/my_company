@@ -127,6 +127,18 @@ class RegistrationService {
 	}
 
 	private function getDataFields(): array {
+		$defaultFields = [
+			'lgpd' => 'Yes',
+		];
+
+		$data = array_merge(
+			$this->getDataFieldsFromForm(),
+			$defaultFields
+		);
+		return $data;
+	}
+
+	private function getDataFieldsFromForm(): array {
 		$submission = $this->formSubmissionMapper->getAnswersOfNewerstSubmission(
 			$this->companyService->getRegistrationFormId(),
 			$this->userSession->getUser()->getUID()
