@@ -168,7 +168,8 @@ class InjectionMiddleware extends Middleware {
 		if ($response->getStatus() !== 200) {
 			return;
 		}
-		if ($this->isAdmin()) {
+		$userGroups = $this->groupManager->getUserGroupIds($this->userSession->getUser());
+		if (!in_array('waiting-approval', $userGroups)) {
 			return;
 		}
 		$id = $this->request->getParam('formId');
