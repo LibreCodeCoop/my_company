@@ -10,8 +10,12 @@ Get access to important information about your company
 * Configuration
 * go to root folder of your nextcloud instance and run the follow commands:
   ```bash
+  # Group folders
+  occ app:enable --force groupfolders
+  occ group:add mycompany --display-name="My Company"
+
   occ app:enable my_company
-  occ my_company:company:add --code local --name "My company" --domain local.localhost
+  occ my-company:company:add --code local --name "My company" --domain local.localhost
 
   # registration
   occ app:enable --force registration
@@ -37,6 +41,7 @@ Get access to important information about your company
   occ config:system:set knowledgebaseenabled --value false --type boolean
 
   # Skeleton directory
+  # First, go to root folder of Nextcloud
   mkdir -p data/appdata_`occ config:system:get instanceid`/my_company/skeleton
   occ config:system:set skeletondirectory --value /data/appdata_`occ config:system:get instanceid`/my_company/skeleton
 
@@ -47,8 +52,6 @@ Get access to important information about your company
   occ config:app:set theming color --value "#0082c9"
   occ config:app:set theming logoMime --value "image/png"
   occ config:app:set theming backgroundMime --value "image/jpg"
-  occ config:system:set theme --value ../apps-extra/my_company/themes/default
-  mkdir -p data/appdata_`occ config:system:get instanceid`/my_company/theming
 
   # Forms
   git clone --depth 1 --branch feat/embedded https://github.com/vitormattos/forms/ apps/forms
@@ -57,10 +60,6 @@ Get access to important information about your company
   occ app:enable --force forms
   # Create first the form and get the ID to use here
   occ config:app:set my_company registration_form_id --value 1
-
-  # Group folders
-  occ app:enable --force groupfolders
-  occ group:add mycompany --display-name="My Company"
 
   # Terms of service
   occ app:enable --force terms_of_service
