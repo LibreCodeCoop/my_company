@@ -7,7 +7,7 @@
 		</NcEmptyContent>
 		<div class="flex">
 			<div class="list-items">
-				<NcButton v-if="!approved"
+				<NcButton v-if="!approved || !formFilled"
 					:wide="true"
 					@click="fillForm()">
 					<template #icon>
@@ -20,7 +20,7 @@
 						{{ t('my_company', 'Fill with new data') }}
 					</template>
 				</NcButton>
-				<NcButton v-if="approved || formSignUuid"
+				<NcButton v-else-if="approved || formSignUuid"
 					:wide="true"
 					@click="viewSigned()">
 					<template #icon>
