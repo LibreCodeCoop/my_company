@@ -10,7 +10,7 @@ import RegistrationForm from '../views/RegistrationForm.vue'
 
 Vue.use(VueRouter)
 
-const approved = loadState('my_company', 'approved', false)
+const approved = loadState('my_company', 'registration-approved', false)
 let routes = {}
 
 if (approved) {
