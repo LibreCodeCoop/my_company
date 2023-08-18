@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace OCA\MyCompany\Middleware;
 
 use OC\NavigationManager;
-use OCA\Files\Controller\ViewController;
 use OCA\Forms\Controller\ApiController;
 use OCA\MyCompany\AppInfo\Application;
 use OCA\MyCompany\Backend\SystemGroupBackend;
