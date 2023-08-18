@@ -7,6 +7,7 @@ use OCA\Libresign\Exception\LibresignException;
 use OCA\Libresign\Service\SignFileService;
 use OCA\MyCompany\AppInfo\Application;
 use OCA\MyCompany\Service\CompanyService;
+use OCA\MyCompany\Service\MenuSectionsService;
 use OCA\MyCompany\Service\RegistrationService;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
@@ -32,6 +33,7 @@ class PageController extends Controller {
 		private IUserSession $userSession,
 		private CompanyService $companyService,
 		private SignFileService $signFileService,
+		private MenuSectionsService $menuSectionsService,
 		private SubmissionMapper $submissionMapper,
 		private IConfig $config,
 	) {
@@ -65,6 +67,8 @@ class PageController extends Controller {
 		$userGroups = $this->groupManager->getUserGroupIds($this->userSession->getUser());
 		$this->initialState->provideInitialState('registration-approved', !in_array('waiting-approval', $userGroups));
 
+		$this->addMenuSections();
+
 		Util::addScript(Application::APP_ID, 'my_company-main');
 
 		$response = new TemplateResponse(Application::APP_ID, 'main');
@@ -75,5 +79,10 @@ class PageController extends Controller {
 		$response->setContentSecurityPolicy($policy);
 
 		return $response;
+	}
+
+	private function addMenuSections(): void {
+		$list = $this->menuSectionsService->getList();
+		$this->initialState->provideInitialState('menu-sections', $list);
 	}
 }
