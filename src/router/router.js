@@ -5,9 +5,9 @@ import { loadState } from '@nextcloud/initial-state'
 import { generateUrl } from '@nextcloud/router'
 
 import Home from '../views/Home.vue'
+import MenuSection from '../views/MenuSection.vue'
 import Registration from '../views/Registration.vue'
 import RegistrationForm from '../views/RegistrationForm.vue'
-import MenuSection from '../views/MenuSection.vue'
 
 Vue.use(VueRouter)
 
