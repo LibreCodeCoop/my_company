@@ -5,7 +5,7 @@
 
 <script>
 export default {
-	name: 'MenuSection',
+	name: 'FolderSection',
 	props: {
 		url: {
 			type: String,

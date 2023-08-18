@@ -4,8 +4,8 @@ import VueRouter from 'vue-router'
 import { loadState } from '@nextcloud/initial-state'
 import { generateUrl } from '@nextcloud/router'
 
+import FolderSection from '../views/FolderSection.vue'
 import Home from '../views/Home.vue'
-import MenuSection from '../views/MenuSection.vue'
 import Registration from '../views/Registration.vue'
 import RegistrationForm from '../views/RegistrationForm.vue'
 
@@ -28,7 +28,7 @@ if (approved) {
 		},
 		{
 			path: '/section/:id',
-			component: MenuSection,
+			component: FolderSection,
 			name: 'section',
 			props: true,
 		},
