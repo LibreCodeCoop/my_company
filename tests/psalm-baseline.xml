@@ -31,6 +31,12 @@
     </UndefinedInterfaceMethod>
   </file>
   <file src="lib/Middleware/InjectionMiddleware.php">
+    <InvalidTemplateParam>
+      <code><![CDATA[$response->addHeader('Content-Disposition', 'attachment; filename="' . $type . '"')]]></code>
+      <code><![CDATA[$response->addHeader('Content-Type', $mime)]]></code>
+      <code><![CDATA[$response->cacheFor(3600)]]></code>
+      <code><![CDATA[$response->setContentSecurityPolicy($csp)]]></code>
+    </InvalidTemplateParam>
     <UndefinedClass>
       <code>ApiController</code>
       <code>ThemingController</code>

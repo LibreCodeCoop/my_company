@@ -12,7 +12,6 @@ Get access to important information about your company
   ```bash
   # Group folders
   occ app:enable --force groupfolders
-  occ group:add mycompany --display-name="My Company"
 
   occ app:enable my_company
   occ my-company:company:add --code local --name "My company" --domain local.localhost

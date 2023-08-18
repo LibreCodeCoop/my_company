@@ -8,6 +8,8 @@ use OC\NavigationManager;
 use OCA\Forms\Controller\ApiController;
 use OCA\MyCompany\AppInfo\Application;
 use OCA\MyCompany\Backend\SystemGroupBackend;
+use OCA\MyCompany\Service\CompanyService;
+use OCA\MyCompany\Service\RegistrationService;
 use OCA\Theming\Controller\ThemingController;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
@@ -32,6 +34,8 @@ class InjectionMiddleware extends Middleware {
 		private IGroupManager $groupManager,
 		private IAppManager $appManager,
 		private IConfig $config,
+		private CompanyService $companyService,
+		private RegistrationService $registrationService,
 	) {
 	}
 
@@ -124,12 +128,10 @@ class InjectionMiddleware extends Middleware {
 		}
 
 		if ($type === 'logo') {
-			$companyService = \OC::$server->get(OCA\MyCompany\Service\CompanyService::class);
-			$file = $companyService->getThemeFile('core/img/logo.svg');
+			$file = $this->companyService->getThemeFile('core/img/logo.svg');
 			$mime = 'image/svg+xml';
 		} elseif ($type === 'background') {
-			$companyService = \OC::$server->get(OCA\MyCompany\Service\CompanyService::class);
-			$file = $companyService->getThemeFile('core/img/background.jpg');
+			$file = $this->companyService->getThemeFile('core/img/background.jpg');
 			$mime = 'image/jpg';
 		} else {
 			return new NotFoundResponse();
@@ -171,12 +173,10 @@ class InjectionMiddleware extends Middleware {
 			return;
 		}
 		$id = $this->request->getParam('formId');
-		$companyService = \OC::$server->get(OCA\MyCompany\Service\CompanyService::class);
-		$registrationFormId = $companyService->getRegistrationFormId();
+		$registrationFormId = $this->companyService->getRegistrationFormId();
 		if ($id !== $registrationFormId) {
 			return;
 		}
-		$registrationService = \OC::$server->get(OCA\MyCompany\Service\RegistrationService::class);
-		$registrationService->signForm();
+		$this->registrationService->signForm();
 	}
 }

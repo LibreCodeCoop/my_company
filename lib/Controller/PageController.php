@@ -58,6 +58,7 @@ class PageController extends Controller {
 				$signUuid = $libreSignFile->getUuid();
 				$this->initialState->provideInitialState('registration-form-sign-uuid', $signUuid);
 			} catch (LibresignException | NotFoundException $th) {
+				$this->initialState->provideInitialState('registration-form-filled', false);
 			}
 		}
 
