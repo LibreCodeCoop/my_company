@@ -4,6 +4,8 @@
 </template>
 
 <script>
+import { loadState } from '@nextcloud/initial-state'
+
 export default {
 	name: 'FolderSection',
 	props: {
@@ -11,6 +13,12 @@ export default {
 			type: String,
 			default: '',
 		},
+	},
+	mounted() {
+		if (!this.url) {
+			const menu = loadState('my_company', 'menu-sections', [])
+			this.url = menu.filter(item => item.id === this.$route.params.id)[0].url
+		}
 	},
 }
 </script>
