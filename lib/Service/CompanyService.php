@@ -207,7 +207,7 @@ class CompanyService {
 
 	private function getGroupFolderIdFromCompanyCode(string $companyCode, string $type = ''): int {
 		if (!$this->groupManager->groupExists($companyCode)) {
-			throw new \Exception('Company not allowed to use this system');
+			throw new NotFoundException('Company not allowed to use this system');
 		}
 
 		$mountPointName = $companyCode . ($type ? '-' . $type : '');
