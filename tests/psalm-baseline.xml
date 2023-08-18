@@ -42,6 +42,22 @@
       <code>ThemingController</code>
     </UndefinedClass>
   </file>
+  <file src="lib/Provider/PublicShareTemplateProvider.php">
+    <InvalidTemplateParam>
+      <code><![CDATA[$response->setContentSecurityPolicy($csp)]]></code>
+    </InvalidTemplateParam>
+    <MissingDependency>
+      <code>Template</code>
+    </MissingDependency>
+    <UndefinedClass>
+      <code><![CDATA[$this->federatedShareProvider]]></code>
+      <code><![CDATA[$this->federatedShareProvider]]></code>
+      <code>Application</code>
+      <code>BeforeTemplateRenderedEvent</code>
+      <code>FederatedShareProvider</code>
+      <code>FederatedShareProvider</code>
+    </UndefinedClass>
+  </file>
   <file src="lib/Service/CompanyService.php">
     <MissingDependency>
       <code>private</code>
