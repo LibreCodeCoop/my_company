@@ -1,6 +1,6 @@
 <template>
 	<iframe class="form"
-		:src="url" />
+		:src="iframeUrl" />
 </template>
 
 <script>
@@ -14,11 +14,14 @@ export default {
 			default: '',
 		},
 	},
-	mounted() {
-		if (!this.url) {
+	computed: {
+		iframeUrl() {
+			if (this.url) {
+				return this.url
+			}
 			const menu = loadState('my_company', 'menu-sections', [])
-			this.url = menu.filter(item => item.id === this.$route.params.id)[0].url
-		}
+			return menu.filter(item => item.id === this.$route.params.id)[0].url
+		},
 	},
 }
 </script>
