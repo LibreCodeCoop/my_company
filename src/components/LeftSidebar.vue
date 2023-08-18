@@ -33,7 +33,7 @@ export default {
 	},
 	data() {
 		return {
-			approved: loadState('my_company', 'approved', false),
+			approved: loadState('my_company', 'registration-approved', false),
 		}
 	},
 }
