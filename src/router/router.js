@@ -7,7 +7,7 @@ import { generateUrl } from '@nextcloud/router'
 import Home from '../views/Home.vue'
 import Registration from '../views/Registration.vue'
 import RegistrationForm from '../views/RegistrationForm.vue'
-import Section from '../views/Section.vue'
+import MenuSection from '../views/MenuSection.vue'
 
 Vue.use(VueRouter)
 
@@ -28,7 +28,7 @@ if (approved) {
 		},
 		{
 			path: '/section/:id',
-			component: Section,
+			component: MenuSection,
 			name: 'section',
 			props: true,
 		},

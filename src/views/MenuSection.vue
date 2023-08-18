@@ -5,15 +5,12 @@
 
 <script>
 export default {
-	name: 'Section',
+	name: 'MenuSection',
 	props: {
 		url: {
 			type: String,
 			default: '',
 		},
-	},
-	mounted() {
-		console.log(this.url)
 	},
 }
 </script>
