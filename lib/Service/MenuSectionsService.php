@@ -35,7 +35,7 @@ class MenuSectionsService {
 		$list = [
 			[
 				'name' => 'Pagamentos',
-				'id' => $this->slugify('Parametros'),
+				'id' => 80,
 				'url' => 'http://localhost/s/XFeNfHHYDs8eGNn',
 				'icon' => <<<XML
 					<svg id="emoji" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg">
