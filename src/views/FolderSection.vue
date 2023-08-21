@@ -20,7 +20,7 @@ export default {
 				return this.url
 			}
 			const menu = loadState('my_company', 'menu-sections', [])
-			return menu.filter(item => item.id === this.$route.params.id)[0].url
+			return menu.filter(item => item.id == this.$route.params.id)[0].url
 		},
 	},
 }

@@ -22,6 +22,6 @@
 
 return [
 	'routes' => [
-		['name' => 'MenuSection#section', 'url' => '/section/{fileId}', 'verb' => 'get'],
+		['name' => 'FolderSection#section', 'url' => '/folder-section/{fileid}', 'verb' => 'get'],
 	],
 ];

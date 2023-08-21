@@ -21,7 +21,7 @@
  */
 
 return array_merge_recursive(
-	include(__DIR__ . '/routes/routesMenuSectionController.php'),
+	include(__DIR__ . '/routes/routesFolderSectionController.php'),
 	include(__DIR__ . '/routes/routesRegistrationController.php'),
 	include(__DIR__ . '/routes/routesProfileController.php'),
 	include(__DIR__ . '/routes/routesPageController.php'),

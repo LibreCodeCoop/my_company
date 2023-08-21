@@ -36,7 +36,7 @@ class MenuSectionsService {
 			[
 				'name' => 'Pagamentos',
 				'id' => 80,
-				'url' => 'http://localhost/s/XFeNfHHYDs8eGNn',
+				'url' => '/apps/my_company/folder-section/80?dir=/Pagamentos&fileid=80',
 				'icon' => <<<XML
 					<svg id="emoji" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg">
 						<g id="color">
@@ -55,8 +55,8 @@ class MenuSectionsService {
 			],
 			[
 				'name' => 'Documentos 2',
-				'id' => $this->slugify('Documentos 2'),
-				'url' => 'http://localhost/s/xStw2nj56oKG9aX',
+				'id' => 81,
+				'url' => '/apps/my_company/folder-section/80?dir=/Pagamentos&fileid=80',
 				'icon' => <<<XML
 					<svg id="emoji" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg">
 						<g id="color">
