@@ -9,20 +9,24 @@
 	border-radius: unset;
 }
 
-#app-content {
-	overflow: unset;
-}
-
 #app-navigation-vue {
 	display: none;
 }
 
-#app-content #app-content-files .files-controls {
+#app-content-vue .files-list__row-name {
+	padding-left: 15px;
+}
+
+#app-content-vue .files-list__row-actions {
+	display: none;
+}
+
+#app-content-vue .files-list__header {
 	display: none;
 }
 
 
-.list-container .selection, .list-container .column-selection {
+#app-content-vue .files-list .files-list__row-checkbox {
 	display: none;
 }
 
