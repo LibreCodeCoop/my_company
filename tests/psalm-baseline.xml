@@ -1,5 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <files psalm-version="5.14.1@b9d355e0829c397b9b3b47d0c0ed042a8a70284d">
+  <file src="lib/Controller/FolderSectionController.php">
+    <InvalidNamedArgument>
+      <code>...$params</code>
+    </InvalidNamedArgument>
+    <InvalidTemplateParam>
+      <code><![CDATA[$response->setContentSecurityPolicy($policy)]]></code>
+    </InvalidTemplateParam>
+    <MissingDependency>
+      <code><![CDATA[$this->rootFolder]]></code>
+      <code><![CDATA[$this->rootFolder]]></code>
+      <code>private</code>
+    </MissingDependency>
+    <UndefinedClass>
+      <code><![CDATA[$this->activityHelper]]></code>
+      <code>FilesAppInfoApplication</code>
+      <code>FilesAppInfoApplication</code>
+      <code>FilesAppInfoApplication</code>
+      <code>FilesAppInfoApplication</code>
+      <code>FilesAppInfoApplication</code>
+      <code>FilesAppInfoApplication</code>
+      <code>FilesAppInfoApplication</code>
+      <code>FilesAppInfoApplication</code>
+      <code>LoadAdditionalScriptsEvent</code>
+      <code>LoadSidebar</code>
+      <code>\OC_App</code>
+      <code>\OC_Helper</code>
+      <code>private</code>
+    </UndefinedClass>
+  </file>
   <file src="lib/Controller/PageController.php">
     <InvalidTemplateParam>
       <code><![CDATA[$response->setContentSecurityPolicy($policy)]]></code>
@@ -69,6 +98,12 @@
       <code>private</code>
       <code>private</code>
     </UndefinedClass>
+  </file>
+  <file src="lib/Service/MenuSectionsService.php">
+    <MissingDependency>
+      <code><![CDATA[$this->rootFolder]]></code>
+      <code>private</code>
+    </MissingDependency>
   </file>
   <file src="lib/Service/RegistrationService.php">
     <MissingDependency>
