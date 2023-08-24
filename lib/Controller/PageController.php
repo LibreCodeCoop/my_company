@@ -8,7 +8,6 @@ use OCA\MyCompany\AppInfo\Application;
 use OCA\MyCompany\Service\CompanyService;
 use OCA\MyCompany\Service\MenuSectionsService;
 use OCA\MyCompany\Service\RegistrationService;
-use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
