@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <files psalm-version="5.14.1@b9d355e0829c397b9b3b47d0c0ed042a8a70284d">
+  <file src="lib/AppInfo/Application.php">
+    <UndefinedClass>
+      <code>PublicShareTemplateProvider</code>
+    </UndefinedClass>
+  </file>
   <file src="lib/Controller/FolderSectionController.php">
     <InvalidNamedArgument>
       <code>...$params</code>
@@ -69,22 +74,6 @@
     <UndefinedClass>
       <code>ApiController</code>
       <code>ThemingController</code>
-    </UndefinedClass>
-  </file>
-  <file src="lib/Provider/PublicShareTemplateProvider.php">
-    <InvalidTemplateParam>
-      <code><![CDATA[$response->setContentSecurityPolicy($csp)]]></code>
-    </InvalidTemplateParam>
-    <MissingDependency>
-      <code>Template</code>
-    </MissingDependency>
-    <UndefinedClass>
-      <code><![CDATA[$this->federatedShareProvider]]></code>
-      <code><![CDATA[$this->federatedShareProvider]]></code>
-      <code>Application</code>
-      <code>BeforeTemplateRenderedEvent</code>
-      <code>FederatedShareProvider</code>
-      <code>FederatedShareProvider</code>
     </UndefinedClass>
   </file>
   <file src="lib/Service/CompanyService.php">
