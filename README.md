@@ -21,6 +21,10 @@ occ app:enable --force forms
 # Create first the form and get the ID to use here
 occ config:app:set my_company registration_form_id --value 1
 
+# LibreSign
+git clone --depth 1 --branch feature/add-sign-method https://github.com/LibreSign/libresign/ apps/libresign
+occ app:enable --force libresign
+
 occ app:enable my_company
 occ my-company:company:add --code local --name "My company" --domain local.localhost
 ```
@@ -66,10 +70,6 @@ occ config:app:set theming backgroundMime --value "image/jpg"
 
 # Terms of service
 occ app:enable --force terms_of_service
-
-# LibreSign
-git clone --depth 1 --branch feature/add-sign-method https://github.com/LibreSign/libresign/ apps/libresign
-occ app:enable --force libresign
 ```
 ## Theming
 * Inside the folder `appdata_<instanceId>/my_company/theming` you will need go create a folder with the domain of company
