@@ -69,10 +69,6 @@ const instance = new Vue({
 
 window.store = store
 
-// make the instance available to global components that might run on the same page
-if (!window.OCA.MyCompany) {
-	window.OCA.MyCompany = {}
-}
 OCA.MyCompany.instance = instance
 
 export default instance
