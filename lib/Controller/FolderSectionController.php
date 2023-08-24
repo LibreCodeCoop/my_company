@@ -120,7 +120,9 @@ class FolderSectionController extends Controller {
 		}
 
 		$this->initialState->provideInitialState(FilesAppInfoApplication::APP_ID, 'storageStats', $storageInfo);
-		$this->initialState->provideInitialState(FilesAppInfoApplication::APP_ID, 'config', []);
+		$this->initialState->provideInitialState(FilesAppInfoApplication::APP_ID, 'config', [
+			'show_hidden' => false
+		]);
 		$this->initialState->provideInitialState(FilesAppInfoApplication::APP_ID, 'viewConfigs', []);
 		$this->initialState->provideInitialState(FilesAppInfoApplication::APP_ID, 'favoriteFolders', $favElements['folders'] ?? []);
 
