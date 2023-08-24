@@ -13,6 +13,14 @@ Get access to important information about your company
   # Group folders
   occ app:enable --force groupfolders
 
+  # Forms
+  git clone --depth 1 --branch feat/embedded https://github.com/vitormattos/forms/ apps/forms
+  docker run -it -v ${PWD}apps/forms:/app -w /app node npm ci
+  docker run -it -v ${PWD}apps/forms:/app -w /app node npm run build
+  occ app:enable --force forms
+  # Create first the form and get the ID to use here
+  occ config:app:set my_company registration_form_id --value 1
+
   occ app:enable my_company
   occ my-company:company:add --code local --name "My company" --domain local.localhost
 
@@ -51,14 +59,6 @@ Get access to important information about your company
   occ config:app:set theming color --value "#0082c9"
   occ config:app:set theming logoMime --value "image/png"
   occ config:app:set theming backgroundMime --value "image/jpg"
-
-  # Forms
-  git clone --depth 1 --branch feat/embedded https://github.com/vitormattos/forms/ apps/forms
-  docker run -it -v ${PWD}apps/forms:/app -w /app node npm ci
-  docker run -it -v ${PWD}apps/forms:/app -w /app node npm run build
-  occ app:enable --force forms
-  # Create first the form and get the ID to use here
-  occ config:app:set my_company registration_form_id --value 1
 
   # Terms of service
   occ app:enable --force terms_of_service
