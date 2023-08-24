@@ -27,9 +27,8 @@ declare(strict_types=1);
 namespace OCA\MyCompany\Service;
 
 use InvalidArgumentException;
-use OCA\GroupFolders\Folder\FolderManager;
-use OCA\GroupFolders\Mount\MountProvider;
 use OCA\MyCompany\AppInfo\Application;
+use OCP\App\IAppManager;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IAppData;
@@ -44,6 +43,7 @@ use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IUserSession;
+use OCP\Server;
 
 class CompanyService {
 
@@ -53,15 +53,17 @@ class CompanyService {
 		private IRootFolder $rootFolder,
 		private IUserSession $userSession,
 		private IAppData $appData,
-		private FolderManager $groupFolderManager,
 		private IGroupManager $groupManager,
-		private MountProvider $groupFolderMountProvider,
 		private IConfig $config,
 		private IL10N $l,
+		private IAppManager $appManager,
 	) {
 	}
 
 	public function add(string $code, string $name = '', string $domain = '', bool $force = true): void {
+		if ($error = $this->checkDependencies()) {
+			throw new InvalidArgumentException('Enable the follow apps first: ' . implode(', ', $error));
+		}
 		$code = $this->slugify($code);
 		if (!empty($domain)) {
 			list($codeFromDomain) = explode('.', $domain);
@@ -125,7 +127,8 @@ class CompanyService {
 
 	public function getCompanyFolder(string $type = ''): Folder {
 		$folderId = $this->getGroupFolderIdFromCompanyCode($this->getCompanyCode(), $type);
-		$folder = $this->groupFolderMountProvider->getFolder($folderId);
+		$groupFolderMountProvider = Server::get(\OCA\GroupFolders\Mount\MountProvider::class);
+		$folder = $groupFolderMountProvider->getFolder($folderId);
 		return $folder;
 	}
 
@@ -226,9 +229,24 @@ class CompanyService {
 		$folderId = $result->fetchOne();
 
 		if (!$folderId) {
-			$folderId = $this->groupFolderManager->createFolder($mountPointName);
-			$this->groupFolderManager->addApplicableGroup($folderId, $mountPointName);
+			$groupFolderManager = Server::get(\OCA\GroupFolders\Folder\FolderManager::class);
+			$folderId = $groupFolderManager->createFolder($mountPointName);
+			$groupFolderManager->addApplicableGroup($folderId, $mountPointName);
 		}
 		return (int) $folderId;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function checkDependencies(): array {
+		$apps = ['forms', 'groupfolders', 'libresign', 'theming', 'viewer'];
+		$appsMissing = [];
+		foreach ($apps as $app) {
+			if (!$this->appManager->isEnabledForUser($app)) {
+				$appsMissing[] = $app;
+			}
+		}
+		return $appsMissing;
 	}
 }
