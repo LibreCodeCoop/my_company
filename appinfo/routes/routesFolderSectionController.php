@@ -20,9 +20,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-return array_merge_recursive(
-	include(__DIR__ . '/routes/routesFolderSectionController.php'),
-	include(__DIR__ . '/routes/routesRegistrationController.php'),
-	include(__DIR__ . '/routes/routesProfileController.php'),
-	include(__DIR__ . '/routes/routesPageController.php'),
-);
+return [
+	'routes' => [
+		['name' => 'FolderSection#section', 'url' => '/folder-section/{fileid}', 'verb' => 'get'],
+	],
+];

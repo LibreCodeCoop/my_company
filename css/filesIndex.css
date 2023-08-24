@@ -1,0 +1,36 @@
+#body-user #header {
+	display: none;
+}
+
+#body-user #content {
+	margin: unset;
+	width: 100%;
+	height: 100%;
+	border-radius: unset;
+}
+
+#app-navigation-vue {
+	display: none;
+}
+
+#app-content-vue .files-list__row-name {
+	padding-left: 15px;
+}
+
+#app-content-vue .files-list__row-actions {
+	display: none;
+}
+
+#app-content-vue .files-list__header {
+	display: none;
+}
+
+
+#app-content-vue .files-list .files-list__row-checkbox {
+	display: none;
+}
+
+
+#body-user .toast-error {
+	display: none;
+}
