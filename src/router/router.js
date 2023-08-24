@@ -32,6 +32,11 @@ if (approved) {
 			name: 'section',
 			props: true,
 		},
+		{
+			path: '/registration/form',
+			component: RegistrationForm,
+			name: 'registration-form',
+		},
 	]
 } else {
 	routes = [

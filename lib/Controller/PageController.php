@@ -2,7 +2,6 @@
 
 namespace OCA\MyCompany\Controller;
 
-use OCA\Forms\Db\SubmissionMapper;
 use OCA\Libresign\Exception\LibresignException;
 use OCA\Libresign\Service\SignFileService;
 use OCA\MyCompany\AppInfo\Application;
@@ -21,6 +20,7 @@ use OCP\IGroupManager;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
+use OCP\Server;
 use OCP\Util;
 
 class PageController extends Controller {
@@ -34,7 +34,6 @@ class PageController extends Controller {
 		private CompanyService $companyService,
 		private SignFileService $signFileService,
 		private MenuSectionsService $menuSectionsService,
-		private SubmissionMapper $submissionMapper,
 		private IConfig $config,
 	) {
 		parent::__construct(Application::APP_ID, $request);
@@ -43,9 +42,14 @@ class PageController extends Controller {
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
 	public function index(string $path): TemplateResponse {
+		if ($appsMissing = $this->companyService->checkDependencies()) {
+			return new TemplateResponse(Application::APP_ID, 'error', ['appsMissing' => $appsMissing]);  // templates/error.php
+		}
 		try {
 			$registrationFormId = $this->companyService->getRegistrationFormId();
-			$participants = $this->submissionMapper->findParticipantsByForm($registrationFormId);
+			/** @var \OCA\Forms\Db\SubmissionMapper */
+			$submissionMapper = Server::get(\OCA\Forms\Db\SubmissionMapper::class);
+			$participants = $submissionMapper->findParticipantsByForm($registrationFormId);
 			$filled = in_array($this->userSession->getUser()->getUID(), $participants);
 			$this->initialState->provideInitialState('registration-form-filled', $filled);
 		} catch (\Throwable $th) {
