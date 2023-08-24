@@ -9,9 +9,6 @@
     <InvalidNamedArgument>
       <code>...$params</code>
     </InvalidNamedArgument>
-    <InvalidTemplateParam>
-      <code><![CDATA[$response->setContentSecurityPolicy($policy)]]></code>
-    </InvalidTemplateParam>
     <MissingDependency>
       <code><![CDATA[$this->rootFolder]]></code>
       <code><![CDATA[$this->rootFolder]]></code>
@@ -35,23 +32,26 @@
     </UndefinedClass>
   </file>
   <file src="lib/Controller/PageController.php">
-    <InvalidTemplateParam>
-      <code><![CDATA[$response->setContentSecurityPolicy($policy)]]></code>
-    </InvalidTemplateParam>
     <UndefinedClass>
       <code><![CDATA[$this->signFileService]]></code>
-      <code><![CDATA[$this->submissionMapper]]></code>
       <code>LibresignException</code>
-      <code>private</code>
+      <code>\OCA\Forms\Db\SubmissionMapper</code>
       <code>private</code>
     </UndefinedClass>
+    <UndefinedDocblockClass>
+      <code>$submissionMapper</code>
+      <code>$submissionMapper</code>
+    </UndefinedDocblockClass>
   </file>
   <file src="lib/Controller/ProfileController.php">
     <UndefinedClass>
-      <code><![CDATA[$this->signFileService]]></code>
       <code>LibresignException</code>
-      <code>private</code>
+      <code>\OCA\Libresign\Service\SignFileService</code>
     </UndefinedClass>
+    <UndefinedDocblockClass>
+      <code>$signFileService</code>
+      <code>$signFileService</code>
+    </UndefinedDocblockClass>
   </file>
   <file src="lib/Controller/RegistrationController.php">
     <UndefinedClass>
@@ -65,12 +65,6 @@
     </UndefinedInterfaceMethod>
   </file>
   <file src="lib/Middleware/InjectionMiddleware.php">
-    <InvalidTemplateParam>
-      <code><![CDATA[$response->addHeader('Content-Disposition', 'attachment; filename="' . $type . '"')]]></code>
-      <code><![CDATA[$response->addHeader('Content-Type', $mime)]]></code>
-      <code><![CDATA[$response->cacheFor(3600)]]></code>
-      <code><![CDATA[$response->setContentSecurityPolicy($csp)]]></code>
-    </InvalidTemplateParam>
     <UndefinedClass>
       <code>ApiController</code>
       <code>ThemingController</code>
@@ -81,11 +75,8 @@
       <code>private</code>
     </MissingDependency>
     <UndefinedClass>
-      <code><![CDATA[$this->groupFolderManager]]></code>
-      <code><![CDATA[$this->groupFolderManager]]></code>
-      <code><![CDATA[$this->groupFolderMountProvider]]></code>
-      <code>private</code>
-      <code>private</code>
+      <code>\OCA\GroupFolders\Folder\FolderManager</code>
+      <code>\OCA\GroupFolders\Mount\MountProvider</code>
     </UndefinedClass>
   </file>
   <file src="lib/Service/MenuSectionsService.php">
