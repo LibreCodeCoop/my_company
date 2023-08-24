@@ -32,6 +32,9 @@ occ my-company:company:add --code local --name "My company" --domain local.local
 
 Not mandatory, but maybe is important
 ```bash
+# Hide development notice
+occ config:system:set has_valid_subscription --value true --type boolean
+
 # registration
 occ app:enable --force registration
 occ config:app:set registration show_fullname --value yes

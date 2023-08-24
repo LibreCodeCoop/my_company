@@ -2,10 +2,6 @@
 	display: none;
 }
 
-.development-notice {
-	display: none;
-}
-
 #app-navigation li[data-section-id='workflow'],
 #app-navigation li[data-section-id='availability'],
 #app-navigation li[data-section-id='sharing'] {
