@@ -13,24 +13,28 @@
 	display: none;
 }
 
-#app-content-vue .files-list__row-name {
-	padding-left: 15px;
-}
-
-#app-content-vue .files-list__row-actions {
+#app-content-files .fileactions {
 	display: none;
 }
 
-#app-content-vue .files-list__header {
+#app-content-files .column-selection {
 	display: none;
 }
 
 
-#app-content-vue .files-list .files-list__row-checkbox {
+#app-content-files .files-fileList .selection {
 	display: none;
 }
 
 
-#body-user .toast-error {
+#app-content-files .files-controls {
 	display: none;
+}
+
+#app-content-files .files-filestable thead {
+	top: unset;
+}
+
+#app-content #view-toggle {
+	position: fixed;
 }

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f2b511a1e7d813e8e12081815e6a8569",
+    "content-hash": "5260504cc2970a2861bfb118441b1c3a",
     "packages": [
         {
             "name": "mikehaertl/php-pdftk",
@@ -206,30 +206,29 @@
         },
         {
             "name": "nextcloud/ocp",
-            "version": "dev-master",
+            "version": "dev-stable27",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nextcloud-deps/ocp.git",
-                "reference": "cb36d570c3b7aae1735599cc4b3614b9ce5c9c79"
+                "reference": "ec5cfc7f39f99e877f7c585866b006ca08dc7556"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nextcloud-deps/ocp/zipball/cb36d570c3b7aae1735599cc4b3614b9ce5c9c79",
-                "reference": "cb36d570c3b7aae1735599cc4b3614b9ce5c9c79",
+                "url": "https://api.github.com/repos/nextcloud-deps/ocp/zipball/ec5cfc7f39f99e877f7c585866b006ca08dc7556",
+                "reference": "ec5cfc7f39f99e877f7c585866b006ca08dc7556",
                 "shasum": ""
             },
             "require": {
-                "php": "~8.0 || ~8.1 || ~8.2",
+                "php": "^7.4 || ~8.0 || ~8.1",
                 "psr/clock": "^1.0",
                 "psr/container": "^2.0.2",
                 "psr/event-dispatcher": "^1.0",
                 "psr/log": "^1.1.4"
             },
-            "default-branch": true,
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "28.0.0-dev"
+                    "dev-stable27": "27.0.0-dev"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -245,9 +244,9 @@
             "description": "Composer package containing Nextcloud's public API (classes, interfaces)",
             "support": {
                 "issues": "https://github.com/nextcloud-deps/ocp/issues",
-                "source": "https://github.com/nextcloud-deps/ocp/tree/master"
+                "source": "https://github.com/nextcloud-deps/ocp/tree/stable27"
             },
-            "time": "2023-08-26T00:28:49+00:00"
+            "time": "2023-08-30T00:30:24+00:00"
         },
         {
             "name": "psr/clock",
