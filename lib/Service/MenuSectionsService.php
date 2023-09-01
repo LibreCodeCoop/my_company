@@ -31,16 +31,37 @@ use OCA\MyCompany\Db\ShareMapper;
 use OCP\Files\IAppData;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
+use OCP\IEmojiHelper;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
 
 class MenuSectionsService {
+	/**
+	 * https://github.com/sebdesign/cap-height -- for 500px height
+	 * Automated check: https://codepen.io/skjnldsv/pen/PydLBK/
+	 * Noto Sans cap-height is 0.715 and we want a 200px caps height size
+	 * (0.4 letter-to-total-height ratio, 500*0.4=200), so: 200/0.715 = 280px.
+	 * Since we start from the baseline (text-anchor) we need to
+	 * shift the y axis by 100px (half the caps height): 500/2+100=350
+	 *
+	 * Copied from @see \OC\Avatar\Avatar::$svgTemplate with some changes:
+	 * - {font} is injected
+	 * - size fixed to 512
+	 * - font-size reduced to 240
+	 * - font-weight and fill color are removed as they are not applicable
+	 */
+	private string $svgTemplate = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+		<svg width="512" height="512" version="1.1" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+			<text x="50%" y="330" style="font-size:240px;font-family:{font};text-anchor:middle;">{letter}</text>
+		</svg>';
+
 	public function __construct(
 		private IUserSession $userSession,
 		private ShareMapper $shareMapper,
 		private IRootFolder $rootFolder,
 		private IAppData $appData,
 		private IURLGenerator $urlGenerator,
+		private IEmojiHelper $emojiHelper,
 	) {
 	}
 
@@ -65,13 +86,43 @@ class MenuSectionsService {
 				$content = $directoryFile->getContent();
 				$parsed = parse_ini_string($content);
 				if (!empty($parsed['Icon'])) {
-					$iconsFolder = $this->appData->getFolder('icons');
-					$icon = $iconsFolder->getFile($parsed['Icon'] . '.svg');
-					$list[$key]['icon'] = $icon->getContent();
+					if ($this->emojiHelper->isValidSingleEmoji($parsed['Icon'])) {
+						$list[$key]['icon'] = $this->getEmojiAvatar($parsed['Icon']);
+					} else {
+						$iconsFolder = $this->appData->getFolder('icons');
+						$icon = $iconsFolder->getFile($parsed['Icon'] . '.svg');
+						$list[$key]['icon'] = $icon->getContent();
+					}
 				}
 			} catch (NotFoundException $e) {
 			}
 		}
 		return $list;
+	}
+
+	private function getEmojiAvatar(string $emoji, string $fillColor = 'ffffff'): string {
+		return str_replace([
+			'{letter}',
+			'{fill}',
+			'{font}',
+		], [
+			$emoji,
+			$fillColor,
+			implode(',', [
+				"'Segoe UI'",
+				'Roboto',
+				'Oxygen-Sans',
+				'Cantarell',
+				'Ubuntu',
+				"'Helvetica Neue'",
+				'Arial',
+				'sans-serif',
+				"'Noto Color Emoji'",
+				"'Apple Color Emoji'",
+				"'Segoe UI Emoji'",
+				"'Segoe UI Symbol'",
+				"'Noto Sans'",
+			]),
+		], $this->svgTemplate);
 	}
 }
