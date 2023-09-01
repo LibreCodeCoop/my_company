@@ -97,6 +97,8 @@ class FolderSectionController extends Controller {
 	}
 
 	private function showFileList($dir = '', $view = '', $fileNotFound = false) {
+		$nav = new \OCP\Template('files', 'appnavigation', '');
+
 		// Load the files we need
 		\OCP\Util::addStyle('my_company', 'filesIndex');
 		\OCP\Util::addStyle('files', 'merged');
@@ -112,6 +114,46 @@ class FolderSectionController extends Controller {
 			$favElements['folders'] = [];
 		}
 
+		$collapseClasses = '';
+		if (count($favElements['folders']) > 0) {
+			$collapseClasses = 'collapsible';
+		}
+
+		$favoritesSublistArray = [];
+
+		$navBarPositionPosition = 6;
+		foreach ($favElements['folders'] as $favElement) {
+			$element = [
+				'id' => str_replace('/', '-', $favElement),
+				'dir' => $favElement,
+				'order' => $navBarPositionPosition,
+				'name' => basename($favElement),
+				'icon' => 'folder',
+				'params' => [
+					'view' => 'files',
+					'dir' => $favElement,
+				],
+			];
+
+			array_push($favoritesSublistArray, $element);
+			$navBarPositionPosition++;
+		}
+
+		$navItems = \OCA\Files\App::getNavigationManager()->getAll();
+
+		// add the favorites entry in menu
+		$navItems['favorites']['sublist'] = $favoritesSublistArray;
+		$navItems['favorites']['classes'] = $collapseClasses;
+
+		// parse every menu and add the expanded user value
+		foreach ($navItems as $key => $item) {
+			$navItems[$key]['expanded'] = $this->config->getUserValue($userId, 'files', 'show_' . $item['id'], '0') === '1';
+		}
+
+		$nav->assign('navigationItems', $navItems);
+
+		$contentItems = [];
+
 		try {
 			// If view is files, we use the directory, otherwise we use the root storage
 			$storageInfo = $this->getStorageInfo(($view === 'files' && $dir) ? $dir : '/');
@@ -120,19 +162,44 @@ class FolderSectionController extends Controller {
 		}
 
 		$this->initialState->provideInitialState(FilesAppInfoApplication::APP_ID, 'storageStats', $storageInfo);
+		$this->initialState->provideInitialState(FilesAppInfoApplication::APP_ID, 'navigation', $navItems);
 		$this->initialState->provideInitialState(FilesAppInfoApplication::APP_ID, 'config', [
 			'show_hidden' => false
 		]);
 		$this->initialState->provideInitialState(FilesAppInfoApplication::APP_ID, 'viewConfigs', []);
-		$this->initialState->provideInitialState(FilesAppInfoApplication::APP_ID, 'favoriteFolders', $favElements['folders'] ?? []);
 
 		// File sorting user config
 		$filesSortingConfig = json_decode($this->config->getUserValue($userId, 'files', 'files_sorting_configs', '{}'), true);
 		$this->initialState->provideInitialState(FilesAppInfoApplication::APP_ID, 'filesSortingConfig', $filesSortingConfig);
 
+		// render the container content for every navigation item
+		foreach ($navItems as $item) {
+			$content = '';
+			if (isset($item['script'])) {
+				$content = $this->renderScript($item['appname'], $item['script']);
+			}
+			// parse submenus
+			if (isset($item['sublist'])) {
+				foreach ($item['sublist'] as $subitem) {
+					$subcontent = '';
+					if (isset($subitem['script'])) {
+						$subcontent = $this->renderScript($subitem['appname'], $subitem['script']);
+					}
+					$contentItems[$subitem['id']] = [
+						'id' => $subitem['id'],
+						'content' => $subcontent
+					];
+				}
+			}
+			$contentItems[$item['id']] = [
+				'id' => $item['id'],
+				'content' => $content
+			];
+		}
+
+		$this->eventDispatcher->dispatchTyped(new ResourcesLoadAdditionalScriptsEvent());
 		$event = new LoadAdditionalScriptsEvent();
 		$this->eventDispatcher->dispatchTyped($event);
-		$this->eventDispatcher->dispatchTyped(new ResourcesLoadAdditionalScriptsEvent());
 		$this->eventDispatcher->dispatchTyped(new LoadSidebar());
 		// Load Viewer scripts
 		if (class_exists(LoadViewer::class)) {
@@ -142,9 +209,23 @@ class FolderSectionController extends Controller {
 		$this->initialState->provideInitialState(FilesAppInfoApplication::APP_ID, 'templates_path', $this->templateManager->hasTemplateDirectory() ? $this->templateManager->getTemplatePath() : false);
 		$this->initialState->provideInitialState(FilesAppInfoApplication::APP_ID, 'templates', $this->templateManager->listCreators());
 
-		$params = [
-			'fileNotFound' => $fileNotFound ? 1 : 0
-		];
+		$params = [];
+		$params['usedSpacePercent'] = (int) $storageInfo['relative'];
+		$params['owner'] = $storageInfo['owner'] ?? '';
+		$params['ownerDisplayName'] = $storageInfo['ownerDisplayName'] ?? '';
+		$params['isPublic'] = false;
+		$params['allowShareWithLink'] = $this->shareManager->shareApiAllowLinks() ? 'yes' : 'no';
+		$params['defaultFileSorting'] = $filesSortingConfig['files']['sorting_mode'] ?? 'basename';
+		$params['defaultFileSortingDirection'] = $filesSortingConfig['files']['sorting_direction'] ?? 'asc';
+		$params['showgridview'] = $this->config->getUserValue($userId, 'files', 'show_grid', false);
+		$showHidden = (bool) $this->config->getUserValue($userId, 'files', 'show_hidden', false);
+		$params['showHiddenFiles'] = $showHidden ? 1 : 0;
+		$cropImagePreviews = (bool) $this->config->getUserValue($userId, 'files', 'crop_image_previews', true);
+		$params['cropImagePreviews'] = $cropImagePreviews ? 1 : 0;
+		$params['fileNotFound'] = $fileNotFound ? 1 : 0;
+		$params['appNavigation'] = $nav;
+		$params['appContents'] = $contentItems;
+		$params['hiddenFields'] = $event->getHiddenFields();
 
 		$response = new TemplateResponse(
 			FilesAppInfoApplication::APP_ID,
@@ -153,8 +234,6 @@ class FolderSectionController extends Controller {
 		);
 		$policy = new ContentSecurityPolicy();
 		$policy->addAllowedFrameDomain('\'self\'');
-		// Allow preview service worker
-		$policy->addAllowedWorkerSrcDomain('\'self\'');
 		$response->setContentSecurityPolicy($policy);
 
 		return $response;
