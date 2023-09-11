@@ -26,8 +26,8 @@ declare(strict_types=1);
 
 namespace OCA\MyCompany\Listener;
 
-use OCA\MyCompany\Datasource\AdminAudit;
 use OCA\Analytics\Datasource\DatasourceEvent;
+use OCA\MyCompany\Datasource\AdminAudit;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 

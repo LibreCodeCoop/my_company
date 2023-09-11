@@ -30,8 +30,7 @@ use OCA\Analytics\Datasource\IDatasource;
 use OCP\IConfig;
 use OCP\IL10N;
 
-class AdminAudit implements IDatasource
-{
+class AdminAudit implements IDatasource {
 	public function __construct(
 		private IL10N $l10n,
 		private IConfig $config,
@@ -42,6 +41,7 @@ class AdminAudit implements IDatasource
 	 * @return string Display Name of the datasource
 	 */
 	public function getName(): string {
+		// TRANSLATORS The report name to display file access logs in the app Analytics
 		return $this->l10n->t('App: Admin Audit');
 	}
 
@@ -64,8 +64,7 @@ class AdminAudit implements IDatasource
 	 * @param $option
 	 * @return array available options of the datasoure
 	 */
-	public function readData($option): array
-	{
+	public function readData($option): array {
 		$default = $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data') . '/audit.log';
 		$logFile = $this->config->getAppValue('admin_audit', 'logfile', $default);
 
