@@ -8,7 +8,7 @@
 		 xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
 		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 >
-	<testsuite name="Talk App Tests">
+	<testsuite name="MyCompany App Tests">
 			<directory suffix="Test.php">.</directory>
 	</testsuite>
 	<coverage>
