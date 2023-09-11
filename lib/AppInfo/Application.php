@@ -2,6 +2,8 @@
 
 namespace OCA\MyCompany\AppInfo;
 
+use OCA\Analytics\Datasource\DatasourceEvent;
+use OCA\MyCompany\Listener\AnalyticsDatasourceListener;
 use OCA\MyCompany\Middleware\InjectionMiddleware;
 use OCA\MyCompany\Provider\PublicShareTemplateProvider;
 use OCP\AppFramework\App;
@@ -25,5 +27,6 @@ class Application extends App implements IBootstrap {
 	public function register(IRegistrationContext $context): void {
 		$context->registerMiddleWare(InjectionMiddleware::class, true);
 		$context->registerPublicShareTemplateProvider(PublicShareTemplateProvider::class);
+		$context->registerEventListener(DatasourceEvent::class, AnalyticsDatasourceListener::class);
 	}
 }
