@@ -35,7 +35,6 @@ class InjectionMiddleware extends Middleware {
 		private IAppManager $appManager,
 		private IConfig $config,
 		private CompanyService $companyService,
-		private RegistrationService $registrationService,
 	) {
 	}
 
@@ -177,6 +176,6 @@ class InjectionMiddleware extends Middleware {
 		if ($id !== $registrationFormId) {
 			return;
 		}
-		$this->registrationService->signForm();
+		Server::get(RegistrationService::class)->signForm();
 	}
 }
