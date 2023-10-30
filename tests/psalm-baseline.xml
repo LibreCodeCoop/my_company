@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <files psalm-version="5.15.0@5c774aca4746caf3d239d9c8cadb9f882ca29352">
   <file src="lib/AppInfo/Application.php">
+    <InvalidArgument>
+      <code>AnalyticsDatasourceListener::class</code>
+    </InvalidArgument>
     <UndefinedClass>
       <code>DatasourceEvent</code>
       <code>PublicShareTemplateProvider</code>
@@ -63,12 +66,18 @@
     </UndefinedInterfaceMethod>
   </file>
   <file src="lib/Listener/AnalyticsDatasourceListener.php">
-    <MissingTemplateParam>
+    <InvalidTemplateParam>
       <code>IEventListener</code>
-    </MissingTemplateParam>
+    </InvalidTemplateParam>
+    <MoreSpecificImplementedParamType>
+      <code>$event</code>
+    </MoreSpecificImplementedParamType>
     <UndefinedClass>
       <code>DatasourceEvent</code>
     </UndefinedClass>
+    <UndefinedDocblockClass>
+      <code>AnalyticsDatasourceListener</code>
+    </UndefinedDocblockClass>
   </file>
   <file src="lib/Middleware/InjectionMiddleware.php">
     <UndefinedClass>
