@@ -26,20 +26,34 @@ declare(strict_types=1);
 
 namespace OCA\MyCompany\Listener;
 
-use OCA\Analytics\Datasource\DatasourceEvent;
-use OCA\MyCompany\Datasource\AdminAudit;
+use OCA\MyCompany\Service\CompanyService;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
+use OCP\IGroupManager;
+use OCP\User\Events\UserCreatedEvent;
+use Psr\Log\LoggerInterface;
 
 /**
- * @template-implements IEventListener<Event|DatasourceEvent>
+ * @template-implements IEventListener<Event|UserCreatedEvent>
  */
-class AnalyticsDatasourceListener implements IEventListener {
+class UserCreatedEventListener implements IEventListener {
+	public function __construct(
+		private IGroupManager $groupManager,
+		private CompanyService $companyService,
+		private LoggerInterface $logger,
+	) {
+	}
+
 	public function handle(Event $event): void {
-		if (!($event instanceof DatasourceEvent)) {
+		if (!($event instanceof UserCreatedEvent)) {
 			// Unrelated
 			return;
 		}
-		$event->registerDatasource(AdminAudit::class);
+		$user = $event->getUser();
+		$group = $this->groupManager->get($this->companyService->getCompanyCode());
+		if ($group === null) {
+			return;
+		}
+		$group->addUser($user);
 	}
 }
