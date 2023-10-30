@@ -31,6 +31,7 @@ use OCA\MyCompany\Db\ShareMapper;
 use OCP\Files\IAppData;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
 use OCP\IEmojiHelper;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
@@ -94,7 +95,7 @@ class MenuSectionsService {
 						$list[$key]['icon'] = $icon->getContent();
 					}
 				}
-			} catch (NotFoundException $e) {
+			} catch (NotFoundException | NotPermittedException $e) {
 			}
 		}
 		return $list;
