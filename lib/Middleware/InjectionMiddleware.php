@@ -111,7 +111,12 @@ class InjectionMiddleware extends Middleware {
 	private function isAdmin() {
 		$user = $this->userSession->getUser();
 		if ($user !== null) {
-			return $this->groupManager->isAdmin($user->getUID());
+			if ($this->groupManager->isAdmin($user->getUID())) {
+				return true;
+			}
+			if ($this->groupManager->getSubAdmin()->isSubAdmin($user)) {
+				return true;
+			}
 		}
 		return false;
 	}
