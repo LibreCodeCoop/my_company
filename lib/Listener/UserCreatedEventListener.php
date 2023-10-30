@@ -33,6 +33,9 @@ use OCP\IGroupManager;
 use OCP\User\Events\UserCreatedEvent;
 use Psr\Log\LoggerInterface;
 
+/**
+ * @template-implements IEventListener<Event|UserCreatedEvent>
+ */
 class UserCreatedEventListener implements IEventListener {
 	public function __construct(
 		private IGroupManager $groupManager,
