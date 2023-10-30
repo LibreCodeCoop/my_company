@@ -72,14 +72,17 @@ class AdminAudit implements IDatasource {
 		$i = 1;
 		while (($buffer = fgets($fp, 4096)) !== false) {
 			$json = json_decode($buffer, true);
+			if (str_contains($json['message'], '.directory')) {
+				continue;
+			}
 			if (!str_contains($json['message'], 'File accessed')) {
 				continue;
 			}
 			preg_match('/File accessed: "(?<file>.*)"/', $json['message'], $matches);
 			$data[] = [
+				$json['user'],
 				$json['time'],
 				$matches['file'],
-				$json['user'],
 				$json['remoteAddr'],
 				$json['userAgent'],
 				$i,
@@ -89,12 +92,12 @@ class AdminAudit implements IDatasource {
 		fclose($fp);
 
 		$header = [
+			// TRANSLATORS Column name of report that list log entries of app Audit Report. This column will display the user that trigged the log.
+			$this->l10n->t('User'),
 			// TRANSLATORS Column name of report that list log entries of app Audit Report. This column will display the date of log.
 			$this->l10n->t('Date'),
 			// TRANSLATORS Column name of report that list log entries of app Audit Report. This column will display the acessed file.
 			$this->l10n->t('File'),
-			// TRANSLATORS Column name of report that list log entries of app Audit Report. This column will display the user that trigged the log.
-			$this->l10n->t('User'),
 			// TRANSLATORS Column name of report that list log entries of app Audit Report. This column will display the IP of user that trigged the log.
 			$this->l10n->t('IP'),
 			// TRANSLATORS Column name of report that list log entries of app Audit Report. This column will display the user agent of user that trigged the log.

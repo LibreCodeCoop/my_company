@@ -57,6 +57,7 @@ occ config:system:set auth.bruteforce.protection.enabled --value false --type bo
 occ config:app:set password_policy minLength --value 8
 occ config:system:set force_language --value en
 occ config:system:set knowledgebaseenabled --value false --type boolean
+occ config:system:set overwrite.cli.url --value "https://mycompany.coop"
 
 # Skeleton directory
 # First, go to root folder of Nextcloud
