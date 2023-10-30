@@ -28,12 +28,14 @@ namespace OCA\MyCompany\AppInfo;
 
 use OCA\Analytics\Datasource\DatasourceEvent;
 use OCA\MyCompany\Listener\AnalyticsDatasourceListener;
+use OCA\MyCompany\Listener\UserCreatedEventListener;
 use OCA\MyCompany\Middleware\InjectionMiddleware;
 use OCA\MyCompany\Provider\PublicShareTemplateProvider;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
+use OCP\User\Events\UserCreatedEvent;
 
 /**
  * @codeCoverageIgnore
@@ -52,5 +54,6 @@ class Application extends App implements IBootstrap {
 		$context->registerMiddleWare(InjectionMiddleware::class, true);
 		$context->registerPublicShareTemplateProvider(PublicShareTemplateProvider::class);
 		$context->registerEventListener(DatasourceEvent::class, AnalyticsDatasourceListener::class);
+		$context->registerEventListener(UserCreatedEvent::class, UserCreatedEventListener::class);
 	}
 }
