@@ -25,6 +25,13 @@
 	display: none;
 }
 
+#app-content-files .breadcrumb {
+	display: none;
+}
+
+#app-content-files .notCreatable {
+	display: none;
+}
 
 #app-content-vue .files-list .files-list__row-checkbox {
 	display: none;
