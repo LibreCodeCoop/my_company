@@ -50,13 +50,19 @@ occ config:app:set files default_quota --value "50 MB"
 occ config:app:set core shareapi_allow_share_dialog_user_enumeration --value no
 
 # System settings
-# Disable "Log in with a device" at login screen
+## Disable "Log in with a device" at login screen
 occ config:system:set auth.webauthn.enabled --value false --type boolean
+## set the default app
 occ config:system:set defaultapp --value my_company
+## Disable bruteforce protection (😢 ???)
 occ config:system:set auth.bruteforce.protection.enabled --value false --type boolean
+## Set the min length of password
 occ config:app:set password_policy minLength --value 8
+## Force to all users use a specific language
 occ config:system:set force_language --value en
+## Disable Nextcloud knowledge database (help)
 occ config:system:set knowledgebaseenabled --value false --type boolean
+## use custom domain insteadof localhost when use occ commands
 occ config:system:set overwrite.cli.url --value "https://mycompany.coop"
 
 # Skeleton directory
