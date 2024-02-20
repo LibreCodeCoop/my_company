@@ -27,6 +27,7 @@ declare(strict_types=1);
 namespace OCA\MyCompany\Datasource;
 
 use OCA\Analytics\Datasource\IDatasource;
+use OCA\MyCompany\Service\CompanyService;
 use OCP\IConfig;
 use OCP\IL10N;
 
@@ -34,6 +35,7 @@ class AdminAudit implements IDatasource {
 	public function __construct(
 		private IL10N $l10n,
 		private IConfig $config,
+		private CompanyService $companyService,
 	) {
 	}
 
@@ -65,6 +67,10 @@ class AdminAudit implements IDatasource {
 	 * @return array available options of the datasoure
 	 */
 	public function readData($option): array {
+		$company = $this->companyService->getCompanyFolder();
+		\OC::$server->getLogger()->debug('############### Company', [$company]);
+		$userAdmin = $this->companyService->getUserAdminFolder();
+		\OC::$server->getLogger()->debug('############### user', [$userAdmin]);
 		$default = $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data') . '/audit.log';
 		$logFile = $this->config->getAppValue('admin_audit', 'logfile', $default);
 
